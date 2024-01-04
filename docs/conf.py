@@ -12,7 +12,14 @@ release = "0.1"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["myst_parser", "sphinx.ext.autodoc"]
+extensions = [
+    "myst_parser",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.todo",
+]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -23,3 +30,6 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "furo"
 html_static_path = ["_static"]
+
+# autodoc_mock_imports = ["main", "form_ui"]
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
