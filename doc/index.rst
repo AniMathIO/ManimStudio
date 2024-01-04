@@ -11,3 +11,5 @@ Welcome to ManimStudio's documentation!
    :caption: Contents:
 
     main
+    form
+    form_ui
