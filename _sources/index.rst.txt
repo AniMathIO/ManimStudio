@@ -10,3 +10,4 @@ Welcome to ManimStudio's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+    main
