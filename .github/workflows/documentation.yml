@@ -17,6 +17,7 @@ jobs:
       - name: Sphinx build
         run: |
           cd $GITHUB_WORKSPACE  # Change to the root directory
+          ls -R  # Print the directory contents for debugging
           sphinx-build doc _build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
