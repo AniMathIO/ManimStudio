@@ -176,3 +176,6 @@ build*/
 *.qmlproject.user.*
 *.ui.user
 *.ui.user.*
+
+# Sphinx documentation
+_build/
