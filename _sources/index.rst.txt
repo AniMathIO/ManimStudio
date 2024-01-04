@@ -12,4 +12,3 @@ Welcome to ManimStudio's documentation!
 
     main
     form
-    form_ui
