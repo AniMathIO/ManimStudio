@@ -7,7 +7,7 @@ release = "0.1"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-sourcedir = "../"
+sourcedir = "./"
 extensions = ["myst_parser", "sphinx.ext.autodoc"]
 
 templates_path = ["_templates"]

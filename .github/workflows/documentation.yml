@@ -16,6 +16,7 @@ jobs:
           pip install sphinx furo myst_parser
       - name: Sphinx build
         run: |
+          cd $GITHUB_WORKSPACE  # Change to the root directory
           sphinx-build doc _build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
