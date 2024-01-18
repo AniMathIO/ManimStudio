@@ -34,7 +34,7 @@ html_theme_options = {
     "light_logo": "ManimStudioLogoLight.png",
     "dark_logo": "ManimStudioLogoDark.png",
 }
-html_favicon = "ManimStudio-logo-light.png"
+html_favicon = "ManimStudioLogoLight.png"
 
 # autodoc_mock_imports = ["main", "form_ui"]
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
