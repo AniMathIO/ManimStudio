@@ -1,0 +1,9 @@
+{
+  "name": "Materialistic Dark",
+  "version": "1.0.0",
+  "background": "#212121",
+  "foreground": "#0d47a1",
+  "primary": "#0288d1",
+  "secondary": "#b3e5fc",
+  "font": "#ffffff"
+}

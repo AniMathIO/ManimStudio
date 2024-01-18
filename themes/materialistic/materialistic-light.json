@@ -1,0 +1,9 @@
+{
+  "name": "Materialistic Light",
+  "version": "1.0.0",
+  "background": "#42a5f5",
+  "foreground": "#80d8ff",
+  "primary": "#e1f5fe",
+  "secondary": "#b3e5fc",
+  "font": "#000000"
+}
