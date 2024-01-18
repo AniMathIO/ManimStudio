@@ -31,8 +31,8 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "furo"
 html_static_path = ["_static"]
 html_theme_options = {
-    "light_logo": "ManimStudio-logo-light.png",
-    "dark_logo": "ManimStudio-logo-dark.png",
+    "light_logo": "ManimStudioLogoLight.png",
+    "dark_logo": "ManimStudioLogoDark.png",
 }
 html_favicon = "ManimStudio-logo-light.png"
 
