@@ -30,6 +30,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "furo"
 html_static_path = ["_static"]
+html_theme_options = {
+    "light_logo": "ManimStudio-logo-light.png",
+    "dark_logo": "ManimStudio-logo-dark.png",
+}
+html_favicon = "ManimStudio-logo-light.png"
 
 # autodoc_mock_imports = ["main", "form_ui"]
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
