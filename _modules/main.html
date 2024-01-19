@@ -210,7 +210,7 @@
 
 <span class="kn">from</span> <span class="nn">settings_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QDialog</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QFile</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QFile</span><span class="p">,</span> <span class="n">Signal</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtUiTools</span> <span class="kn">import</span> <span class="n">QUiLoader</span>
 
 
@@ -219,7 +219,7 @@
 <span class="k">class</span> <span class="nc">Main</span><span class="p">(</span><span class="n">QWidget</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main class for the application&quot;&quot;&quot;</span>
 
-    <span class="k">global</span> <span class="n">styleSheet</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">themes</span><span class="p">,</span> <span class="n">current_theme</span>
+    <span class="n">styleSheetUpdated</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer&quot;&quot;&quot;</span>
@@ -240,7 +240,8 @@
     <span class="k">def</span> <span class="nf">apply_stylesheet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Set the custom stylesheet based on the current theme</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;background-color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;font&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; border-color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;primary&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; font-size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;fontSize&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">px; font-family: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;fontFamily&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; &quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styleSheetUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.load_ui">
@@ -267,8 +268,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span> <span class="o">=</span> <span class="n">QDialog</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span> <span class="o">=</span> <span class="n">Ui_Form</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="p">)</span>
-        <span class="c1"># inherit the theme from the main window</span>
+
+        <span class="c1"># Inherit the theme from the main window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styleSheetUpdated</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">)</span>
 
         <span class="c1"># Load settings and themes to the dialog</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span><span class="o">.</span><span class="n">fontSizeSpinBox</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;fontSize&quot;</span><span class="p">])</span>
@@ -299,7 +302,7 @@
 <div class="viewcode-block" id="Main.update_settings_from_dialog">
 <a class="viewcode-back" href="../main.html#main.Main.update_settings_from_dialog">[docs]</a>
     <span class="k">def</span> <span class="nf">update_settings_from_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;TODO: Update the settings from the dialog, and update the UI&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the settings from the dialog, and update the UI&quot;&quot;&quot;</span>
 
         <span class="c1"># Get the current values from the dialog</span>
         <span class="n">fontSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span><span class="o">.</span><span class="n">fontSizeSpinBox</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
@@ -323,10 +326,7 @@
             <span class="c1"># Update the current theme</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">)</span>
             <span class="c1"># Apply the stylesheet</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">apply_stylesheet</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_stylesheet</span><span class="p">()</span></div>
 </div>
 
 
