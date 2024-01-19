@@ -8,7 +8,6 @@ from settings import (
     load_themes,
     load_current_theme,
     update_settings,
-    update_current_theme,
 )
 
 from settings_ui import Ui_Form

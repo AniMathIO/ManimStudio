@@ -8,8 +8,12 @@ import json
 
 def load_settings(settings_path):
     """Load the settings from the settings.json file"""
-    with open(settings_path, "r") as file:
-        return json.load(file)
+    try:
+        with open(settings_path, "r") as file:
+            return json.load(file)
+    except Exception as e:
+        print(e)
+        return json.load({})
 
 
 def update_settings(settings_path, new_settings):
@@ -27,19 +31,23 @@ def update_settings(settings_path, new_settings):
 
 def load_themes(themes_path):
     """Load the themes from the themes.json file"""
-    with open(themes_path, "r") as file:
-        return json.load(file)
+    try:
+        with open(themes_path, "r") as file:
+            return json.load(file)
+    except Exception as e:
+        print(e)
+        return json.load({})
 
 
 def load_current_theme(settings):
     """Load the current theme"""
-    theme_module = settings["theme"].get("moduleName")
-    theme_name = settings["theme"].get("fileName")
-    with open(Path(os.getcwd()) / "themes" / theme_module / theme_name, "r") as file:
-        return json.load(file)
-
-
-def update_current_theme(settings_path, settings, new_theme):
-    """Update the current theme"""
-    settings["theme"] = new_theme
-    update_settings(settings_path, settings)
+    try:
+        theme_module = settings["theme"].get("moduleName")
+        theme_name = settings["theme"].get("fileName")
+        with open(
+            Path(os.getcwd()) / "themes" / theme_module / theme_name, "r"
+        ) as file:
+            return json.load(file)
+    except Exception as e:
+        print(e)
+        return json.load({})
