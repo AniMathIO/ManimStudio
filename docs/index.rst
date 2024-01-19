@@ -12,6 +12,8 @@ Welcome to ManimStudio's documentation!
    
    main
    form_ui
+   settings
+   settings_ui
 
 Indices and tables
 ==================

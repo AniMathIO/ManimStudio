@@ -1,0 +1,9 @@
+{
+  "name": "Catppuccin Frappe",
+  "version": "1.0.0",
+  "background": "#292c3c",
+  "foreground": "#ccd4e6",
+  "primary": "#3f435a",
+  "secondary": "#b8c0d9",
+  "font": "#ccd4e6"
+}

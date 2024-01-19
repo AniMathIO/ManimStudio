@@ -1,0 +1,9 @@
+{
+    "fontSize": 16,
+    "fontFamily": "Fira Code",
+    "theme": {
+        "name": "Catppuccin Mocha",
+        "moduleName": "catppuccin",
+        "fileName": "catppuccin-mocha.json"
+    }
+}
