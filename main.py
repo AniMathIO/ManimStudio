@@ -13,14 +13,14 @@ from settings import (
 
 from settings_ui import Ui_Form
 from PySide6.QtWidgets import QApplication, QWidget, QDialog
-from PySide6.QtCore import QFile
+from PySide6.QtCore import QFile, Signal
 from PySide6.QtUiTools import QUiLoader
 
 
 class Main(QWidget):
     """Main class for the application"""
 
-    global styleSheet, settings, themes, current_theme
+    styleSheetUpdated = Signal(str)
 
     def __init__(self, parent=None):
         """Initializer"""
@@ -40,6 +40,7 @@ class Main(QWidget):
         # Set the custom stylesheet based on the current theme
         self.customStyleSheet = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
         self.setStyleSheet(self.customStyleSheet)
+        self.styleSheetUpdated.emit(self.customStyleSheet)
 
     def load_ui(self):
         """Load the UI from the .ui file"""
@@ -60,8 +61,10 @@ class Main(QWidget):
         self.settingsDialog = QDialog()
         self.uiSettings = Ui_Form()
         self.uiSettings.setupUi(self.settingsDialog)
-        # inherit the theme from the main window
+
+        # Inherit the theme from the main window
         self.settingsDialog.setStyleSheet(self.customStyleSheet)
+        self.styleSheetUpdated.connect(self.settingsDialog.setStyleSheet)
 
         # Load settings and themes to the dialog
         self.uiSettings.fontSizeSpinBox.setValue(self.settings["fontSize"])
@@ -89,7 +92,7 @@ class Main(QWidget):
         self.settingsDialog.exec_()
 
     def update_settings_from_dialog(self):
-        """TODO: Update the settings from the dialog, and update the UI"""
+        """Update the settings from the dialog, and update the UI"""
 
         # Get the current values from the dialog
         fontSize = self.uiSettings.fontSizeSpinBox.value()
@@ -114,9 +117,6 @@ class Main(QWidget):
             self.current_theme = load_current_theme(self.settings)
             # Apply the stylesheet
             self.apply_stylesheet()
-
-        if self.settingsDialog:
-            self.settingsDialog.setStyleSheet(self.customStyleSheet)
 
 
 if __name__ == "__main__":
