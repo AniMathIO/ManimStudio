@@ -1,0 +1,9 @@
+{
+  "name": "Catppuccin Macchiato",
+  "version": "1.0.0",
+  "background": "#1f2233",
+  "foreground": "#cad3f5",
+  "primary": "#363a4f",
+  "secondary": "#b8c0e0",
+  "font": "#cad3f5"
+}

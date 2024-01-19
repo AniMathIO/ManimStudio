@@ -9,3 +9,12 @@
 <br/>
 
 ManimStudio is a video editor application for editing Python ManimCE video projects.
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Contributing](#contributing)
+
+## Contributing
+
+We welcome contributions to ManimStudio. Please read our [contributing guidelines](./CONTRIBUTING.md) to get started.

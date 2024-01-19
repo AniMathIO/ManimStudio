@@ -1,0 +1,9 @@
+{
+  "name": "Catppuccin Latte",
+  "version": "1.0.0",
+  "background": "#e6e9ef",
+  "foreground": "#4c505c",
+  "primary": "#a6adc8",
+  "secondary": "#73777d",
+  "font": "#4c505c"
+}
