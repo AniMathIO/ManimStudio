@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="settings_ui module" href="settings_ui.html" /><link rel="prev" title="form_ui module" href="form_ui.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>setings module - Manim Studio 0.1 documentation</title>
+        <title>settings module - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -162,7 +162,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="form_ui.html">form_ui module</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">setings module</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">settings module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings_ui.html">settings_ui module</a></li>
 </ul>
 
@@ -192,14 +192,38 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="setings-module">
-<h1>setings module<a class="headerlink" href="#setings-module" title="Link to this heading">#</a></h1>
+          <section id="settings-module">
+<h1>settings module<a class="headerlink" href="#settings-module" title="Link to this heading">#</a></h1>
+<dl class="py function" id="module-settings">
+<dt class="sig sig-object py" id="settings.load_current_theme">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_current_theme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/settings.html#load_current_theme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_current_theme" title="Link to this definition">#</a></dt>
+<dd><p>Load the current theme</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="settings.load_settings">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/settings.html#load_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_settings" title="Link to this definition">#</a></dt>
+<dd><p>Load the settings from the settings.json file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="settings.load_themes">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_themes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">themes_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/settings.html#load_themes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_themes" title="Link to this definition">#</a></dt>
+<dd><p>Load the themes from the themes.json file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="settings.update_settings">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">update_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/settings.html#update_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.update_settings" title="Link to this definition">#</a></dt>
+<dd><p>Overwrite the settings file with the new settings</p>
+</dd></dl>
+
 </section>
 
         </article>
@@ -245,8 +269,30 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">settings module</a><ul>
+<li><a class="reference internal" href="#settings.load_current_theme"><code class="docutils literal notranslate"><span class="pre">load_current_theme()</span></code></a></li>
+<li><a class="reference internal" href="#settings.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
+<li><a class="reference internal" href="#settings.load_themes"><code class="docutils literal notranslate"><span class="pre">load_themes()</span></code></a></li>
+<li><a class="reference internal" href="#settings.update_settings"><code class="docutils literal notranslate"><span class="pre">update_settings()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
