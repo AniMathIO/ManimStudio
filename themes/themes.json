@@ -1,0 +1,46 @@
+[
+  {
+    "module": "Materialistic",
+    "moduleName": "materialistic",
+    "fileName": "materialistic.json",
+    "variants": [
+      {
+        "name": "Materialistic Dark",
+        "moduleName": "materialistic",
+        "fileName": "materialistic-dark.json"
+      },
+      {
+        "name": "Materialistic Light",
+        "moduleName": "materialistic",
+        "fileName": "materialistic-light.json"
+      }
+    ]
+  },
+  {
+    "module": "Catppuccin",
+    "moduleName": "catppuccin",
+    "fileName": "catppuccin.json",
+    "variants": [
+      {
+        "name": "Catppuccin Frappe",
+        "moduleName": "catppuccin",
+        "fileName": "catppuccin-frappe.json"
+      },
+      {
+        "name": "Catppuccin Latte",
+        "moduleName": "catppuccin",
+        "fileName": "catppuccin-latte.json"
+      },
+      {
+        "name": "Catppuccin Mocha",
+        "moduleName": "catppuccin",
+        "fileName": "catppuccin-mocha.json"
+      },
+      {
+        "name": "Catppuccin Macchiato",
+        "moduleName": "catppuccin",
+        "fileName": "catppuccin-macchiato.json"
+      }
+    ]
+  }
+]

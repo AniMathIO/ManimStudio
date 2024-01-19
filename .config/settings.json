@@ -1,5 +1,9 @@
 {
+    "fontSize": 16,
     "fontFamily": "Fira Code",
-    "fontSize": 14,
-    "theme": "materialistic-dark"
+    "theme": {
+        "name": "Catppuccin Mocha",
+        "moduleName": "catppuccin",
+        "fileName": "catppuccin-mocha.json"
+    }
 }
