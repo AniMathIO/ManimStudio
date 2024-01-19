@@ -1,0 +1,9 @@
+{
+  "name": "Catppuccin Mocha",
+  "version": "1.0.0",
+  "background": "#1a1826",
+  "foreground": "#cdd6f4",
+  "primary": "#313244",
+  "secondary": "#bac2de",
+  "font": "#cdd6f4"
+}
