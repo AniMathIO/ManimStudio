@@ -14,6 +14,7 @@ from settings_ui import Ui_Form
 from PySide6.QtWidgets import QApplication, QWidget, QDialog
 from PySide6.QtCore import QFile, Signal
 from PySide6.QtUiTools import QUiLoader
+from PySide6.QtGui import QPixmap
 
 
 class Main(QWidget):
@@ -39,6 +40,18 @@ class Main(QWidget):
         # Set the custom stylesheet based on the current theme
         self.customStyleSheet = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
         self.setStyleSheet(self.customStyleSheet)
+
+        # Check the theme name and update the image
+        if (
+            "latte" in self.current_theme["name"].lower()
+            or "light" in self.current_theme["name"].lower()
+        ):
+            image_path = "docs/_static/ManimStudioLogoLight.png"
+        else:
+            image_path = "docs/_static/ManimStudioLogoDark.png"
+
+        self.ui.label.setPixmap(QPixmap(image_path))
+
         self.styleSheetUpdated.emit(self.customStyleSheet)
 
     def load_ui(self):
