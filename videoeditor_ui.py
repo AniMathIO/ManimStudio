@@ -30,37 +30,53 @@ class Ui_Form(object):
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.audioLabel = QLabel(self.gridLayoutWidget)
+        self.audioLabel.setObjectName(u"audioLabel")
+
+        self.gridLayout.addWidget(self.audioLabel, 4, 0, 1, 1)
+
+        self.videoLabel = QLabel(self.gridLayoutWidget)
+        self.videoLabel.setObjectName(u"videoLabel")
+
+        self.gridLayout.addWidget(self.videoLabel, 3, 0, 1, 1)
+
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setSpacing(6)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout_2.setSizeConstraint(QLayout.SetMinimumSize)
-        self.backwardBtn = QPushButton(self.gridLayoutWidget)
-        self.backwardBtn.setObjectName(u"backwardBtn")
-
-        self.gridLayout_2.addWidget(self.backwardBtn, 0, 1, 1, 1)
-
-        self.backwardToEndBtn = QPushButton(self.gridLayoutWidget)
-        self.backwardToEndBtn.setObjectName(u"backwardToEndBtn")
-
-        self.gridLayout_2.addWidget(self.backwardToEndBtn, 0, 0, 1, 1)
-
-        self.forwardBtn = QPushButton(self.gridLayoutWidget)
-        self.forwardBtn.setObjectName(u"forwardBtn")
-
-        self.gridLayout_2.addWidget(self.forwardBtn, 0, 3, 1, 1)
-
         self.forwardToStartBtn = QPushButton(self.gridLayoutWidget)
         self.forwardToStartBtn.setObjectName(u"forwardToStartBtn")
 
-        self.gridLayout_2.addWidget(self.forwardToStartBtn, 0, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.forwardToStartBtn, 1, 4, 1, 1)
+
+        self.backwardBtn = QPushButton(self.gridLayoutWidget)
+        self.backwardBtn.setObjectName(u"backwardBtn")
+
+        self.gridLayout_2.addWidget(self.backwardBtn, 1, 1, 1, 1)
 
         self.playBtn = QPushButton(self.gridLayoutWidget)
         self.playBtn.setObjectName(u"playBtn")
 
-        self.gridLayout_2.addWidget(self.playBtn, 0, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.playBtn, 1, 2, 1, 1)
+
+        self.backwardToEndBtn = QPushButton(self.gridLayoutWidget)
+        self.backwardToEndBtn.setObjectName(u"backwardToEndBtn")
+
+        self.gridLayout_2.addWidget(self.backwardToEndBtn, 1, 0, 1, 1)
+
+        self.forwardBtn = QPushButton(self.gridLayoutWidget)
+        self.forwardBtn.setObjectName(u"forwardBtn")
+
+        self.gridLayout_2.addWidget(self.forwardBtn, 1, 3, 1, 1)
+
+        self.videoPreviewSlider = QSlider(self.gridLayoutWidget)
+        self.videoPreviewSlider.setObjectName(u"videoPreviewSlider")
+        self.videoPreviewSlider.setOrientation(Qt.Horizontal)
+
+        self.gridLayout_2.addWidget(self.videoPreviewSlider, 0, 0, 1, 5)
 
 
-        self.gridLayout.addLayout(self.gridLayout_2, 1, 2, 1, 3)
+        self.gridLayout.addLayout(self.gridLayout_2, 1, 2, 1, 2)
 
         self.libraryWidget = QListWidget(self.gridLayoutWidget)
         self.libraryWidget.setObjectName(u"libraryWidget")
@@ -72,28 +88,6 @@ class Ui_Form(object):
 
         self.gridLayout.addWidget(self.libraryWidget, 0, 0, 2, 2)
 
-        self.videoLabel = QLabel(self.gridLayoutWidget)
-        self.videoLabel.setObjectName(u"videoLabel")
-
-        self.gridLayout.addWidget(self.videoLabel, 3, 0, 1, 1)
-
-        self.audioLabel = QLabel(self.gridLayoutWidget)
-        self.audioLabel.setObjectName(u"audioLabel")
-
-        self.gridLayout.addWidget(self.audioLabel, 4, 0, 1, 1)
-
-        self.videoSlider = QSlider(self.gridLayoutWidget)
-        self.videoSlider.setObjectName(u"videoSlider")
-        self.videoSlider.setOrientation(Qt.Horizontal)
-
-        self.gridLayout.addWidget(self.videoSlider, 3, 1, 1, 4)
-
-        self.audioSlider = QSlider(self.gridLayoutWidget)
-        self.audioSlider.setObjectName(u"audioSlider")
-        self.audioSlider.setOrientation(Qt.Horizontal)
-
-        self.gridLayout.addWidget(self.audioSlider, 4, 1, 1, 4)
-
         self.videoPreview = QLabel(self.gridLayoutWidget)
         self.videoPreview.setObjectName(u"videoPreview")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -102,7 +96,18 @@ class Ui_Form(object):
         sizePolicy1.setHeightForWidth(self.videoPreview.sizePolicy().hasHeightForWidth())
         self.videoPreview.setSizePolicy(sizePolicy1)
 
-        self.gridLayout.addWidget(self.videoPreview, 0, 2, 1, 3)
+        self.gridLayout.addWidget(self.videoPreview, 0, 2, 1, 2)
+
+        self.timelineSlider = QSlider(self.gridLayoutWidget)
+        self.timelineSlider.setObjectName(u"timelineSlider")
+        self.timelineSlider.setOrientation(Qt.Horizontal)
+
+        self.gridLayout.addWidget(self.timelineSlider, 2, 1, 1, 3)
+
+        self.timelineLabel = QLabel(self.gridLayoutWidget)
+        self.timelineLabel.setObjectName(u"timelineLabel")
+
+        self.gridLayout.addWidget(self.timelineLabel, 2, 0, 1, 1)
 
 
         self.retranslateUi(Form)
@@ -112,13 +117,14 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.audioLabel.setText(QCoreApplication.translate("Form", u"Audio 1", None))
+        self.videoLabel.setText(QCoreApplication.translate("Form", u"Video 1", None))
+        self.forwardToStartBtn.setText(QCoreApplication.translate("Form", u"\u23ed\ufe0f", None))
         self.backwardBtn.setText(QCoreApplication.translate("Form", u"\u23ea", None))
+        self.playBtn.setText(QCoreApplication.translate("Form", u"\u25b6\ufe0f", None))
         self.backwardToEndBtn.setText(QCoreApplication.translate("Form", u"\u23ee\ufe0f", None))
         self.forwardBtn.setText(QCoreApplication.translate("Form", u"\u23e9", None))
-        self.forwardToStartBtn.setText(QCoreApplication.translate("Form", u"\u23ed\ufe0f", None))
-        self.playBtn.setText(QCoreApplication.translate("Form", u"\u25b6\ufe0f", None))
-        self.videoLabel.setText(QCoreApplication.translate("Form", u"Video 1", None))
-        self.audioLabel.setText(QCoreApplication.translate("Form", u"Audio 1", None))
-        self.videoPreview.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.videoPreview.setText(QCoreApplication.translate("Form", u"VideoPreview", None))
+        self.timelineLabel.setText(QCoreApplication.translate("Form", u"Timeline", None))
     # retranslateUi
 
