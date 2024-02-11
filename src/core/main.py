@@ -50,6 +50,8 @@ class Main(QWidget):
         self.load_ui()
 
     def apply_stylesheet(self):
+        """Apply the stylesheet to the main window and update the image based on the theme"""
+
         # Set the custom stylesheet based on the current theme
         self.customStyleSheet = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
         self.setStyleSheet(self.customStyleSheet)
@@ -177,6 +179,7 @@ class Main(QWidget):
             print(f"Error showing project creation dialog: {e}")
 
     def showProjectOpenDialog(self):
+        """Show the project open dialog"""
         try:
             dialog = ProjectOpeningDialog(self)
             dialog.projectSelected.connect(self.openVideoEditor)

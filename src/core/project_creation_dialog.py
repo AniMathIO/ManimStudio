@@ -19,9 +19,12 @@ from src.core.settings import (
 
 
 class ProjectCreationDialog(QDialog):
+    """Dialog for creating a new project"""
+
     projectCreated = Signal(str)
 
     def __init__(self, parent=None):
+        """Initializer"""
         super(ProjectCreationDialog, self).__init__(parent)
         self.ui = Ui_ProjectCreationDialog()
         self.ui.setupUi(self)
@@ -30,16 +33,19 @@ class ProjectCreationDialog(QDialog):
         self.ui.createProjectPushButton.clicked.connect(self.createProject)
 
     def loadRecentProjectPaths(self):
+        """Load the recent project paths into the combo box"""
         recentPaths = getRecentProjectCreationPaths()
         for path in recentPaths:
             self.ui.folderSelectComboBox.addItem(path)
 
     def selectFolder(self, event):
+        """Select a folder for the project"""
         folder = QFileDialog.getExistingDirectory(self, "Select Project Folder")
         if folder:
             self.ui.folderSelectComboBox.addItem(folder)
 
     def createProject(self):
+        """Create a new project and emit the projectCreated signal"""
         projectName = self.ui.projectNameLineEdit.text()
         projectFolder = self.ui.folderSelectComboBox.currentText()
         if not projectName or not projectFolder:

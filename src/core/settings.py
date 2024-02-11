@@ -96,6 +96,7 @@ def load_current_theme():
 
 
 def addRecentProjectCreationPath(projectCreationPath):
+    """Add a recent project creation path to the settings file"""
     settings = load_settings()
     recentCreationPaths = settings.get("recentProjectCreationPaths", [])
     if projectCreationPath not in recentCreationPaths:
@@ -107,6 +108,7 @@ def addRecentProjectCreationPath(projectCreationPath):
 
 
 def addRecentProjectPath(projectPath):
+    """Add a recent project path to the settings file"""
     settings = load_settings()
     recentProjectPaths = settings.get("recentProjectPaths", [])
     if projectPath not in recentProjectPaths:
@@ -118,8 +120,10 @@ def addRecentProjectPath(projectPath):
 
 
 def getRecentProjectCreationPaths():
+    """Get the recent project creation paths"""
     return load_settings().get("recentProjectCreationPaths", [])
 
 
 def getRecentProjectPaths():
+    """Get the recent project paths"""
     return load_settings().get("recentProjectPaths", [])
