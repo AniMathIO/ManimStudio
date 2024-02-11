@@ -37,6 +37,7 @@ class Main(QWidget):
     """Main class for the application"""
 
     styleSheetUpdated = Signal(str)
+    videoEditorOpened = Signal(str)
 
     def __init__(self, parent=None):
         """Initializer"""
@@ -163,15 +164,31 @@ class Main(QWidget):
             dialog.projectCreated.connect(
                 self.openVideoEditor
             )  # Connect to the new method
+            self.videoEditorOpened.connect(
+                dialog.close
+            )  # Close dialog when VideoEditor opens
+            self.videoEditorOpened.connect(
+                self.close
+            )  # Close the main window (WelcomeScreen) as well
+
             if dialog.exec():
                 pass
         except Exception as e:
             print(f"Error showing project creation dialog: {e}")
 
     def showProjectOpenDialog(self):
-        dialog = ProjectOpeningDialog(self)
-        dialog.projectSelected.connect(self.openVideoEditor)
-        dialog.exec()
+        try:
+            dialog = ProjectOpeningDialog(self)
+            dialog.projectSelected.connect(self.openVideoEditor)
+            self.videoEditorOpened.connect(
+                dialog.close
+            )  # Close dialog when VideoEditor opens
+            self.videoEditorOpened.connect(
+                self.close
+            )  # Close the main window (WelcomeScreen) as well
+            dialog.exec()
+        except Exception as e:
+            print(f"Error showing project open dialog: {e}")
 
     def openVideoEditor(self, projectFilePath):
         """Open the video editor with the project file"""
@@ -179,8 +196,14 @@ class Main(QWidget):
             self.videoEditor = QDialog()
             self.uiVideoEditor = Ui_VideoEditor()
             self.uiVideoEditor.setupUi(self.videoEditor)
+            # Apply the theme
+            self.videoEditor.setStyleSheet(self.customStyleSheet)
             # Change window title as current project name with file path
             self.videoEditor.setWindowTitle(f"Manim Studio - {projectFilePath}")
+
+            # Emit the signal after VideoEditor dialog is opened
+            self.videoEditorOpened.emit(projectFilePath)
+
             self.videoEditor.exec()
         except Exception as e:
             print(f"Error opening video editor: {e}")
