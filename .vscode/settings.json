@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
+        "videoeditor",
         "ci/cd"
     ]
 }
