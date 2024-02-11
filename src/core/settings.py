@@ -13,7 +13,7 @@ def load_settings(settings_path):
             return json.load(file)
     except Exception as e:
         print(e)
-        return json.load({})
+        return {}
 
 
 def update_settings(settings_path, new_settings):
@@ -36,7 +36,7 @@ def load_themes(themes_path):
             return json.load(file)
     except Exception as e:
         print(e)
-        return json.load({})
+        return {}
 
 
 def load_current_theme(settings):
@@ -45,9 +45,9 @@ def load_current_theme(settings):
         theme_module = settings["theme"].get("moduleName")
         theme_name = settings["theme"].get("fileName")
         with open(
-            Path(os.getcwd()) / "themes" / theme_module / theme_name, "r"
+            Path(os.getcwd()) / "src" / "themes" / theme_module / theme_name, "r"
         ) as file:
             return json.load(file)
     except Exception as e:
         print(e)
-        return json.load({})
+        return {}

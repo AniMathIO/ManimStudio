@@ -3,6 +3,17 @@ import os
 from pathlib import Path
 import sys
 import json
+from PySide6.QtWidgets import QApplication, QWidget, QDialog
+from PySide6.QtCore import QFile, Signal
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtGui import QPixmap
+
+# Add the parent directory of 'src' to sys.path
+current_dir = Path(__file__).resolve().parent
+parent_dir = current_dir.parent.parent  # Adjust according to your project structure
+sys.path.append(str(parent_dir))
+
+
 from settings import (
     load_settings,
     load_themes,
@@ -10,11 +21,7 @@ from settings import (
     update_settings,
 )
 
-from settings_ui import Ui_Form
-from PySide6.QtWidgets import QApplication, QWidget, QDialog
-from PySide6.QtCore import QFile, Signal
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtGui import QPixmap
+from src.ui.settings_ui import Ui_Form
 
 
 class Main(QWidget):
@@ -26,8 +33,11 @@ class Main(QWidget):
         """Initializer"""
         super().__init__(parent)
 
+        print("Current working directory:", os.getcwd())
         self.settings_path = Path(os.getcwd()) / ".config" / "settings.json"
-        self.themes_path = Path(os.getcwd()) / "themes" / "themes.json"
+        self.themes_path = Path(os.getcwd()) / "src" / "themes" / "themes.json"
+        print("Settings path:", self.settings_path)
+        print("Themes path:", self.themes_path)
 
         self.customStyleSheet = ""
         self.settings = load_settings(self.settings_path)
@@ -57,7 +67,8 @@ class Main(QWidget):
     def load_ui(self):
         """Load the UI from the .ui file"""
         loader = QUiLoader()
-        path = Path(__file__).resolve().parent / "form.ui"
+        print("LoadUI:", Path(__file__).resolve().parent.parent / "ui" / "form.ui")
+        path = Path(__file__).resolve().parent.parent / "ui" / "form.ui"
         ui_file = QFile(path)
         ui_file.open(QFile.ReadOnly)
         self.ui = loader.load(ui_file, self)
