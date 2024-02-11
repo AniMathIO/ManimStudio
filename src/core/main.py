@@ -1,8 +1,12 @@
 import os
-from pathlib import Path
 import sys
 import json
-from PySide6.QtWidgets import QApplication, QWidget, QDialog
+from pathlib import Path
+from PySide6.QtWidgets import (
+    QApplication,
+    QWidget,
+    QDialog,
+)
 from PySide6.QtCore import QFile, Signal
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtGui import QPixmap
@@ -20,7 +24,11 @@ from settings import (
     update_settings,
 )
 
+# UI imports
 from src.ui.settings_ui import Ui_Form
+
+# Core imports
+from src.core.project_creation_dialog import ProjectCreationDialog
 
 
 class Main(QWidget):
@@ -31,14 +39,10 @@ class Main(QWidget):
     def __init__(self, parent=None):
         """Initializer"""
         super().__init__(parent)
-
-        self.settings_path = Path(os.getcwd()) / ".config" / "settings.json"
-        self.themes_path = Path(os.getcwd()) / "src" / "themes" / "themes.json"
-
         self.customStyleSheet = ""
-        self.settings = load_settings(self.settings_path)
-        self.themes = load_themes(self.themes_path)
-        self.current_theme = load_current_theme(self.settings)
+        self.settings = load_settings()
+        self.themes = load_themes()
+        self.current_theme = load_current_theme()
 
         self.load_ui()
 
@@ -74,6 +78,7 @@ class Main(QWidget):
         self.apply_stylesheet()
 
         self.ui.settingsBtn.clicked.connect(self.open_settings_dialog)
+        self.ui.newProjectBtn.clicked.connect(self.showProjectCreationDialog)
 
     def open_settings_dialog(self):
         """Open the settings dialog"""
@@ -108,10 +113,13 @@ class Main(QWidget):
             self.update_settings_from_dialog
         )
 
-        self.settingsDialog.exec_()
+        self.settingsDialog.exec()
 
     def update_settings_from_dialog(self):
         """Update the settings from the dialog, and update the UI"""
+
+        # Get recentProjects array from the current settings
+        recentProjects = self.settings.get("recentProjects", [])
 
         # Get the current values from the dialog
         fontSize = self.uiSettings.fontSizeSpinBox.value()
@@ -126,16 +134,32 @@ class Main(QWidget):
             "fontSize": fontSize,
             "fontFamily": fontFamily,
             "theme": selected_theme,
+            "recentProjects": recentProjects,
         }
 
         # Pass the new settings to the settings module
-        if update_settings(self.settings_path, new_settings):
+        if update_settings(new_settings):
             # Update the global settings variable
             self.settings = new_settings
             # Update the current theme
-            self.current_theme = load_current_theme(self.settings)
+            self.current_theme = load_current_theme()
             # Apply the stylesheet
             self.apply_stylesheet()
+
+    def showProjectCreationDialog(self):
+        try:
+            dialog = ProjectCreationDialog(self)
+            dialog.projectCreated.connect(
+                self.openVideoEditor
+            )  # Connect to the new method
+            if dialog.exec():
+                pass
+        except Exception as e:
+            print(f"Error showing project creation dialog: {e}")
+
+    def openVideoEditor(self, projectFilePath):
+        # Logic to open and initialize VideoEditor UI with the project file
+        pass
 
 
 if __name__ == "__main__":
