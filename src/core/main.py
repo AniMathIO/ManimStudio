@@ -1,4 +1,3 @@
-# This Python file uses the following encoding: utf-8
 import os
 from pathlib import Path
 import sys
@@ -33,11 +32,8 @@ class Main(QWidget):
         """Initializer"""
         super().__init__(parent)
 
-        print("Current working directory:", os.getcwd())
         self.settings_path = Path(os.getcwd()) / ".config" / "settings.json"
         self.themes_path = Path(os.getcwd()) / "src" / "themes" / "themes.json"
-        print("Settings path:", self.settings_path)
-        print("Themes path:", self.themes_path)
 
         self.customStyleSheet = ""
         self.settings = load_settings(self.settings_path)
@@ -67,7 +63,7 @@ class Main(QWidget):
     def load_ui(self):
         """Load the UI from the .ui file"""
         loader = QUiLoader()
-        print("LoadUI:", Path(__file__).resolve().parent.parent / "ui" / "form.ui")
+
         path = Path(__file__).resolve().parent.parent / "ui" / "form.ui"
         ui_file = QFile(path)
         ui_file.open(QFile.ReadOnly)
