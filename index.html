@@ -3,9 +3,9 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="main module" href="main.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="main module" href="src/core/main.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -160,10 +160,15 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="form_ui.html">form_ui module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="settings.html">settings module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/settings.html">settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/videoeditor_ui.html">videoeditor_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/project_opening_dialog_ui.html">project_opening_dialog_ui module</a></li>
 </ul>
 
 </div>
@@ -203,23 +208,49 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="main.html#main.Main"><code class="docutils literal notranslate"><span class="pre">Main</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/main.html">main module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/core/main.html#main.Main"><code class="docutils literal notranslate"><span class="pre">Main</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="form_ui.html">form_ui module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="form_ui.html#form_ui.Ui_Main"><code class="docutils literal notranslate"><span class="pre">Ui_Main</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/settings.html">settings module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.addRecentProjectCreationPath"><code class="docutils literal notranslate"><span class="pre">addRecentProjectCreationPath()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.addRecentProjectPath"><code class="docutils literal notranslate"><span class="pre">addRecentProjectPath()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.getRecentProjectCreationPaths"><code class="docutils literal notranslate"><span class="pre">getRecentProjectCreationPaths()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.getRecentProjectPaths"><code class="docutils literal notranslate"><span class="pre">getRecentProjectPaths()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.getSettingsPath"><code class="docutils literal notranslate"><span class="pre">getSettingsPath()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.getThemesPath"><code class="docutils literal notranslate"><span class="pre">getThemesPath()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.load_current_theme"><code class="docutils literal notranslate"><span class="pre">load_current_theme()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.load_themes"><code class="docutils literal notranslate"><span class="pre">load_themes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/core/settings.html#settings.update_settings"><code class="docutils literal notranslate"><span class="pre">update_settings()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="settings.html">settings module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#settings.load_current_theme"><code class="docutils literal notranslate"><span class="pre">load_current_theme()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#settings.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#settings.load_themes"><code class="docutils literal notranslate"><span class="pre">load_themes()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#settings.update_settings"><code class="docutils literal notranslate"><span class="pre">update_settings()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/project_creation_dialog.html">project_creation_dialog module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/core/project_creation_dialog.html#project_creation_dialog.ProjectCreationDialog"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="settings_ui.html">settings_ui module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="settings_ui.html#settings_ui.Ui_Form"><code class="docutils literal notranslate"><span class="pre">Ui_Form</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/core/project_opening_dialog.html">project_opening_dialog module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/core/project_opening_dialog.html#project_opening_dialog.ProjectOpeningDialog"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/form_ui.html">form_ui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/ui/form_ui.html#form_ui.Ui_Main"><code class="docutils literal notranslate"><span class="pre">Ui_Main</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/settings_ui.html">settings_ui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/ui/settings_ui.html#settings_ui.Ui_Form"><code class="docutils literal notranslate"><span class="pre">Ui_Form</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/videoeditor_ui.html">videoeditor_ui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/ui/videoeditor_ui.html#videoeditor_ui.Ui_Form"><code class="docutils literal notranslate"><span class="pre">Ui_Form</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/ui/project_creation_dialog_ui.html#project_creation_dialog_ui.Ui_Form"><code class="docutils literal notranslate"><span class="pre">Ui_Form</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/ui/project_opening_dialog_ui.html">project_opening_dialog_ui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/ui/project_opening_dialog_ui.html#project_opening_dialog_ui.Ui_Form"><code class="docutils literal notranslate"><span class="pre">Ui_Form</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -238,7 +269,7 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="main.html">
+          <a class="next-page" href="src/core/main.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>

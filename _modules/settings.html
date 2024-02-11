@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>settings - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -159,10 +159,15 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../form_ui.html">form_ui module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../settings.html">settings module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/settings.html">settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/videoeditor_ui.html">videoeditor_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/project_opening_dialog_ui.html">project_opening_dialog_ui module</a></li>
 </ul>
 
 </div>
@@ -198,32 +203,78 @@
         <article role="main">
           <h1>Source code for settings</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="sd">&quot;&quot;&quot;Settings&quot;&quot;&quot;</span>
 
+<span class="c1"># Global static base settings path</span>
+<span class="n">base_settings_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;.config&quot;</span> <span class="o">/</span> <span class="s2">&quot;settings.json&quot;</span>
+<span class="n">base_theme_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;themes&quot;</span> <span class="o">/</span> <span class="s2">&quot;themes.json&quot;</span>
+
+
+<div class="viewcode-block" id="getSettingsPath">
+<a class="viewcode-back" href="../src/core/settings.html#settings.getSettingsPath">[docs]</a>
+<span class="k">def</span> <span class="nf">getSettingsPath</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the settings path based on the platform&quot;&quot;&quot;</span>
+    <span class="n">homeDir</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
+        <span class="n">settingsPath</span> <span class="o">=</span> <span class="n">homeDir</span> <span class="o">/</span> <span class="s2">&quot;.config&quot;</span> <span class="o">/</span> <span class="s2">&quot;ManimStudio&quot;</span> <span class="o">/</span> <span class="s2">&quot;settings.json&quot;</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+        <span class="n">settingsPath</span> <span class="o">=</span> <span class="n">homeDir</span> <span class="o">/</span> <span class="s2">&quot;AppData&quot;</span> <span class="o">/</span> <span class="s2">&quot;Roaming&quot;</span> <span class="o">/</span> <span class="s2">&quot;ManimStudio&quot;</span> <span class="o">/</span> <span class="s2">&quot;settings.json&quot;</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
+        <span class="n">settingsPath</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">homeDir</span>
+            <span class="o">/</span> <span class="s2">&quot;Library&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;Application Support&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;ManimStudio&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;settings.json&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">settingsPath</span></div>
+
+
+
+<span class="n">settingsPath</span> <span class="o">=</span> <span class="n">getSettingsPath</span><span class="p">()</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">settingsPath</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">settingsPath</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">base_settings_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settingsPath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="getThemesPath">
+<a class="viewcode-back" href="../src/core/settings.html#settings.getThemesPath">[docs]</a>
+<span class="k">def</span> <span class="nf">getThemesPath</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the themes path&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">base_theme_path</span></div>
+
+
+
+<span class="n">themesPath</span> <span class="o">=</span> <span class="n">getThemesPath</span><span class="p">()</span>
+
 
 <div class="viewcode-block" id="load_settings">
-<a class="viewcode-back" href="../settings.html#settings.load_settings">[docs]</a>
-<span class="k">def</span> <span class="nf">load_settings</span><span class="p">(</span><span class="n">settings_path</span><span class="p">):</span>
+<a class="viewcode-back" href="../src/core/settings.html#settings.load_settings">[docs]</a>
+<span class="k">def</span> <span class="nf">load_settings</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the settings from the settings.json file&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settingsPath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">({})</span></div>
+        <span class="k">return</span> <span class="p">{}</span></div>
 
 
 
 <div class="viewcode-block" id="update_settings">
-<a class="viewcode-back" href="../settings.html#settings.update_settings">[docs]</a>
-<span class="k">def</span> <span class="nf">update_settings</span><span class="p">(</span><span class="n">settings_path</span><span class="p">,</span> <span class="n">new_settings</span><span class="p">):</span>
+<a class="viewcode-back" href="../src/core/settings.html#settings.update_settings">[docs]</a>
+<span class="k">def</span> <span class="nf">update_settings</span><span class="p">(</span><span class="n">new_settings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Overwrite the settings file with the new settings&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settingsPath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">new_settings</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -235,32 +286,80 @@
 
 
 <div class="viewcode-block" id="load_themes">
-<a class="viewcode-back" href="../settings.html#settings.load_themes">[docs]</a>
-<span class="k">def</span> <span class="nf">load_themes</span><span class="p">(</span><span class="n">themes_path</span><span class="p">):</span>
+<a class="viewcode-back" href="../src/core/settings.html#settings.load_themes">[docs]</a>
+<span class="k">def</span> <span class="nf">load_themes</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the themes from the themes.json file&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">themes_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">themesPath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">({})</span></div>
+        <span class="k">return</span> <span class="p">{}</span></div>
 
 
 
 <div class="viewcode-block" id="load_current_theme">
-<a class="viewcode-back" href="../settings.html#settings.load_current_theme">[docs]</a>
-<span class="k">def</span> <span class="nf">load_current_theme</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
+<a class="viewcode-back" href="../src/core/settings.html#settings.load_current_theme">[docs]</a>
+<span class="k">def</span> <span class="nf">load_current_theme</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the current theme&quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">theme_module</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;theme&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;moduleName&quot;</span><span class="p">)</span>
         <span class="n">theme_name</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;theme&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
-            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;themes&quot;</span> <span class="o">/</span> <span class="n">theme_module</span> <span class="o">/</span> <span class="n">theme_name</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span>
+            <span class="n">themesPath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">theme_module</span> <span class="o">/</span> <span class="n">theme_name</span><span class="p">,</span>
+            <span class="s2">&quot;r&quot;</span><span class="p">,</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">({})</span></div>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+
+
+<div class="viewcode-block" id="addRecentProjectCreationPath">
+<a class="viewcode-back" href="../src/core/settings.html#settings.addRecentProjectCreationPath">[docs]</a>
+<span class="k">def</span> <span class="nf">addRecentProjectCreationPath</span><span class="p">(</span><span class="n">projectCreationPath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a recent project creation path to the settings file&quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
+    <span class="n">recentCreationPaths</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectCreationPaths&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">if</span> <span class="n">projectCreationPath</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">recentCreationPaths</span><span class="p">:</span>
+        <span class="n">recentCreationPaths</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">projectCreationPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recentCreationPaths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>  <span class="c1"># Keep only the 10 most recent</span>
+        <span class="n">recentCreationPaths</span> <span class="o">=</span> <span class="n">recentCreationPaths</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+    <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;recentProjectCreationPaths&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">recentCreationPaths</span>
+    <span class="n">update_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="addRecentProjectPath">
+<a class="viewcode-back" href="../src/core/settings.html#settings.addRecentProjectPath">[docs]</a>
+<span class="k">def</span> <span class="nf">addRecentProjectPath</span><span class="p">(</span><span class="n">projectPath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a recent project path to the settings file&quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
+    <span class="n">recentProjectPaths</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectPaths&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">if</span> <span class="n">projectPath</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">recentProjectPaths</span><span class="p">:</span>
+        <span class="n">recentProjectPaths</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">projectPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recentProjectPaths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">recentProjectPaths</span> <span class="o">=</span> <span class="n">recentProjectPaths</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+    <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;recentProjectPaths&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">recentProjectPaths</span>
+    <span class="n">update_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="getRecentProjectCreationPaths">
+<a class="viewcode-back" href="../src/core/settings.html#settings.getRecentProjectCreationPaths">[docs]</a>
+<span class="k">def</span> <span class="nf">getRecentProjectCreationPaths</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the recent project creation paths&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">load_settings</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectCreationPaths&quot;</span><span class="p">,</span> <span class="p">[])</span></div>
+
+
+
+<div class="viewcode-block" id="getRecentProjectPaths">
+<a class="viewcode-back" href="../src/core/settings.html#settings.getRecentProjectPaths">[docs]</a>
+<span class="k">def</span> <span class="nf">getRecentProjectPaths</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the recent project paths&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">load_settings</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectPaths&quot;</span><span class="p">,</span> <span class="p">[])</span></div>
 
 </pre></div>
         </article>

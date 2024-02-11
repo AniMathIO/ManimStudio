@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>form_ui - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -159,10 +159,15 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../form_ui.html">form_ui module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../settings.html">settings module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/settings.html">settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/videoeditor_ui.html">videoeditor_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/project_opening_dialog_ui.html">project_opening_dialog_ui module</a></li>
 </ul>
 
 </div>
@@ -218,10 +223,10 @@
     <span class="n">QSizePolicy</span><span class="p">,</span> <span class="n">QTextEdit</span><span class="p">,</span> <span class="n">QVBoxLayout</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Ui_Main">
-<a class="viewcode-back" href="../form_ui.html#form_ui.Ui_Main">[docs]</a>
+<a class="viewcode-back" href="../src/ui/form_ui.html#form_ui.Ui_Main">[docs]</a>
 <span class="k">class</span> <span class="nc">Ui_Main</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <div class="viewcode-block" id="Ui_Main.setupUi">
-<a class="viewcode-back" href="../form_ui.html#form_ui.Ui_Main.setupUi">[docs]</a>
+<a class="viewcode-back" href="../src/ui/form_ui.html#form_ui.Ui_Main.setupUi">[docs]</a>
     <span class="k">def</span> <span class="nf">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Main</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Main</span><span class="o">.</span><span class="n">objectName</span><span class="p">():</span>
             <span class="n">Main</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Main&quot;</span><span class="p">)</span>
@@ -387,7 +392,7 @@
     <span class="c1"># setupUi</span>
 
 <div class="viewcode-block" id="Ui_Main.retranslateUi">
-<a class="viewcode-back" href="../form_ui.html#form_ui.Ui_Main.retranslateUi">[docs]</a>
+<a class="viewcode-back" href="../src/ui/form_ui.html#form_ui.Ui_Main.retranslateUi">[docs]</a>
     <span class="k">def</span> <span class="nf">retranslateUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Main</span><span class="p">):</span>
         <span class="n">Main</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Main&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;ManimStudio&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>

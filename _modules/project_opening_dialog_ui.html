@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
     <link rel="shortcut icon" href="../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>settings_ui - Manim Studio 0.1 documentation</title>
+        <title>project_opening_dialog_ui - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -201,11 +201,11 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for settings_ui</h1><div class="highlight"><pre>
+          <h1>Source code for project_opening_dialog_ui</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="c1">################################################################################</span>
-<span class="c1">## Form generated from reading UI file &#39;settings.ui&#39;</span>
+<span class="c1">## Form generated from reading UI file &#39;project_opening_dialog.ui&#39;</span>
 <span class="c1">##</span>
 <span class="c1">## Created by: Qt User Interface Compiler version 6.6.1</span>
 <span class="c1">##</span>
@@ -219,60 +219,38 @@
     <span class="n">QFont</span><span class="p">,</span> <span class="n">QFontDatabase</span><span class="p">,</span> <span class="n">QGradient</span><span class="p">,</span> <span class="n">QIcon</span><span class="p">,</span>
     <span class="n">QImage</span><span class="p">,</span> <span class="n">QKeySequence</span><span class="p">,</span> <span class="n">QLinearGradient</span><span class="p">,</span> <span class="n">QPainter</span><span class="p">,</span>
     <span class="n">QPalette</span><span class="p">,</span> <span class="n">QPixmap</span><span class="p">,</span> <span class="n">QRadialGradient</span><span class="p">,</span> <span class="n">QTransform</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span><span class="p">,</span> <span class="n">QComboBox</span><span class="p">,</span> <span class="n">QFontComboBox</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="p">,</span>
-    <span class="n">QGridLayout</span><span class="p">,</span> <span class="n">QLabel</span><span class="p">,</span> <span class="n">QPushButton</span><span class="p">,</span> <span class="n">QSizePolicy</span><span class="p">,</span>
-    <span class="n">QSpinBox</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span><span class="p">,</span> <span class="n">QComboBox</span><span class="p">,</span> <span class="n">QGridLayout</span><span class="p">,</span> <span class="n">QLabel</span><span class="p">,</span>
+    <span class="n">QPushButton</span><span class="p">,</span> <span class="n">QSizePolicy</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Ui_Form">
-<a class="viewcode-back" href="../src/ui/settings_ui.html#settings_ui.Ui_Form">[docs]</a>
+<a class="viewcode-back" href="../src/ui/project_opening_dialog_ui.html#project_opening_dialog_ui.Ui_Form">[docs]</a>
 <span class="k">class</span> <span class="nc">Ui_Form</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <div class="viewcode-block" id="Ui_Form.setupUi">
-<a class="viewcode-back" href="../src/ui/settings_ui.html#settings_ui.Ui_Form.setupUi">[docs]</a>
+<a class="viewcode-back" href="../src/ui/project_opening_dialog_ui.html#project_opening_dialog_ui.Ui_Form.setupUi">[docs]</a>
     <span class="k">def</span> <span class="nf">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Form</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Form</span><span class="o">.</span><span class="n">objectName</span><span class="p">():</span>
             <span class="n">Form</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Form&quot;</span><span class="p">)</span>
-        <span class="n">Form</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">479</span><span class="p">,</span> <span class="mi">169</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span> <span class="o">=</span> <span class="n">QGridLayout</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
+        <span class="n">Form</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">680</span><span class="p">,</span> <span class="mi">139</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span> <span class="o">=</span> <span class="n">QWidget</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;gridLayoutWidget&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QRect</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">661</span><span class="p">,</span> <span class="mi">121</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span> <span class="o">=</span> <span class="n">QGridLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;gridLayout&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span> <span class="o">=</span> <span class="n">QFormLayout</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;formLayout&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeLabel</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeLabel</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;fontSizeLabel&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectSelectComboBox</span> <span class="o">=</span> <span class="n">QComboBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectSelectComboBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;projectSelectComboBox&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="o">.</span><span class="n">LabelRole</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeLabel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectSelectComboBox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeSpinBox</span> <span class="o">=</span> <span class="n">QSpinBox</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeSpinBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;fontSizeSpinBox&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectSelectLabel</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectSelectLabel</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;projectSelectLabel&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="o">.</span><span class="n">FieldRole</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeSpinBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projectSelectLabel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontFamilyLabel</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontFamilyLabel</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;fontFamilyLabel&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openProjectPushButton</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gridLayoutWidget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openProjectPushButton</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;openProjectPushButton&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="o">.</span><span class="n">LabelRole</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontFamilyLabel</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontComboBox</span> <span class="o">=</span> <span class="n">QFontComboBox</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontComboBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;fontComboBox&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="o">.</span><span class="n">FieldRole</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontComboBox</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">themeLabel</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">themeLabel</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;themeLabel&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="o">.</span><span class="n">LabelRole</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">themeLabel</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">themeComboBox</span> <span class="o">=</span> <span class="n">QComboBox</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">themeComboBox</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;themeComboBox&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QFormLayout</span><span class="o">.</span><span class="n">FieldRole</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">themeComboBox</span><span class="p">)</span>
-
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formLayout</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">saveSettingsBtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">saveSettingsBtn</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;saveSettingsBtn&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">saveSettingsBtn</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">openProjectPushButton</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
 
         <span class="bp">self</span><span class="o">.</span><span class="n">retranslateUi</span><span class="p">(</span><span class="n">Form</span><span class="p">)</span>
@@ -282,13 +260,11 @@
     <span class="c1"># setupUi</span>
 
 <div class="viewcode-block" id="Ui_Form.retranslateUi">
-<a class="viewcode-back" href="../src/ui/settings_ui.html#settings_ui.Ui_Form.retranslateUi">[docs]</a>
+<a class="viewcode-back" href="../src/ui/project_opening_dialog_ui.html#project_opening_dialog_ui.Ui_Form.retranslateUi">[docs]</a>
     <span class="k">def</span> <span class="nf">retranslateUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Form</span><span class="p">):</span>
         <span class="n">Form</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontSizeLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Fontsize:&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontFamilyLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Font Family:&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">themeLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Theme:&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">saveSettingsBtn</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Save Settings&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectSelectLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Select project:&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openProjectPushButton</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s2">&quot;Form&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Open Project&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span></div>
 </div>
 
     <span class="c1"># retranslateUi</span>

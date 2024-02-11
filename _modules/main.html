@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>main - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -159,10 +159,15 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../form_ui.html">form_ui module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../settings.html">settings module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/settings.html">settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/settings_ui.html">settings_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/videoeditor_ui.html">videoeditor_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/ui/project_opening_dialog_ui.html">project_opening_dialog_ui module</a></li>
 </ul>
 
 </div>
@@ -197,11 +202,25 @@
         </div>
         <article role="main">
           <h1>Source code for main</h1><div class="highlight"><pre>
-<span></span><span class="c1"># This Python file uses the following encoding: utf-8</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">QApplication</span><span class="p">,</span>
+    <span class="n">QWidget</span><span class="p">,</span>
+    <span class="n">QDialog</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QFile</span><span class="p">,</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtUiTools</span> <span class="kn">import</span> <span class="n">QUiLoader</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QPixmap</span>
+
+<span class="c1"># Add the parent directory of &#39;src&#39; to sys.path</span>
+<span class="n">current_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">parent_dir</span> <span class="o">=</span> <span class="n">current_dir</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>  <span class="c1"># Adjust according to your project structure</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">parent_dir</span><span class="p">))</span>
+
+
 <span class="kn">from</span> <span class="nn">settings</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">load_settings</span><span class="p">,</span>
     <span class="n">load_themes</span><span class="p">,</span>
@@ -209,37 +228,38 @@
     <span class="n">update_settings</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">settings_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QDialog</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QFile</span><span class="p">,</span> <span class="n">Signal</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtUiTools</span> <span class="kn">import</span> <span class="n">QUiLoader</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QPixmap</span>
+<span class="c1"># UI imports</span>
+<span class="kn">from</span> <span class="nn">src.ui.settings_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span>
+<span class="kn">from</span> <span class="nn">src.ui.videoeditor_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_VideoEditor</span>
+
+<span class="c1"># Core imports</span>
+<span class="kn">from</span> <span class="nn">src.core.project_creation_dialog</span> <span class="kn">import</span> <span class="n">ProjectCreationDialog</span>
+<span class="kn">from</span> <span class="nn">src.core.project_opening_dialog</span> <span class="kn">import</span> <span class="n">ProjectOpeningDialog</span>
 
 
 <div class="viewcode-block" id="Main">
-<a class="viewcode-back" href="../main.html#main.Main">[docs]</a>
+<a class="viewcode-back" href="../src/core/main.html#main.Main">[docs]</a>
 <span class="k">class</span> <span class="nc">Main</span><span class="p">(</span><span class="n">QWidget</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main class for the application&quot;&quot;&quot;</span>
 
     <span class="n">styleSheetUpdated</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">videoEditorOpened</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">settings_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;.config&quot;</span> <span class="o">/</span> <span class="s2">&quot;settings.json&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">themes_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;themes&quot;</span> <span class="o">/</span> <span class="s2">&quot;themes.json&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">themes</span> <span class="o">=</span> <span class="n">load_themes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">themes_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">themes</span> <span class="o">=</span> <span class="n">load_themes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">load_ui</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Main.apply_stylesheet">
-<a class="viewcode-back" href="../main.html#main.Main.apply_stylesheet">[docs]</a>
+<a class="viewcode-back" href="../src/core/main.html#main.Main.apply_stylesheet">[docs]</a>
     <span class="k">def</span> <span class="nf">apply_stylesheet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the stylesheet to the main window and update the image based on the theme&quot;&quot;&quot;</span>
+
         <span class="c1"># Set the custom stylesheet based on the current theme</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;background-color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;font&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; border-color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;primary&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; font-size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;fontSize&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">px; font-family: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;fontFamily&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; &quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
@@ -259,11 +279,12 @@
 
 
 <div class="viewcode-block" id="Main.load_ui">
-<a class="viewcode-back" href="../main.html#main.Main.load_ui">[docs]</a>
+<a class="viewcode-back" href="../src/core/main.html#main.Main.load_ui">[docs]</a>
     <span class="k">def</span> <span class="nf">load_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the UI from the .ui file&quot;&quot;&quot;</span>
         <span class="n">loader</span> <span class="o">=</span> <span class="n">QUiLoader</span><span class="p">()</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;form.ui&quot;</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;ui&quot;</span> <span class="o">/</span> <span class="s2">&quot;form.ui&quot;</span>
         <span class="n">ui_file</span> <span class="o">=</span> <span class="n">QFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">ui_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">QFile</span><span class="o">.</span><span class="n">ReadOnly</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ui_file</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
@@ -272,16 +293,21 @@
         <span class="c1"># Apply the theme</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">apply_stylesheet</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">settingsBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_settings_dialog</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">settingsBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_settings_dialog</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">newProjectBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">showProjectCreationDialog</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">openProjectBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">showProjectOpenDialog</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.open_settings_dialog">
-<a class="viewcode-back" href="../main.html#main.Main.open_settings_dialog">[docs]</a>
+<a class="viewcode-back" href="../src/core/main.html#main.Main.open_settings_dialog">[docs]</a>
     <span class="k">def</span> <span class="nf">open_settings_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the settings dialog&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span> <span class="o">=</span> <span class="n">QDialog</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span> <span class="o">=</span> <span class="n">Ui_Form</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="p">)</span>
+
+        <span class="c1"># Change window title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Settings&quot;</span><span class="p">)</span>
 
         <span class="c1"># Inherit the theme from the main window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
@@ -310,13 +336,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">update_settings_from_dialog</span>
         <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="Main.update_settings_from_dialog">
-<a class="viewcode-back" href="../main.html#main.Main.update_settings_from_dialog">[docs]</a>
+<a class="viewcode-back" href="../src/core/main.html#main.Main.update_settings_from_dialog">[docs]</a>
     <span class="k">def</span> <span class="nf">update_settings_from_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the settings from the dialog, and update the UI&quot;&quot;&quot;</span>
+
+        <span class="c1"># Get recentProjects array from the current settings</span>
+        <span class="n">recentProjectPaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectPaths&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="c1"># Get recentProjectCreationPaths array from the current settings</span>
+        <span class="n">recentProjectCreationPaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectCreationPaths&quot;</span><span class="p">,</span> <span class="p">[])</span>
 
         <span class="c1"># Get the current values from the dialog</span>
         <span class="n">fontSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uiSettings</span><span class="o">.</span><span class="n">fontSizeSpinBox</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
@@ -331,16 +363,80 @@
             <span class="s2">&quot;fontSize&quot;</span><span class="p">:</span> <span class="n">fontSize</span><span class="p">,</span>
             <span class="s2">&quot;fontFamily&quot;</span><span class="p">:</span> <span class="n">fontFamily</span><span class="p">,</span>
             <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="n">selected_theme</span><span class="p">,</span>
+            <span class="s2">&quot;recentProjectCreationPaths&quot;</span><span class="p">:</span> <span class="n">recentProjectCreationPaths</span><span class="p">,</span>
+            <span class="s2">&quot;recentProjectPaths&quot;</span><span class="p">:</span> <span class="n">recentProjectPaths</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="c1"># Pass the new settings to the settings module</span>
-        <span class="k">if</span> <span class="n">update_settings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span> <span class="n">new_settings</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">update_settings</span><span class="p">(</span><span class="n">new_settings</span><span class="p">):</span>
             <span class="c1"># Update the global settings variable</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">new_settings</span>
             <span class="c1"># Update the current theme</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">()</span>
             <span class="c1"># Apply the stylesheet</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">apply_stylesheet</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Main.showProjectCreationDialog">
+<a class="viewcode-back" href="../src/core/main.html#main.Main.showProjectCreationDialog">[docs]</a>
+    <span class="k">def</span> <span class="nf">showProjectCreationDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show the project creation dialog&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">ProjectCreationDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">dialog</span><span class="o">.</span><span class="n">projectCreated</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">openVideoEditor</span>
+            <span class="p">)</span>  <span class="c1"># Connect to the new method</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditorOpened</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="n">close</span>
+            <span class="p">)</span>  <span class="c1"># Close dialog when VideoEditor opens</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditorOpened</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">close</span>
+            <span class="p">)</span>  <span class="c1"># Close the main window (WelcomeScreen) as well</span>
+
+            <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec</span><span class="p">():</span>
+                <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error showing project creation dialog: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Main.showProjectOpenDialog">
+<a class="viewcode-back" href="../src/core/main.html#main.Main.showProjectOpenDialog">[docs]</a>
+    <span class="k">def</span> <span class="nf">showProjectOpenDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show the project open dialog&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">ProjectOpeningDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">dialog</span><span class="o">.</span><span class="n">projectSelected</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">openVideoEditor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditorOpened</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="n">close</span>
+            <span class="p">)</span>  <span class="c1"># Close dialog when VideoEditor opens</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditorOpened</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">close</span>
+            <span class="p">)</span>  <span class="c1"># Close the main window (WelcomeScreen) as well</span>
+            <span class="n">dialog</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error showing project open dialog: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Main.openVideoEditor">
+<a class="viewcode-back" href="../src/core/main.html#main.Main.openVideoEditor">[docs]</a>
+    <span class="k">def</span> <span class="nf">openVideoEditor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectFilePath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the video editor with the project file&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span> <span class="o">=</span> <span class="n">QDialog</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uiVideoEditor</span> <span class="o">=</span> <span class="n">Ui_VideoEditor</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uiVideoEditor</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="p">)</span>
+            <span class="c1"># Apply the theme</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
+            <span class="c1"># Change window title as current project name with file path</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manim Studio - </span><span class="si">{</span><span class="n">projectFilePath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Emit the signal after VideoEditor dialog is opened</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditorOpened</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">projectFilePath</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error opening video editor: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">pass</span></div>
 </div>
 
 
