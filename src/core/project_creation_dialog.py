@@ -11,7 +11,11 @@ parent_dir = current_dir.parent.parent  # Adjust according to your project struc
 sys.path.append(str(parent_dir))
 
 from src.ui.project_creation_dialog_ui import Ui_Form as Ui_ProjectCreationDialog
-from src.core.settings import addRecentProjectPath, getRecentProjectPaths
+from src.core.settings import (
+    addRecentProjectPath,
+    addRecentProjectCreationPath,
+    getRecentProjectCreationPaths,
+)
 
 
 class ProjectCreationDialog(QDialog):
@@ -26,7 +30,7 @@ class ProjectCreationDialog(QDialog):
         self.ui.createProjectPushButton.clicked.connect(self.createProject)
 
     def loadRecentProjectPaths(self):
-        recentPaths = getRecentProjectPaths()
+        recentPaths = getRecentProjectCreationPaths()
         for path in recentPaths:
             self.ui.folderSelectComboBox.addItem(path)
 
@@ -56,7 +60,11 @@ class ProjectCreationDialog(QDialog):
             os.path.join(projectPath, f"{projectName}.mstp")
         )  # Emit signal with project file path
 
-        addRecentProjectPath(projectFolder)  # Update your settings with the new path
+        addRecentProjectCreationPath(
+            projectFolder
+        )  # Update your settings with the new path
+
+        addRecentProjectPath(os.path.join(projectPath, f"{projectName}.mstp"))
 
         # Close the dialog and optionally proceed to open the project in the editor
         self.accept()

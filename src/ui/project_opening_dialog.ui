@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
-    <height>232</height>
+    <width>680</width>
+    <height>139</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,35 +18,25 @@
     <rect>
      <x>9</x>
      <y>9</y>
-     <width>731</width>
-     <height>211</height>
+     <width>661</width>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <widget class="QLineEdit" name="projectNameLineEdit"/>
+     <widget class="QComboBox" name="projectSelectComboBox"/>
     </item>
     <item row="0" column="0">
-     <widget class="QLabel" name="projectNameLabel">
+     <widget class="QLabel" name="projectSelectLabel">
       <property name="text">
-       <string>Project name:</string>
+       <string>Select project:</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="folderSelectLabel">
+    <item row="1" column="0" colspan="2">
+     <widget class="QPushButton" name="openProjectPushButton">
       <property name="text">
-       <string>Select folder:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="folderSelectComboBox"/>
-    </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="QPushButton" name="createProjectPushButton">
-      <property name="text">
-       <string>Create Project</string>
+       <string>Open Project</string>
       </property>
      </widget>
     </item>

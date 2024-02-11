@@ -26,9 +26,11 @@ from settings import (
 
 # UI imports
 from src.ui.settings_ui import Ui_Form
+from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor
 
 # Core imports
 from src.core.project_creation_dialog import ProjectCreationDialog
+from src.core.project_opening_dialog import ProjectOpeningDialog
 
 
 class Main(QWidget):
@@ -79,12 +81,16 @@ class Main(QWidget):
 
         self.ui.settingsBtn.clicked.connect(self.open_settings_dialog)
         self.ui.newProjectBtn.clicked.connect(self.showProjectCreationDialog)
+        self.ui.openProjectBtn.clicked.connect(self.showProjectOpenDialog)
 
     def open_settings_dialog(self):
         """Open the settings dialog"""
         self.settingsDialog = QDialog()
         self.uiSettings = Ui_Form()
         self.uiSettings.setupUi(self.settingsDialog)
+
+        # Change window title
+        self.settingsDialog.setWindowTitle("Settings")
 
         # Inherit the theme from the main window
         self.settingsDialog.setStyleSheet(self.customStyleSheet)
@@ -119,7 +125,10 @@ class Main(QWidget):
         """Update the settings from the dialog, and update the UI"""
 
         # Get recentProjects array from the current settings
-        recentProjects = self.settings.get("recentProjects", [])
+        recentProjectPaths = self.settings.get("recentProjectPaths", [])
+
+        # Get recentProjectCreationPaths array from the current settings
+        recentProjectCreationPaths = self.settings.get("recentProjectCreationPaths", [])
 
         # Get the current values from the dialog
         fontSize = self.uiSettings.fontSizeSpinBox.value()
@@ -134,7 +143,8 @@ class Main(QWidget):
             "fontSize": fontSize,
             "fontFamily": fontFamily,
             "theme": selected_theme,
-            "recentProjects": recentProjects,
+            "recentProjectCreationPaths": recentProjectCreationPaths,
+            "recentProjectPaths": recentProjectPaths,
         }
 
         # Pass the new settings to the settings module
@@ -147,6 +157,7 @@ class Main(QWidget):
             self.apply_stylesheet()
 
     def showProjectCreationDialog(self):
+        """Show the project creation dialog"""
         try:
             dialog = ProjectCreationDialog(self)
             dialog.projectCreated.connect(
@@ -157,8 +168,22 @@ class Main(QWidget):
         except Exception as e:
             print(f"Error showing project creation dialog: {e}")
 
+    def showProjectOpenDialog(self):
+        dialog = ProjectOpeningDialog(self)
+        dialog.projectSelected.connect(self.openVideoEditor)
+        dialog.exec()
+
     def openVideoEditor(self, projectFilePath):
-        # Logic to open and initialize VideoEditor UI with the project file
+        """Open the video editor with the project file"""
+        try:
+            self.videoEditor = QDialog()
+            self.uiVideoEditor = Ui_VideoEditor()
+            self.uiVideoEditor.setupUi(self.videoEditor)
+            # Change window title as current project name with file path
+            self.videoEditor.setWindowTitle(f"Manim Studio - {projectFilePath}")
+            self.videoEditor.exec()
+        except Exception as e:
+            print(f"Error opening video editor: {e}")
         pass
 
 

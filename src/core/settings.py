@@ -95,21 +95,31 @@ def load_current_theme():
         return {}
 
 
-def addRecentProjectPath(projectPath):
-    """Add a recent project path to the settings"""
+def addRecentProjectCreationPath(projectCreationPath):
     settings = load_settings()
-    recentProjects = settings.get("recentProjects", [])
-    if projectPath in recentProjects:
-        recentProjects.remove(projectPath)
-    recentProjects.insert(0, projectPath)
-    if len(recentProjects) > 10:
-        recentProjects = recentProjects[:10]
-    settings["recentProjects"] = recentProjects
+    recentCreationPaths = settings.get("recentProjectCreationPaths", [])
+    if projectCreationPath not in recentCreationPaths:
+        recentCreationPaths.insert(0, projectCreationPath)
+    if len(recentCreationPaths) > 10:  # Keep only the 10 most recent
+        recentCreationPaths = recentCreationPaths[:10]
+    settings["recentProjectCreationPaths"] = recentCreationPaths
     update_settings(settings)
-    return recentProjects
+
+
+def addRecentProjectPath(projectPath):
+    settings = load_settings()
+    recentProjectPaths = settings.get("recentProjectPaths", [])
+    if projectPath not in recentProjectPaths:
+        recentProjectPaths.insert(0, projectPath)
+    if len(recentProjectPaths) > 10:
+        recentProjectPaths = recentProjectPaths[:10]
+    settings["recentProjectPaths"] = recentProjectPaths
+    update_settings(settings)
+
+
+def getRecentProjectCreationPaths():
+    return load_settings().get("recentProjectCreationPaths", [])
 
 
 def getRecentProjectPaths():
-    """Get the recent project paths from the settings"""
-    settings = load_settings()
-    return settings.get("recentProjects", [])
+    return load_settings().get("recentProjectPaths", [])
