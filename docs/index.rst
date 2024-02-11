@@ -10,10 +10,11 @@ Welcome to ManimStudio's documentation!
    :maxdepth: 2
    :caption: Contents:
    
-   main
-   form_ui
-   settings
-   settings_ui
+   src/core/main
+   src/core/settings
+   src/ui/form_ui
+   src/ui/settings_ui
+   src/ui/videoeditor_ui
 
 Indices and tables
 ==================
