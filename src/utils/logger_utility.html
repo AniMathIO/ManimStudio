@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="project_opening_dialog module" href="project_opening_dialog.html" /><link rel="prev" title="settings module" href="settings.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="form_ui module" href="../ui/form_ui.html" /><link rel="prev" title="project_opening_dialog module" href="../core/project_opening_dialog.html" />
 
     <link rel="shortcut icon" href="../../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>project_creation_dialog module - Manim Studio 0.1 documentation</title>
+        <title>logger_utility module - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -160,11 +160,11 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="settings.html">settings module</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">project_creation_dialog module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_opening_dialog.html">project_opening_dialog module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/logger_utility.html">logger_utility module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/settings.html">settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/project_creation_dialog.html">project_creation_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">logger_utility module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/form_ui.html">form_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/videoeditor_ui.html">videoeditor_ui module</a></li>
@@ -204,41 +204,18 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-project_creation_dialog">
-<span id="project-creation-dialog-module"></span><h1>project_creation_dialog module<a class="headerlink" href="#module-project_creation_dialog" title="Link to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">project_creation_dialog.</span></span><span class="sig-name descname"><span class="pre">ProjectCreationDialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDialog</span></code></p>
-<p>Dialog for creating a new project</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.createProject">
-<span class="sig-name descname"><span class="pre">createProject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog.createProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.createProject" title="Link to this definition">#</a></dt>
-<dd><p>Create a new project and emit the projectCreated signal</p>
+          <section id="module-logger_utility">
+<span id="logger-utility-module"></span><h1>logger_utility module<a class="headerlink" href="#module-logger_utility" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="logger_utility.rich_formatter">
+<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">rich_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/logger_utility.html#rich_formatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.rich_formatter" title="Link to this definition">#</a></dt>
+<dd><p>Rich formatter for loguru logger</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.loadRecentProjectPaths">
-<span class="sig-name descname"><span class="pre">loadRecentProjectPaths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog.loadRecentProjectPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.loadRecentProjectPaths" title="Link to this definition">#</a></dt>
-<dd><p>Load the recent project paths into the combo box</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.projectCreated">
-<span class="sig-name descname"><span class="pre">projectCreated</span></span><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.projectCreated" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.selectFolder">
-<span class="sig-name descname"><span class="pre">selectFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog.selectFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.selectFolder" title="Link to this definition">#</a></dt>
-<dd><p>Select a folder for the project</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ProjectCreationDialog&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QDialog&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#42</span> <span class="pre">type=Signal,</span> <span class="pre">signature=projectCreated(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></em><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.staticMetaObject" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
+<dl class="py function">
+<dt class="sig sig-object py" id="logger_utility.setup_logger">
+<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">setup_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/logger_utility.html#setup_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.setup_logger" title="Link to this definition">#</a></dt>
+<dd><p>Setup the logger configuration for the application</p>
 </dd></dl>
 
 </section>
@@ -248,23 +225,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="project_opening_dialog.html">
+          <a class="next-page" href="../ui/form_ui.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">project_opening_dialog module</div>
+                <div class="title">form_ui module</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="settings.html">
+          <a class="prev-page" href="../core/project_opening_dialog.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">settings module</div>
+                <div class="title">project_opening_dialog module</div>
                 
               </div>
             </a>
@@ -298,15 +275,9 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">project_creation_dialog module</a><ul>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog</span></code></a><ul>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.createProject"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.createProject()</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.loadRecentProjectPaths"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.loadRecentProjectPaths()</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.projectCreated"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.projectCreated</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.selectFolder"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.selectFolder()</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.staticMetaObject</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">logger_utility module</a><ul>
+<li><a class="reference internal" href="#logger_utility.rich_formatter"><code class="docutils literal notranslate"><span class="pre">rich_formatter()</span></code></a></li>
+<li><a class="reference internal" href="#logger_utility.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
 </ul>
 </li>
 </ul>

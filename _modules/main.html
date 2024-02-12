@@ -163,6 +163,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../src/core/settings.html">settings module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/utils/logger_utility.html">logger_utility module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/form_ui.html">form_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/videoeditor_ui.html">videoeditor_ui module</a></li>
@@ -236,6 +237,9 @@
 <span class="kn">from</span> <span class="nn">src.core.project_creation_dialog</span> <span class="kn">import</span> <span class="n">ProjectCreationDialog</span>
 <span class="kn">from</span> <span class="nn">src.core.project_opening_dialog</span> <span class="kn">import</span> <span class="n">ProjectOpeningDialog</span>
 
+<span class="c1"># Logger</span>
+<span class="kn">from</span> <span class="nn">src.utils.logger_utility</span> <span class="kn">import</span> <span class="n">logger</span>
+
 
 <div class="viewcode-block" id="Main">
 <a class="viewcode-back" href="../src/core/main.html#main.Main">[docs]</a>
@@ -245,6 +249,7 @@
     <span class="n">styleSheetUpdated</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">videoEditorOpened</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
@@ -252,11 +257,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">themes</span> <span class="o">=</span> <span class="n">load_themes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">()</span>
-
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Main window initialized&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_ui</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Main.apply_stylesheet">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.apply_stylesheet">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">apply_stylesheet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the stylesheet to the main window and update the image based on the theme&quot;&quot;&quot;</span>
 
@@ -275,11 +281,13 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">QPixmap</span><span class="p">(</span><span class="n">image_path</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">styleSheetUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styleSheetUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stylesheet applied&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.load_ui">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.load_ui">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">load_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the UI from the .ui file&quot;&quot;&quot;</span>
         <span class="n">loader</span> <span class="o">=</span> <span class="n">QUiLoader</span><span class="p">()</span>
@@ -295,11 +303,14 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">settingsBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_settings_dialog</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">newProjectBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">showProjectCreationDialog</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">openProjectBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">showProjectOpenDialog</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">openProjectBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">showProjectOpenDialog</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UI loaded&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.open_settings_dialog">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.open_settings_dialog">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">open_settings_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the settings dialog&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">settingsDialog</span> <span class="o">=</span> <span class="n">QDialog</span><span class="p">()</span>
@@ -341,6 +352,7 @@
 
 <div class="viewcode-block" id="Main.update_settings_from_dialog">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.update_settings_from_dialog">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">update_settings_from_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the settings from the dialog, and update the UI&quot;&quot;&quot;</span>
 
@@ -379,6 +391,7 @@
 
 <div class="viewcode-block" id="Main.showProjectCreationDialog">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.showProjectCreationDialog">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">showProjectCreationDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Show the project creation dialog&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -396,11 +409,12 @@
             <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec</span><span class="p">():</span>
                 <span class="k">pass</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error showing project creation dialog: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error showing project creation dialog: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.showProjectOpenDialog">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.showProjectOpenDialog">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">showProjectOpenDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Show the project open dialog&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -414,11 +428,12 @@
             <span class="p">)</span>  <span class="c1"># Close the main window (WelcomeScreen) as well</span>
             <span class="n">dialog</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error showing project open dialog: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error showing project open dialog: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.openVideoEditor">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.openVideoEditor">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">openVideoEditor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectFilePath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the video editor with the project file&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -432,10 +447,9 @@
 
             <span class="c1"># Emit the signal after VideoEditor dialog is opened</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">videoEditorOpened</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">projectFilePath</span><span class="p">)</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error opening video editor: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error opening video editor: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">pass</span></div>
 </div>
 

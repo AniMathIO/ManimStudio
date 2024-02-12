@@ -163,6 +163,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../src/core/settings.html">settings module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/utils/logger_utility.html">logger_utility module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/form_ui.html">form_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/videoeditor_ui.html">videoeditor_ui module</a></li>
@@ -208,15 +209,17 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="sd">&quot;&quot;&quot;Settings&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">src.utils.logger_utility</span> <span class="kn">import</span> <span class="n">logger</span>
 
-<span class="c1"># Global static base settings path</span>
+
+<span class="c1"># Global base settings and theme path</span>
 <span class="n">base_settings_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;.config&quot;</span> <span class="o">/</span> <span class="s2">&quot;settings.json&quot;</span>
 <span class="n">base_theme_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;themes&quot;</span> <span class="o">/</span> <span class="s2">&quot;themes.json&quot;</span>
 
 
 <div class="viewcode-block" id="getSettingsPath">
 <a class="viewcode-back" href="../src/core/settings.html#settings.getSettingsPath">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">getSettingsPath</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the settings path based on the platform&quot;&quot;&quot;</span>
     <span class="n">homeDir</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span>
@@ -247,6 +250,7 @@
 
 <div class="viewcode-block" id="getThemesPath">
 <a class="viewcode-back" href="../src/core/settings.html#settings.getThemesPath">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">getThemesPath</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the themes path&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">base_theme_path</span></div>
@@ -255,22 +259,26 @@
 
 <span class="n">themesPath</span> <span class="o">=</span> <span class="n">getThemesPath</span><span class="p">()</span>
 
+<span class="sd">&quot;&quot;&quot;Settings&quot;&quot;&quot;</span>
+
 
 <div class="viewcode-block" id="load_settings">
 <a class="viewcode-back" href="../src/core/settings.html#settings.load_settings">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">load_settings</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the settings from the settings.json file&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settingsPath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
 
 <div class="viewcode-block" id="update_settings">
 <a class="viewcode-back" href="../src/core/settings.html#settings.update_settings">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">update_settings</span><span class="p">(</span><span class="n">new_settings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Overwrite the settings file with the new settings&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -278,6 +286,7 @@
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">new_settings</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
@@ -287,19 +296,21 @@
 
 <div class="viewcode-block" id="load_themes">
 <a class="viewcode-back" href="../src/core/settings.html#settings.load_themes">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">load_themes</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the themes from the themes.json file&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">themesPath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
 
 <div class="viewcode-block" id="load_current_theme">
 <a class="viewcode-back" href="../src/core/settings.html#settings.load_current_theme">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">load_current_theme</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the current theme&quot;&quot;&quot;</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
@@ -312,13 +323,14 @@
         <span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
 
 <div class="viewcode-block" id="addRecentProjectCreationPath">
 <a class="viewcode-back" href="../src/core/settings.html#settings.addRecentProjectCreationPath">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">addRecentProjectCreationPath</span><span class="p">(</span><span class="n">projectCreationPath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a recent project creation path to the settings file&quot;&quot;&quot;</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
@@ -334,6 +346,7 @@
 
 <div class="viewcode-block" id="addRecentProjectPath">
 <a class="viewcode-back" href="../src/core/settings.html#settings.addRecentProjectPath">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">addRecentProjectPath</span><span class="p">(</span><span class="n">projectPath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a recent project path to the settings file&quot;&quot;&quot;</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
@@ -349,6 +362,7 @@
 
 <div class="viewcode-block" id="getRecentProjectCreationPaths">
 <a class="viewcode-back" href="../src/core/settings.html#settings.getRecentProjectCreationPaths">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">getRecentProjectCreationPaths</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the recent project creation paths&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">load_settings</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectCreationPaths&quot;</span><span class="p">,</span> <span class="p">[])</span></div>
@@ -357,6 +371,7 @@
 
 <div class="viewcode-block" id="getRecentProjectPaths">
 <a class="viewcode-back" href="../src/core/settings.html#settings.getRecentProjectPaths">[docs]</a>
+<span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
 <span class="k">def</span> <span class="nf">getRecentProjectPaths</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the recent project paths&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">load_settings</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recentProjectPaths&quot;</span><span class="p">,</span> <span class="p">[])</span></div>
