@@ -20,7 +20,7 @@
     <img src="https://github.com/MemerGamer/ManimStudio/actions/workflows/release-please.yml/badge.svg" alt="release-please">
   </a>
 </div>
-
+<hr>
 ManimStudio is a video editor application for editing Python ManimCE video projects.
 
 ## Table of Contents
