@@ -32,6 +32,9 @@ from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor
 from src.core.project_creation_dialog import ProjectCreationDialog
 from src.core.project_opening_dialog import ProjectOpeningDialog
 
+# Logger
+from src.utils.logger_utility import logger
+
 
 class Main(QWidget):
     """Main class for the application"""
@@ -39,6 +42,7 @@ class Main(QWidget):
     styleSheetUpdated = Signal(str)
     videoEditorOpened = Signal(str)
 
+    @logger.catch
     def __init__(self, parent=None):
         """Initializer"""
         super().__init__(parent)
@@ -46,9 +50,10 @@ class Main(QWidget):
         self.settings = load_settings()
         self.themes = load_themes()
         self.current_theme = load_current_theme()
-
+        logger.info("Main window initialized")
         self.load_ui()
 
+    @logger.catch
     def apply_stylesheet(self):
         """Apply the stylesheet to the main window and update the image based on the theme"""
 
@@ -68,7 +73,9 @@ class Main(QWidget):
         self.ui.label.setPixmap(QPixmap(image_path))
 
         self.styleSheetUpdated.emit(self.customStyleSheet)
+        logger.info("Stylesheet applied")
 
+    @logger.catch
     def load_ui(self):
         """Load the UI from the .ui file"""
         loader = QUiLoader()
@@ -86,6 +93,9 @@ class Main(QWidget):
         self.ui.newProjectBtn.clicked.connect(self.showProjectCreationDialog)
         self.ui.openProjectBtn.clicked.connect(self.showProjectOpenDialog)
 
+        logger.info("UI loaded")
+
+    @logger.catch
     def open_settings_dialog(self):
         """Open the settings dialog"""
         self.settingsDialog = QDialog()
@@ -124,6 +134,7 @@ class Main(QWidget):
 
         self.settingsDialog.exec()
 
+    @logger.catch
     def update_settings_from_dialog(self):
         """Update the settings from the dialog, and update the UI"""
 
@@ -159,6 +170,7 @@ class Main(QWidget):
             # Apply the stylesheet
             self.apply_stylesheet()
 
+    @logger.catch
     def showProjectCreationDialog(self):
         """Show the project creation dialog"""
         try:
@@ -176,8 +188,9 @@ class Main(QWidget):
             if dialog.exec():
                 pass
         except Exception as e:
-            print(f"Error showing project creation dialog: {e}")
+            logger.error(f"Error showing project creation dialog: {e}")
 
+    @logger.catch
     def showProjectOpenDialog(self):
         """Show the project open dialog"""
         try:
@@ -191,8 +204,9 @@ class Main(QWidget):
             )  # Close the main window (WelcomeScreen) as well
             dialog.exec()
         except Exception as e:
-            print(f"Error showing project open dialog: {e}")
+            logger.error(f"Error showing project open dialog: {e}")
 
+    @logger.catch
     def openVideoEditor(self, projectFilePath):
         """Open the video editor with the project file"""
         try:
@@ -206,10 +220,9 @@ class Main(QWidget):
 
             # Emit the signal after VideoEditor dialog is opened
             self.videoEditorOpened.emit(projectFilePath)
-
             self.videoEditor.exec()
         except Exception as e:
-            print(f"Error opening video editor: {e}")
+            logger.error(f"Error opening video editor: {e}")
         pass
 
 

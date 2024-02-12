@@ -3,6 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../src/core"))
 sys.path.insert(0, os.path.abspath("../src/ui"))
+sys.path.insert(0, os.path.abspath("../src/utils"))
 
 print("sys.path: ", sys.path)
 

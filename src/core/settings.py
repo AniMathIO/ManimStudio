@@ -4,13 +4,15 @@ from pathlib import Path
 import sys
 import json
 
-"""Settings"""
+from src.utils.logger_utility import logger
 
-# Global static base settings path
+
+# Global base settings and theme path
 base_settings_path = Path(os.getcwd()) / ".config" / "settings.json"
 base_theme_path = Path(os.getcwd()) / "src" / "themes" / "themes.json"
 
 
+@logger.catch
 def getSettingsPath():
     """Get the settings path based on the platform"""
     homeDir = Path.home()
@@ -38,6 +40,7 @@ if not settingsPath.exists():
         json.dump(settings, file, indent=4)
 
 
+@logger.catch
 def getThemesPath():
     """Get the themes path"""
     return base_theme_path
@@ -45,17 +48,21 @@ def getThemesPath():
 
 themesPath = getThemesPath()
 
+"""Settings"""
 
+
+@logger.catch
 def load_settings():
     """Load the settings from the settings.json file"""
     try:
         with open(settingsPath, "r") as file:
             return json.load(file)
     except Exception as e:
-        print(e)
+        logger.error(e)
         return {}
 
 
+@logger.catch
 def update_settings(new_settings):
     """Overwrite the settings file with the new settings"""
     try:
@@ -63,22 +70,25 @@ def update_settings(new_settings):
             json.dump(new_settings, file, indent=4)
         return True
     except Exception as e:
+        logger.error(e)
         return False
 
 
 """Themes"""
 
 
+@logger.catch
 def load_themes():
     """Load the themes from the themes.json file"""
     try:
         with open(themesPath, "r") as file:
             return json.load(file)
     except Exception as e:
-        print(e)
+        logger.error(e)
         return {}
 
 
+@logger.catch
 def load_current_theme():
     """Load the current theme"""
     settings = load_settings()
@@ -91,10 +101,11 @@ def load_current_theme():
         ) as file:
             return json.load(file)
     except Exception as e:
-        print(e)
+        logger.error(e)
         return {}
 
 
+@logger.catch
 def addRecentProjectCreationPath(projectCreationPath):
     """Add a recent project creation path to the settings file"""
     settings = load_settings()
@@ -107,6 +118,7 @@ def addRecentProjectCreationPath(projectCreationPath):
     update_settings(settings)
 
 
+@logger.catch
 def addRecentProjectPath(projectPath):
     """Add a recent project path to the settings file"""
     settings = load_settings()
@@ -119,11 +131,13 @@ def addRecentProjectPath(projectPath):
     update_settings(settings)
 
 
+@logger.catch
 def getRecentProjectCreationPaths():
     """Get the recent project creation paths"""
     return load_settings().get("recentProjectCreationPaths", [])
 
 
+@logger.catch
 def getRecentProjectPaths():
     """Get the recent project paths"""
     return load_settings().get("recentProjectPaths", [])
