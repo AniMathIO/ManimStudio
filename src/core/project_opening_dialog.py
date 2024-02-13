@@ -52,7 +52,7 @@ class ProjectOpeningDialog(QDialog):
             self.accept()
 
     @logger.catch
-    def openProject(self, event):
+    def openProject(self):
         """Open the selected project"""
         selectedProject = self.ui.projectSelectComboBox.currentText()
         self.projectSelected.emit(selectedProject)
