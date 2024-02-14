@@ -277,6 +277,7 @@
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">update_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the image based on the theme and resize event.&quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="p">(</span>
             <span class="s2">&quot;latte&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="ow">or</span> <span class="s2">&quot;light&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -286,15 +287,13 @@
             <span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;docs/_static/ManimStudioLogoDark.png&quot;</span>
 
         <span class="n">pixmap</span> <span class="o">=</span> <span class="n">QPixmap</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
-        <span class="c1"># Ensure the pixmap is valid</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">pixmap</span><span class="o">.</span><span class="n">isNull</span><span class="p">():</span>
-            <span class="c1"># This will maintain the aspect ratio of the image</span>
             <span class="n">scaledPixmap</span> <span class="o">=</span> <span class="n">pixmap</span><span class="o">.</span><span class="n">scaled</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">Qt</span><span class="o">.</span><span class="n">KeepAspectRatio</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">SmoothTransformation</span>
             <span class="p">)</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">scaledPixmap</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Main.apply_stylesheet">
