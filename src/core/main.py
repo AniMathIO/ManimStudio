@@ -1,4 +1,3 @@
-import os
 import sys
 import json
 from pathlib import Path
@@ -7,9 +6,12 @@ from PySide6.QtWidgets import (
     QWidget,
     QDialog,
 )
-from PySide6.QtCore import QFile, Signal
-from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QSizePolicy
+
 
 # Add the parent directory of 'src' to sys.path
 current_dir = Path(__file__).resolve().parent
@@ -27,6 +29,7 @@ from settings import (
 # UI imports
 from src.ui.settings_ui import Ui_Form
 from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor
+from src.ui.form_ui import Ui_Main
 
 # Core imports
 from src.core.project_creation_dialog import ProjectCreationDialog
@@ -54,14 +57,14 @@ class Main(QWidget):
         self.load_ui()
 
     @logger.catch
-    def apply_stylesheet(self):
-        """Apply the stylesheet to the main window and update the image based on the theme"""
+    def resizeEvent(self, event):
+        """Resize event for the main window"""
+        super().resizeEvent(event)
+        self.update_image()
 
-        # Set the custom stylesheet based on the current theme
-        self.customStyleSheet = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
-        self.setStyleSheet(self.customStyleSheet)
-
-        # Check the theme name and update the image
+    @logger.catch
+    def update_image(self):
+        """Update the image based on the theme and resize event."""
         if (
             "latte" in self.current_theme["name"].lower()
             or "light" in self.current_theme["name"].lower()
@@ -70,7 +73,27 @@ class Main(QWidget):
         else:
             image_path = "docs/_static/ManimStudioLogoDark.png"
 
-        self.ui.label.setPixmap(QPixmap(image_path))
+        pixmap = QPixmap(image_path)
+        # Ensure the pixmap is valid
+        if not pixmap.isNull():
+            # This will maintain the aspect ratio of the image
+            scaledPixmap = pixmap.scaled(
+                self.ui.label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+
+            self.ui.label.setPixmap(scaledPixmap)
+            self.ui.label.setAlignment(Qt.AlignCenter)
+
+    @logger.catch
+    def apply_stylesheet(self):
+        """Apply the stylesheet to the main window and update the image based on the theme"""
+
+        # Set the custom stylesheet based on the current theme
+        self.customStyleSheet = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
+        self.setStyleSheet(self.customStyleSheet)
+
+        # Update the image
+        self.update_image()
 
         self.styleSheetUpdated.emit(self.customStyleSheet)
         logger.info("Stylesheet applied")
@@ -78,14 +101,11 @@ class Main(QWidget):
     @logger.catch
     def load_ui(self):
         """Load the UI from the .ui file"""
-        loader = QUiLoader()
 
-        path = Path(__file__).resolve().parent.parent / "ui" / "form.ui"
-        ui_file = QFile(path)
-        ui_file.open(QFile.ReadOnly)
-        self.ui = loader.load(ui_file, self)
-        ui_file.close()
+        self.ui = Ui_Main()
+        self.ui.setupUi(self)
 
+        self.ui.label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         # Apply the theme
         self.apply_stylesheet()
 

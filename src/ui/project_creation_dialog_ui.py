@@ -23,36 +23,37 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(750, 232)
-        self.gridLayoutWidget = QWidget(Form)
-        self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(9, 9, 731, 211))
-        self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        self.gridLayout_2 = QGridLayout(Form)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.projectNameLineEdit = QLineEdit(self.gridLayoutWidget)
+        self.projectNameLineEdit = QLineEdit(Form)
         self.projectNameLineEdit.setObjectName(u"projectNameLineEdit")
 
         self.gridLayout.addWidget(self.projectNameLineEdit, 0, 1, 1, 1)
 
-        self.projectNameLabel = QLabel(self.gridLayoutWidget)
+        self.projectNameLabel = QLabel(Form)
         self.projectNameLabel.setObjectName(u"projectNameLabel")
 
         self.gridLayout.addWidget(self.projectNameLabel, 0, 0, 1, 1)
 
-        self.folderSelectLabel = QLabel(self.gridLayoutWidget)
+        self.folderSelectLabel = QLabel(Form)
         self.folderSelectLabel.setObjectName(u"folderSelectLabel")
 
         self.gridLayout.addWidget(self.folderSelectLabel, 1, 0, 1, 1)
 
-        self.folderSelectComboBox = QComboBox(self.gridLayoutWidget)
+        self.folderSelectComboBox = QComboBox(Form)
         self.folderSelectComboBox.setObjectName(u"folderSelectComboBox")
 
         self.gridLayout.addWidget(self.folderSelectComboBox, 1, 1, 1, 1)
 
-        self.createProjectPushButton = QPushButton(self.gridLayoutWidget)
+        self.createProjectPushButton = QPushButton(Form)
         self.createProjectPushButton.setObjectName(u"createProjectPushButton")
 
         self.gridLayout.addWidget(self.createProjectPushButton, 2, 0, 1, 2)
+
+
+        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
 
 
         self.retranslateUi(Form)

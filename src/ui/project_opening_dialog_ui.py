@@ -23,26 +23,32 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(680, 139)
-        self.gridLayoutWidget = QWidget(Form)
-        self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(9, 9, 661, 121))
-        self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        self.gridLayout_2 = QGridLayout(Form)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.projectSelectComboBox = QComboBox(self.gridLayoutWidget)
+        self.projectSelectComboBox = QComboBox(Form)
         self.projectSelectComboBox.setObjectName(u"projectSelectComboBox")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.projectSelectComboBox.sizePolicy().hasHeightForWidth())
+        self.projectSelectComboBox.setSizePolicy(sizePolicy)
 
         self.gridLayout.addWidget(self.projectSelectComboBox, 0, 1, 1, 1)
 
-        self.projectSelectLabel = QLabel(self.gridLayoutWidget)
+        self.projectSelectLabel = QLabel(Form)
         self.projectSelectLabel.setObjectName(u"projectSelectLabel")
 
         self.gridLayout.addWidget(self.projectSelectLabel, 0, 0, 1, 1)
 
-        self.openProjectPushButton = QPushButton(self.gridLayoutWidget)
+        self.openProjectPushButton = QPushButton(Form)
         self.openProjectPushButton.setObjectName(u"openProjectPushButton")
 
         self.gridLayout.addWidget(self.openProjectPushButton, 1, 0, 1, 2)
+
+
+        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
 
 
         self.retranslateUi(Form)
