@@ -65,6 +65,7 @@ class Main(QWidget):
     @logger.catch
     def update_image(self):
         """Update the image based on the theme and resize event."""
+
         if (
             "latte" in self.current_theme["name"].lower()
             or "light" in self.current_theme["name"].lower()
@@ -74,15 +75,13 @@ class Main(QWidget):
             image_path = "docs/_static/ManimStudioLogoDark.png"
 
         pixmap = QPixmap(image_path)
-        # Ensure the pixmap is valid
         if not pixmap.isNull():
-            # This will maintain the aspect ratio of the image
             scaledPixmap = pixmap.scaled(
                 self.ui.label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
             )
-
             self.ui.label.setPixmap(scaledPixmap)
-            self.ui.label.setAlignment(Qt.AlignCenter)
+
+        self.ui.label.setAlignment(Qt.AlignCenter)
 
     @logger.catch
     def apply_stylesheet(self):

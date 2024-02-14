@@ -23,7 +23,7 @@ class Ui_Main(object):
         if not Main.objectName():
             Main.setObjectName(u"Main")
         Main.setWindowModality(Qt.WindowModal)
-        Main.resize(420, 240)
+        Main.resize(626, 328)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -137,7 +137,7 @@ class Ui_Main(object):
         font.setPointSize(1)
         self.label.setFont(font)
         self.label.setPixmap(QPixmap(u"docs/_static/ManimStudioLogoDark.png"))
-        self.label.setScaledContents(True)
+        self.label.setScaledContents(False)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setWordWrap(False)
         self.label.setMargin(0)

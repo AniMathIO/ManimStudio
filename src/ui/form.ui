@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>240</height>
+    <width>626</width>
+    <height>328</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -542,7 +542,7 @@
         <pixmap>docs/_static/ManimStudioLogoDark.png</pixmap>
        </property>
        <property name="scaledContents">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
