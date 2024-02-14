@@ -203,8 +203,7 @@
         </div>
         <article role="main">
           <h1>Source code for main</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span>
@@ -212,9 +211,12 @@
     <span class="n">QWidget</span><span class="p">,</span>
     <span class="n">QDialog</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QFile</span><span class="p">,</span> <span class="n">Signal</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtUiTools</span> <span class="kn">import</span> <span class="n">QUiLoader</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QPixmap</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QPixmap</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QSizePolicy</span>
+
 
 <span class="c1"># Add the parent directory of &#39;src&#39; to sys.path</span>
 <span class="n">current_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
@@ -232,6 +234,7 @@
 <span class="c1"># UI imports</span>
 <span class="kn">from</span> <span class="nn">src.ui.settings_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span>
 <span class="kn">from</span> <span class="nn">src.ui.videoeditor_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_VideoEditor</span>
+<span class="kn">from</span> <span class="nn">src.ui.form_ui</span> <span class="kn">import</span> <span class="n">Ui_Main</span>
 
 <span class="c1"># Core imports</span>
 <span class="kn">from</span> <span class="nn">src.core.project_creation_dialog</span> <span class="kn">import</span> <span class="n">ProjectCreationDialog</span>
@@ -260,6 +263,40 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Main window initialized&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_ui</span><span class="p">()</span>
 
+<div class="viewcode-block" id="Main.resizeEvent">
+<a class="viewcode-back" href="../src/core/main.html#main.Main.resizeEvent">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
+    <span class="k">def</span> <span class="nf">resizeEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resize event for the main window&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">resizeEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_image</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Main.update_image">
+<a class="viewcode-back" href="../src/core/main.html#main.Main.update_image">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
+    <span class="k">def</span> <span class="nf">update_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the image based on the theme and resize event.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="s2">&quot;latte&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="ow">or</span> <span class="s2">&quot;light&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="p">):</span>
+            <span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;docs/_static/ManimStudioLogoLight.png&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;docs/_static/ManimStudioLogoDark.png&quot;</span>
+
+        <span class="n">pixmap</span> <span class="o">=</span> <span class="n">QPixmap</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+        <span class="c1"># Ensure the pixmap is valid</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pixmap</span><span class="o">.</span><span class="n">isNull</span><span class="p">():</span>
+            <span class="c1"># This will maintain the aspect ratio of the image</span>
+            <span class="n">scaledPixmap</span> <span class="o">=</span> <span class="n">pixmap</span><span class="o">.</span><span class="n">scaled</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">Qt</span><span class="o">.</span><span class="n">KeepAspectRatio</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">SmoothTransformation</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">scaledPixmap</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="Main.apply_stylesheet">
 <a class="viewcode-back" href="../src/core/main.html#main.Main.apply_stylesheet">[docs]</a>
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
@@ -270,16 +307,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;background-color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;font&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; border-color: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s1">&#39;primary&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; font-size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;fontSize&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">px; font-family: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;fontFamily&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">; &quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
 
-        <span class="c1"># Check the theme name and update the image</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="s2">&quot;latte&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="ow">or</span> <span class="s2">&quot;light&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="p">):</span>
-            <span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;docs/_static/ManimStudioLogoLight.png&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;docs/_static/ManimStudioLogoDark.png&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setPixmap</span><span class="p">(</span><span class="n">QPixmap</span><span class="p">(</span><span class="n">image_path</span><span class="p">))</span>
+        <span class="c1"># Update the image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_image</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">styleSheetUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stylesheet applied&quot;</span><span class="p">)</span></div>
@@ -290,14 +319,11 @@
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
     <span class="k">def</span> <span class="nf">load_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the UI from the .ui file&quot;&quot;&quot;</span>
-        <span class="n">loader</span> <span class="o">=</span> <span class="n">QUiLoader</span><span class="p">()</span>
 
-        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;ui&quot;</span> <span class="o">/</span> <span class="s2">&quot;form.ui&quot;</span>
-        <span class="n">ui_file</span> <span class="o">=</span> <span class="n">QFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">ui_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">QFile</span><span class="o">.</span><span class="n">ReadOnly</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ui_file</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="n">ui_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_Main</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Preferred</span><span class="p">,</span> <span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Preferred</span><span class="p">)</span>
         <span class="c1"># Apply the theme</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">apply_stylesheet</span><span class="p">()</span>
 
