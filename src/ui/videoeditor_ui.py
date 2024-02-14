@@ -24,18 +24,16 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(790, 576)
-        self.gridLayoutWidget = QWidget(Form)
-        self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(9, 9, 771, 561))
-        self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        self.gridLayout_3 = QGridLayout(Form)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.audioLabel = QLabel(self.gridLayoutWidget)
+        self.audioLabel = QLabel(Form)
         self.audioLabel.setObjectName(u"audioLabel")
 
         self.gridLayout.addWidget(self.audioLabel, 4, 0, 1, 1)
 
-        self.videoLabel = QLabel(self.gridLayoutWidget)
+        self.videoLabel = QLabel(Form)
         self.videoLabel.setObjectName(u"videoLabel")
 
         self.gridLayout.addWidget(self.videoLabel, 3, 0, 1, 1)
@@ -44,32 +42,32 @@ class Ui_Form(object):
         self.gridLayout_2.setSpacing(6)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout_2.setSizeConstraint(QLayout.SetMinimumSize)
-        self.forwardToStartBtn = QPushButton(self.gridLayoutWidget)
+        self.forwardToStartBtn = QPushButton(Form)
         self.forwardToStartBtn.setObjectName(u"forwardToStartBtn")
 
         self.gridLayout_2.addWidget(self.forwardToStartBtn, 1, 4, 1, 1)
 
-        self.backwardBtn = QPushButton(self.gridLayoutWidget)
+        self.backwardBtn = QPushButton(Form)
         self.backwardBtn.setObjectName(u"backwardBtn")
 
         self.gridLayout_2.addWidget(self.backwardBtn, 1, 1, 1, 1)
 
-        self.playBtn = QPushButton(self.gridLayoutWidget)
+        self.playBtn = QPushButton(Form)
         self.playBtn.setObjectName(u"playBtn")
 
         self.gridLayout_2.addWidget(self.playBtn, 1, 2, 1, 1)
 
-        self.backwardToEndBtn = QPushButton(self.gridLayoutWidget)
+        self.backwardToEndBtn = QPushButton(Form)
         self.backwardToEndBtn.setObjectName(u"backwardToEndBtn")
 
         self.gridLayout_2.addWidget(self.backwardToEndBtn, 1, 0, 1, 1)
 
-        self.forwardBtn = QPushButton(self.gridLayoutWidget)
+        self.forwardBtn = QPushButton(Form)
         self.forwardBtn.setObjectName(u"forwardBtn")
 
         self.gridLayout_2.addWidget(self.forwardBtn, 1, 3, 1, 1)
 
-        self.videoPreviewSlider = QSlider(self.gridLayoutWidget)
+        self.videoPreviewSlider = QSlider(Form)
         self.videoPreviewSlider.setObjectName(u"videoPreviewSlider")
         self.videoPreviewSlider.setOrientation(Qt.Horizontal)
 
@@ -78,7 +76,7 @@ class Ui_Form(object):
 
         self.gridLayout.addLayout(self.gridLayout_2, 1, 2, 1, 2)
 
-        self.libraryWidget = QListWidget(self.gridLayoutWidget)
+        self.libraryWidget = QListWidget(Form)
         self.libraryWidget.setObjectName(u"libraryWidget")
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -88,7 +86,7 @@ class Ui_Form(object):
 
         self.gridLayout.addWidget(self.libraryWidget, 0, 0, 2, 2)
 
-        self.videoPreview = QLabel(self.gridLayoutWidget)
+        self.videoPreview = QLabel(Form)
         self.videoPreview.setObjectName(u"videoPreview")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
@@ -98,16 +96,19 @@ class Ui_Form(object):
 
         self.gridLayout.addWidget(self.videoPreview, 0, 2, 1, 2)
 
-        self.timelineSlider = QSlider(self.gridLayoutWidget)
+        self.timelineSlider = QSlider(Form)
         self.timelineSlider.setObjectName(u"timelineSlider")
         self.timelineSlider.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.timelineSlider, 2, 1, 1, 3)
 
-        self.timelineLabel = QLabel(self.gridLayoutWidget)
+        self.timelineLabel = QLabel(Form)
         self.timelineLabel.setObjectName(u"timelineLabel")
 
         self.gridLayout.addWidget(self.timelineLabel, 2, 0, 1, 1)
+
+
+        self.gridLayout_3.addLayout(self.gridLayout, 0, 0, 1, 1)
 
 
         self.retranslateUi(Form)
