@@ -13,7 +13,9 @@ jobs:
       - uses: actions/setup-python@v3
 
       - name: Install system dependencies
-        run: sudo apt-get install -y libegl1-mesa
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libegl1-mesa
 
       - name: Install dependencies
         run: |
