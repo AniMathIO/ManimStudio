@@ -121,13 +121,33 @@ def add_recent_project_creation_path(project_creation_path: str) -> None:
 
 @logger.catch
 def add_recent_project_path(project_path: str) -> None:
-    """Add a recent project path to the settings file"""
+    """Add a recent project path to the settings file with last modification date and size"""
     settings: Dict[str, Any] = load_settings()
-    recent_project_paths: List[str] = settings.get("recentProjectPaths", [])
-    if project_path not in recent_project_paths:
-        recent_project_paths.insert(0, project_path)
-    if len(recent_project_paths) > 10:
-        recent_project_paths = recent_project_paths[:10]
+    recent_project_paths: List[Dict[str, Any]] = settings.get("recentProjectPaths", [])
+    
+    # Get last modification time and size
+    modification_time = os.path.getmtime(project_path)
+    size = os.path.getsize(project_path)
+    
+    # Create a new entry for the project
+    new_project_entry = {
+        "path": project_path,
+        "last_modified": modification_time,
+        "size": size
+    }
+    
+    # Check if the project already exists in the list and update it
+    for project in recent_project_paths:
+        if project["path"] == project_path:
+            project.update(new_project_entry)
+            break
+    else:
+        # If the project is not in the list, add it
+        recent_project_paths.insert(0, new_project_entry)
+    
+    # Keep only the 10 most recent
+    recent_project_paths = recent_project_paths[:10]
+    
     settings["recentProjectPaths"] = recent_project_paths
     update_settings(settings)
 
@@ -139,6 +159,6 @@ def get_recent_project_creation_paths() -> List[str]:
 
 
 @logger.catch
-def get_recent_project_paths() -> List[str]:
-    """Get the recent project paths"""
+def get_recent_project_paths() -> List[Dict[str, Any]]:
+    """Get the recent project paths with their last modification date and size"""
     return load_settings().get("recentProjectPaths", [])

@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from PySide6.QtWidgets import QDialog, QFileDialog, QWidget
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QMouseEvent
@@ -40,9 +40,9 @@ class ProjectOpeningDialog(QDialog):
     @logger.catch
     def loadRecentProjects(self) -> None:
         """Load the recent projects into the combo box"""
-        recentProjects: List[str] = get_recent_project_paths()
-        for projectPath in recentProjects:
-            self.ui.projectSelectComboBox.addItem(projectPath)
+        recentProjects: List[Dict[str, Any]] = get_recent_project_paths()
+        for project in recentProjects:
+            self.ui.projectSelectComboBox.addItem(project["path"])
 
     @logger.catch
     def browseForProject(self, event: QMouseEvent) -> None:

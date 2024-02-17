@@ -1,16 +1,19 @@
+from datetime import datetime
 import sys
 import json
 from pathlib import Path
 from typing import Optional, Dict, List
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QDialog,
-)
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QHeaderView
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QPixmap, QResizeEvent, QAction, QStandardItemModel, QStandardItem
+from PySide6.QtGui import (
+    QPixmap,
+    QResizeEvent,
+    QAction,
+    QStandardItemModel,
+    QStandardItem,
+)
 from PySide6.QtWidgets import QSizePolicy
+
 
 # Add the parent directory of 'src' to sys.path
 current_dir = Path(__file__).resolve().parent
@@ -31,7 +34,7 @@ from src.core.settings import (  # noqa: E402
     load_themes,
     load_current_theme,
     update_settings,
-    get_recent_project_paths
+    get_recent_project_paths,
 )
 
 # Utils imports
@@ -60,6 +63,7 @@ class Main(QMainWindow):
         """Resize event for the main window"""
         super().resizeEvent(event)
         self.update_image()
+        self.update_table_view()
 
     @logger.catch
     def update_image(self) -> None:
@@ -85,13 +89,19 @@ class Main(QMainWindow):
         self.ui.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     @logger.catch
+    def update_table_view(self) -> None:
+        """Update the table view based on the theme and resize event."""
+        # Resize to fit the window, expand if needed
+        self.ui.recentProjectsTableView.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
+
+    @logger.catch
     def apply_stylesheet(self) -> None:
         """Apply the stylesheet to the main window and update the image based on the theme"""
 
         # Set the custom stylesheet based on the current theme
-        self.customStyleSheet: str = (
-            f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
-        )
+        self.customStyleSheet: str = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
         self.setStyleSheet(self.customStyleSheet)
 
         self.customMenubarStylesheet = str(
@@ -118,7 +128,7 @@ class Main(QMainWindow):
 
         # Apply the theme
         self.apply_stylesheet()
-        
+
         # Create new menubar item
         settings_action = QAction("Settings", self)
         settings_action.triggered.connect(self.open_settings_dialog)
@@ -126,34 +136,56 @@ class Main(QMainWindow):
 
         self.ui.newProjectBtn.clicked.connect(self.show_project_creation_dialog)
         self.ui.openProjectBtn.clicked.connect(self.show_project_open_dialog)
-        
+
         # Populate the recent projects list with the 10 latest projects
-        # Modify the model setup as before
-        model = QStandardItemModel(self.ui.recentProjectsListView)
-
-        for project_path in get_recent_project_paths():
-            item = QStandardItem(project_path)
-            model.appendRow(item)
-
-        self.ui.recentProjectsListView.setModel(model)
-
-        # Connect the doubleClicked signal to the slot
-        self.ui.recentProjectsListView.doubleClicked.connect(self.open_project_from_list)
-
+        self.populate_recent_projects()
+        self.ui.recentProjectsTableView.doubleClicked.connect(
+            self.open_project_from_list
+        )
 
         logger.info("UI loaded")
 
     @logger.catch
+    def populate_recent_projects(self):
+        # Create a model with 3 columns
+        model = QStandardItemModel(0, 3, self)
+        model.setHorizontalHeaderLabels(["Project Path", "Last Modified", "Size"])
+
+        for project in get_recent_project_paths():
+            # Convert the last_modified timestamp to a human-readable format
+            last_modified_date = datetime.fromtimestamp(
+                project["last_modified"]
+            ).strftime("%Y-%m-%d %H:%M:%S")
+            # Format the size in a more readable format, e.g., in KB, MB
+            size_kb = project["size"] / 1024  # Convert size to KB
+            if size_kb < 1024:
+                size_str = f"{size_kb:.2f} KB"
+            else:
+                size_mb = size_kb / 1024
+                size_str = f"{size_mb:.2f} MB"
+
+            # Create items for each column
+            path_item = QStandardItem(project["path"])
+            modified_item = QStandardItem(last_modified_date)
+            size_item = QStandardItem(size_str)
+
+            # Append the row to the model
+            model.appendRow([path_item, modified_item, size_item])
+
+        # Set the model to the table view
+        self.ui.recentProjectsTableView.setModel(model)
+        # Resize columns to fit content
+        self.ui.recentProjectsTableView.resizeColumnsToContents()
+
+    @logger.catch
     def open_project_from_list(self, index):
         # Retrieve the project path from the model item at the clicked index
-        model = self.ui.recentProjectsListView.model()
-        if isinstance(model, QStandardItemModel):
-            project_path = model.itemFromIndex(index).text()
-            # Now you can call the method to open the project
-            self.open_video_editor(project_path)
-        else:
-            print("Model is not a QStandardItemModel")
-    
+        model = self.ui.recentProjectsTableView.model()
+        project_path = model.data(
+            model.index(index.row(), 0)
+        )  # Assuming the project path is in the first column
+        # Now you can call the method to open the project
+        self.open_video_editor(project_path)
 
     @logger.catch
     def open_settings_dialog(self) -> None:
@@ -275,13 +307,18 @@ class Main(QMainWindow):
             self.videoEditor: QDialog = QDialog()
             self.uiVideoEditor: Ui_VideoEditor = Ui_VideoEditor()
             self.uiVideoEditor.setupUi(self.videoEditor)
+
             # Apply the theme
             self.videoEditor.setStyleSheet(self.customStyleSheet)
+
             # Change window title as current project name with file path
             self.videoEditor.setWindowTitle(f"Manim Studio - {project_file_path}")
 
             # Emit the signal after VideoEditor dialog is opened
             self.videoEditorOpened.emit(project_file_path)
+
+            self.close()
+
             self.videoEditor.exec()
         except Exception as e:
             logger.error(f"Error opening video editor: {e}")
