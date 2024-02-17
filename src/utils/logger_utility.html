@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="form_ui module" href="../ui/form_ui.html" /><link rel="prev" title="project_opening_dialog module" href="../core/project_opening_dialog.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="welcome_ui module" href="../ui/welcome_ui.html" /><link rel="prev" title="project_opening_dialog module" href="../core/project_opening_dialog.html" />
 
     <link rel="shortcut icon" href="../../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>logger_utility module - Manim Studio 0.1 documentation</title>
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../core/project_creation_dialog.html">project_creation_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../core/project_opening_dialog.html">project_opening_dialog module</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">logger_utility module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ui/welcome_ui.html">welcome_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/videoeditor_ui.html">videoeditor_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
@@ -207,14 +207,20 @@
           <section id="module-logger_utility">
 <span id="logger-utility-module"></span><h1>logger_utility module<a class="headerlink" href="#module-logger_utility" title="Link to this heading">#</a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="logger_utility.cleanup_old_logs">
+<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">cleanup_old_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_logs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/logger_utility.html#cleanup_old_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.cleanup_old_logs" title="Link to this definition">#</a></dt>
+<dd><p>Keep only the 10 most recent log files in the directory.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="logger_utility.rich_formatter">
-<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">rich_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/logger_utility.html#rich_formatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.rich_formatter" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">rich_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/logger_utility.html#rich_formatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.rich_formatter" title="Link to this definition">#</a></dt>
 <dd><p>Rich formatter for loguru logger</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="logger_utility.setup_logger">
-<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">setup_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/logger_utility.html#setup_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.setup_logger" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">logger_utility.</span></span><span class="sig-name descname"><span class="pre">setup_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/logger_utility.html#setup_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#logger_utility.setup_logger" title="Link to this definition">#</a></dt>
 <dd><p>Setup the logger configuration for the application</p>
 </dd></dl>
 
@@ -225,12 +231,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../ui/form_ui.html">
+          <a class="next-page" href="../ui/welcome_ui.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">form_ui module</div>
+                <div class="title">welcome_ui module</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -276,6 +282,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">logger_utility module</a><ul>
+<li><a class="reference internal" href="#logger_utility.cleanup_old_logs"><code class="docutils literal notranslate"><span class="pre">cleanup_old_logs()</span></code></a></li>
 <li><a class="reference internal" href="#logger_utility.rich_formatter"><code class="docutils literal notranslate"><span class="pre">rich_formatter()</span></code></a></li>
 <li><a class="reference internal" href="#logger_utility.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
 </ul>

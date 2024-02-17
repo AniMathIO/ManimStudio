@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_creation_dialog.html">project_creation_dialog module</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">project_opening_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/logger_utility.html">logger_utility module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ui/welcome_ui.html">welcome_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/videoeditor_ui.html">videoeditor_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
@@ -198,49 +198,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="module-project_opening_dialog">
-<span id="project-opening-dialog-module"></span><h1>project_opening_dialog module<a class="headerlink" href="#module-project_opening_dialog" title="Link to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="project_opening_dialog.ProjectOpeningDialog">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">project_opening_dialog.</span></span><span class="sig-name descname"><span class="pre">ProjectOpeningDialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_opening_dialog.html#ProjectOpeningDialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_opening_dialog.ProjectOpeningDialog" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDialog</span></code></p>
-<p>Dialog for opening an existing project</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="project_opening_dialog.ProjectOpeningDialog.browseForProject">
-<span class="sig-name descname"><span class="pre">browseForProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_opening_dialog.html#ProjectOpeningDialog.browseForProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_opening_dialog.ProjectOpeningDialog.browseForProject" title="Link to this definition">#</a></dt>
-<dd><p>Browse for a project</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="project_opening_dialog.ProjectOpeningDialog.loadRecentProjects">
-<span class="sig-name descname"><span class="pre">loadRecentProjects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_opening_dialog.html#ProjectOpeningDialog.loadRecentProjects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_opening_dialog.ProjectOpeningDialog.loadRecentProjects" title="Link to this definition">#</a></dt>
-<dd><p>Load the recent projects into the combo box</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="project_opening_dialog.ProjectOpeningDialog.openProject">
-<span class="sig-name descname"><span class="pre">openProject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_opening_dialog.html#ProjectOpeningDialog.openProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_opening_dialog.ProjectOpeningDialog.openProject" title="Link to this definition">#</a></dt>
-<dd><p>Open the selected project</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="project_opening_dialog.ProjectOpeningDialog.projectSelected">
-<span class="sig-name descname"><span class="pre">projectSelected</span></span><a class="headerlink" href="#project_opening_dialog.ProjectOpeningDialog.projectSelected" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="project_opening_dialog.ProjectOpeningDialog.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ProjectOpeningDialog&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QDialog&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#42</span> <span class="pre">type=Signal,</span> <span class="pre">signature=projectSelected(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></em><a class="headerlink" href="#project_opening_dialog.ProjectOpeningDialog.staticMetaObject" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+          <section id="project-opening-dialog-module">
+<h1>project_opening_dialog module<a class="headerlink" href="#project-opening-dialog-module" title="Link to this heading">#</a></h1>
 </section>
 
         </article>
@@ -286,34 +251,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">project_opening_dialog module</a><ul>
-<li><a class="reference internal" href="#project_opening_dialog.ProjectOpeningDialog"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog</span></code></a><ul>
-<li><a class="reference internal" href="#project_opening_dialog.ProjectOpeningDialog.browseForProject"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog.browseForProject()</span></code></a></li>
-<li><a class="reference internal" href="#project_opening_dialog.ProjectOpeningDialog.loadRecentProjects"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog.loadRecentProjects()</span></code></a></li>
-<li><a class="reference internal" href="#project_opening_dialog.ProjectOpeningDialog.openProject"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog.openProject()</span></code></a></li>
-<li><a class="reference internal" href="#project_opening_dialog.ProjectOpeningDialog.projectSelected"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog.projectSelected</span></code></a></li>
-<li><a class="reference internal" href="#project_opening_dialog.ProjectOpeningDialog.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ProjectOpeningDialog.staticMetaObject</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

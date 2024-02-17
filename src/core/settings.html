@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_creation_dialog.html">project_creation_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_opening_dialog.html">project_opening_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/logger_utility.html">logger_utility module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ui/welcome_ui.html">welcome_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/videoeditor_ui.html">videoeditor_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
@@ -198,80 +198,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="module-settings">
-<span id="settings-module"></span><h1>settings module<a class="headerlink" href="#module-settings" title="Link to this heading">#</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.addRecentProjectCreationPath">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">addRecentProjectCreationPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectCreationPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#addRecentProjectCreationPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.addRecentProjectCreationPath" title="Link to this definition">#</a></dt>
-<dd><p>Add a recent project creation path to the settings file</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.addRecentProjectPath">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">addRecentProjectPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#addRecentProjectPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.addRecentProjectPath" title="Link to this definition">#</a></dt>
-<dd><p>Add a recent project path to the settings file</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.getRecentProjectCreationPaths">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">getRecentProjectCreationPaths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#getRecentProjectCreationPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.getRecentProjectCreationPaths" title="Link to this definition">#</a></dt>
-<dd><p>Get the recent project creation paths</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.getRecentProjectPaths">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">getRecentProjectPaths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#getRecentProjectPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.getRecentProjectPaths" title="Link to this definition">#</a></dt>
-<dd><p>Get the recent project paths</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.getSettingsPath">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">getSettingsPath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#getSettingsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.getSettingsPath" title="Link to this definition">#</a></dt>
-<dd><p>Get the settings path based on the platform</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.getThemesPath">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">getThemesPath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#getThemesPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.getThemesPath" title="Link to this definition">#</a></dt>
-<dd><p>Get the themes path</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.load_current_theme">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_current_theme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#load_current_theme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_current_theme" title="Link to this definition">#</a></dt>
-<dd><p>Load the current theme</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.load_settings">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#load_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_settings" title="Link to this definition">#</a></dt>
-<dd><p>Load the settings from the settings.json file</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.load_themes">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_themes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#load_themes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_themes" title="Link to this definition">#</a></dt>
-<dd><p>Load the themes from the themes.json file</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="settings.themesPath">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">themesPath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/runner/work/ManimStudio/ManimStudio/src/themes/themes.json')</span></em><a class="headerlink" href="#settings.themesPath" title="Link to this definition">#</a></dt>
-<dd><p>Settings</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="settings.update_settings">
-<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">update_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#update_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.update_settings" title="Link to this definition">#</a></dt>
-<dd><p>Overwrite the settings file with the new settings</p>
-</dd></dl>
-
+          <section id="settings-module">
+<h1>settings module<a class="headerlink" href="#settings-module" title="Link to this heading">#</a></h1>
 </section>
 
         </article>
@@ -317,37 +251,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">settings module</a><ul>
-<li><a class="reference internal" href="#settings.addRecentProjectCreationPath"><code class="docutils literal notranslate"><span class="pre">addRecentProjectCreationPath()</span></code></a></li>
-<li><a class="reference internal" href="#settings.addRecentProjectPath"><code class="docutils literal notranslate"><span class="pre">addRecentProjectPath()</span></code></a></li>
-<li><a class="reference internal" href="#settings.getRecentProjectCreationPaths"><code class="docutils literal notranslate"><span class="pre">getRecentProjectCreationPaths()</span></code></a></li>
-<li><a class="reference internal" href="#settings.getRecentProjectPaths"><code class="docutils literal notranslate"><span class="pre">getRecentProjectPaths()</span></code></a></li>
-<li><a class="reference internal" href="#settings.getSettingsPath"><code class="docutils literal notranslate"><span class="pre">getSettingsPath()</span></code></a></li>
-<li><a class="reference internal" href="#settings.getThemesPath"><code class="docutils literal notranslate"><span class="pre">getThemesPath()</span></code></a></li>
-<li><a class="reference internal" href="#settings.load_current_theme"><code class="docutils literal notranslate"><span class="pre">load_current_theme()</span></code></a></li>
-<li><a class="reference internal" href="#settings.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
-<li><a class="reference internal" href="#settings.load_themes"><code class="docutils literal notranslate"><span class="pre">load_themes()</span></code></a></li>
-<li><a class="reference internal" href="#settings.themesPath"><code class="docutils literal notranslate"><span class="pre">themesPath</span></code></a></li>
-<li><a class="reference internal" href="#settings.update_settings"><code class="docutils literal notranslate"><span class="pre">update_settings()</span></code></a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

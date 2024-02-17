@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -165,7 +165,7 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">project_creation_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_opening_dialog.html">project_opening_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/logger_utility.html">logger_utility module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ui/form_ui.html">form_ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ui/welcome_ui.html">welcome_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/settings_ui.html">settings_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/videoeditor_ui.html">videoeditor_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ui/project_creation_dialog_ui.html">project_creation_dialog_ui module</a></li>
@@ -198,49 +198,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="module-project_creation_dialog">
-<span id="project-creation-dialog-module"></span><h1>project_creation_dialog module<a class="headerlink" href="#module-project_creation_dialog" title="Link to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">project_creation_dialog.</span></span><span class="sig-name descname"><span class="pre">ProjectCreationDialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDialog</span></code></p>
-<p>Dialog for creating a new project</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.createProject">
-<span class="sig-name descname"><span class="pre">createProject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog.createProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.createProject" title="Link to this definition">#</a></dt>
-<dd><p>Create a new project and emit the projectCreated signal</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.loadRecentProjectPaths">
-<span class="sig-name descname"><span class="pre">loadRecentProjectPaths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog.loadRecentProjectPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.loadRecentProjectPaths" title="Link to this definition">#</a></dt>
-<dd><p>Load the recent project paths into the combo box</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.projectCreated">
-<span class="sig-name descname"><span class="pre">projectCreated</span></span><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.projectCreated" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.selectFolder">
-<span class="sig-name descname"><span class="pre">selectFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project_creation_dialog.html#ProjectCreationDialog.selectFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.selectFolder" title="Link to this definition">#</a></dt>
-<dd><p>Select a folder for the project</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="project_creation_dialog.ProjectCreationDialog.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ProjectCreationDialog&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QDialog&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#42</span> <span class="pre">type=Signal,</span> <span class="pre">signature=projectCreated(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></em><a class="headerlink" href="#project_creation_dialog.ProjectCreationDialog.staticMetaObject" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+          <section id="project-creation-dialog-module">
+<h1>project_creation_dialog module<a class="headerlink" href="#project-creation-dialog-module" title="Link to this heading">#</a></h1>
 </section>
 
         </article>
@@ -286,34 +251,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">project_creation_dialog module</a><ul>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog</span></code></a><ul>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.createProject"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.createProject()</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.loadRecentProjectPaths"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.loadRecentProjectPaths()</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.projectCreated"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.projectCreated</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.selectFolder"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.selectFolder()</span></code></a></li>
-<li><a class="reference internal" href="#project_creation_dialog.ProjectCreationDialog.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ProjectCreationDialog.staticMetaObject</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
