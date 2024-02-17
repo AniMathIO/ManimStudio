@@ -1,14 +1,15 @@
 import sys
 import json
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List
 from PySide6.QtWidgets import (
     QApplication,
+    QMainWindow,
     QWidget,
     QDialog,
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QPixmap, QResizeEvent
+from PySide6.QtGui import QPixmap, QResizeEvent, QAction
 from PySide6.QtWidgets import QSizePolicy
 
 # Add the parent directory of 'src' to sys.path
@@ -20,7 +21,7 @@ sys.path.append(str(parent_dir))
 # UI imports
 from src.ui.settings_ui import Ui_Form  # noqa: E402
 from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor  # noqa: E402
-from src.ui.form_ui import Ui_Main  # noqa: E402
+from src.ui.welcome_ui import Ui_MainWindow  # noqa: E402
 
 # Core imports
 from src.core.project_creation_dialog import ProjectCreationDialog  # noqa: E402
@@ -36,7 +37,7 @@ from src.core.settings import (  # noqa: E402
 from src.utils.logger_utility import logger  # noqa: E402
 
 
-class Main(QWidget):
+class Main(QMainWindow):
     """Main class for the application"""
 
     styleSheetUpdated = Signal(str)
@@ -92,6 +93,11 @@ class Main(QWidget):
         )
         self.setStyleSheet(self.customStyleSheet)
 
+        self.customMenubarStylesheet = str(
+            f"background-color: {self.current_theme['primary']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
+        )
+        self.ui.menubar.setStyleSheet(self.customMenubarStylesheet)
+
         # Update the image
         self.update_image()
 
@@ -102,7 +108,7 @@ class Main(QWidget):
     def load_ui(self) -> None:
         """Load the UI from the .ui file"""
 
-        self.ui: Ui_Main = Ui_Main()
+        self.ui: Ui_MainWindow = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.ui.label.setSizePolicy(
@@ -111,8 +117,12 @@ class Main(QWidget):
 
         # Apply the theme
         self.apply_stylesheet()
+        
+        # Create new menubar item
+        settings_action = QAction("Settings", self)
+        settings_action.triggered.connect(self.open_settings_dialog)
+        self.ui.menubar.addAction(settings_action)
 
-        self.ui.settingsBtn.clicked.connect(self.open_settings_dialog)
         self.ui.newProjectBtn.clicked.connect(self.showProjectCreationDialog)
         self.ui.openProjectBtn.clicked.connect(self.showProjectOpenDialog)
 
