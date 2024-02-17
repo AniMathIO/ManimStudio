@@ -123,8 +123,8 @@ class Main(QMainWindow):
         settings_action.triggered.connect(self.open_settings_dialog)
         self.ui.menubar.addAction(settings_action)
 
-        self.ui.newProjectBtn.clicked.connect(self.showProjectCreationDialog)
-        self.ui.openProjectBtn.clicked.connect(self.showProjectOpenDialog)
+        self.ui.newProjectBtn.clicked.connect(self.show_project_creation_dialog)
+        self.ui.openProjectBtn.clicked.connect(self.show_project_open_dialog)
 
         logger.info("UI loaded")
 
@@ -206,12 +206,12 @@ class Main(QMainWindow):
             self.apply_stylesheet()
 
     @logger.catch
-    def showProjectCreationDialog(self) -> None:
+    def show_project_creation_dialog(self) -> None:
         """Show the project creation dialog"""
         try:
             dialog: ProjectCreationDialog = ProjectCreationDialog(self)
             dialog.projectCreated.connect(
-                self.openVideoEditor
+                self.open_video_editor
             )  # Connect to the new method
             self.videoEditorOpened.connect(
                 dialog.close
@@ -226,11 +226,11 @@ class Main(QMainWindow):
             logger.error(f"Error showing project creation dialog: {e}")
 
     @logger.catch
-    def showProjectOpenDialog(self) -> None:
+    def show_project_open_dialog(self) -> None:
         """Show the project open dialog"""
         try:
             dialog: ProjectOpeningDialog = ProjectOpeningDialog(self)
-            dialog.projectSelected.connect(self.openVideoEditor)
+            dialog.projectSelected.connect(self.open_video_editor)
             self.videoEditorOpened.connect(
                 dialog.close
             )  # Close dialog when VideoEditor opens
@@ -242,7 +242,7 @@ class Main(QMainWindow):
             logger.error(f"Error showing project open dialog: {e}")
 
     @logger.catch
-    def openVideoEditor(self, projectFilePath: str) -> None:
+    def open_video_editor(self, project_file_path: str) -> None:
         """Open the video editor with the project file"""
         try:
             self.videoEditor: QDialog = QDialog()
@@ -251,10 +251,10 @@ class Main(QMainWindow):
             # Apply the theme
             self.videoEditor.setStyleSheet(self.customStyleSheet)
             # Change window title as current project name with file path
-            self.videoEditor.setWindowTitle(f"Manim Studio - {projectFilePath}")
+            self.videoEditor.setWindowTitle(f"Manim Studio - {project_file_path}")
 
             # Emit the signal after VideoEditor dialog is opened
-            self.videoEditorOpened.emit(projectFilePath)
+            self.videoEditorOpened.emit(project_file_path)
             self.videoEditor.exec()
         except Exception as e:
             logger.error(f"Error opening video editor: {e}")

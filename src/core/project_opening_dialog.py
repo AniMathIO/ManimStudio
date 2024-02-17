@@ -10,7 +10,7 @@ from PySide6.QtGui import QMouseEvent
 from src.ui.project_opening_dialog_ui import Ui_Form as Ui_ProjectOpeningDialog
 
 # Core imports
-from src.core.settings import getRecentProjectPaths, addRecentProjectPath
+from src.core.settings import get_recent_project_paths, add_recent_project_path
 
 # Utils imports
 from src.utils.logger_utility import logger
@@ -40,7 +40,7 @@ class ProjectOpeningDialog(QDialog):
     @logger.catch
     def loadRecentProjects(self) -> None:
         """Load the recent projects into the combo box"""
-        recentProjects: List[str] = getRecentProjectPaths()
+        recentProjects: List[str] = get_recent_project_paths()
         for projectPath in recentProjects:
             self.ui.projectSelectComboBox.addItem(projectPath)
 
@@ -52,7 +52,7 @@ class ProjectOpeningDialog(QDialog):
         )
         if projectPath:
             self.projectSelected.emit(projectPath)
-            addRecentProjectPath(projectPath)
+            add_recent_project_path(projectPath)
             self.accept()
 
     @logger.catch

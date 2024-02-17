@@ -12,9 +12,9 @@ from src.ui.project_creation_dialog_ui import Ui_Form as Ui_ProjectCreationDialo
 
 # Core imports
 from src.core.settings import (
-    addRecentProjectPath,
-    addRecentProjectCreationPath,
-    getRecentProjectCreationPaths,
+    add_recent_project_path,
+    add_recent_project_creation_path,
+    get_recent_project_creation_paths,
 )
 
 # Utils imports
@@ -44,7 +44,7 @@ class ProjectCreationDialog(QDialog):
     @logger.catch
     def loadRecentProjectPaths(self) -> None:
         """Load the recent project paths into the combo box"""
-        recentPaths: List[str] = getRecentProjectCreationPaths()
+        recentPaths: List[str] = get_recent_project_creation_paths()
         for path in recentPaths:
             self.ui.folderSelectComboBox.addItem(path)
 
@@ -79,11 +79,11 @@ class ProjectCreationDialog(QDialog):
             os.path.join(projectPath, f"{projectName}.mstp")
         )  # Emit signal with project file path
 
-        addRecentProjectCreationPath(
+        add_recent_project_creation_path(
             projectFolder
         )  # Update your settings with the new path
 
-        addRecentProjectPath(os.path.join(projectPath, f"{projectName}.mstp"))
+        add_recent_project_path(os.path.join(projectPath, f"{projectName}.mstp"))
 
         # Close the dialog and optionally proceed to open the project in the editor
         self.accept()
