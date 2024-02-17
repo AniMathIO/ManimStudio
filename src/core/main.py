@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QDialog,
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QPixmap, QResizeEvent, QAction
+from PySide6.QtGui import QPixmap, QResizeEvent, QAction, QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QSizePolicy
 
 # Add the parent directory of 'src' to sys.path
@@ -31,6 +31,7 @@ from src.core.settings import (  # noqa: E402
     load_themes,
     load_current_theme,
     update_settings,
+    get_recent_project_paths
 )
 
 # Utils imports
@@ -125,8 +126,34 @@ class Main(QMainWindow):
 
         self.ui.newProjectBtn.clicked.connect(self.show_project_creation_dialog)
         self.ui.openProjectBtn.clicked.connect(self.show_project_open_dialog)
+        
+        # Populate the recent projects list with the 10 latest projects
+        # Modify the model setup as before
+        model = QStandardItemModel(self.ui.recentProjectsListView)
+
+        for project_path in get_recent_project_paths():
+            item = QStandardItem(project_path)
+            model.appendRow(item)
+
+        self.ui.recentProjectsListView.setModel(model)
+
+        # Connect the doubleClicked signal to the slot
+        self.ui.recentProjectsListView.doubleClicked.connect(self.open_project_from_list)
+
 
         logger.info("UI loaded")
+
+    @logger.catch
+    def open_project_from_list(self, index):
+        # Retrieve the project path from the model item at the clicked index
+        model = self.ui.recentProjectsListView.model()
+        if isinstance(model, QStandardItemModel):
+            project_path = model.itemFromIndex(index).text()
+            # Now you can call the method to open the project
+            self.open_video_editor(project_path)
+        else:
+            print("Model is not a QStandardItemModel")
+    
 
     @logger.catch
     def open_settings_dialog(self) -> None:
