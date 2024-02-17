@@ -1,21 +1,22 @@
 import os
 import platform
 from pathlib import Path
-import sys
+from typing import Any, Dict, List
 import json
 
 from src.utils.logger_utility import logger
 
 
 # Global base settings and theme path
-base_settings_path = Path(os.getcwd()) / ".config" / "settings.json"
-base_theme_path = Path(os.getcwd()) / "src" / "themes" / "themes.json"
+base_settings_path: Path = Path(os.getcwd()) / ".config" / "settings.json"
+base_theme_path: Path = Path(os.getcwd()) / "src" / "themes" / "themes.json"
 
 
 @logger.catch
-def getSettingsPath():
+def getSettingsPath() -> Path:
     """Get the settings path based on the platform"""
-    homeDir = Path.home()
+    homeDir: Path = Path.home()
+    settingsPath: Path = base_settings_path
     if platform.system() == "Linux":
         settingsPath = homeDir / ".config" / "ManimStudio" / "settings.json"
     if platform.system() == "Windows":
@@ -31,28 +32,28 @@ def getSettingsPath():
     return settingsPath
 
 
-settingsPath = getSettingsPath()
+settingsPath: Path = getSettingsPath()
 if not settingsPath.exists():
     settingsPath.parent.mkdir(parents=True, exist_ok=True)
     with open(base_settings_path, "r") as file:
-        settings = json.load(file)
+        settings: Dict[str, Any] = json.load(file)
     with open(settingsPath, "w") as file:
         json.dump(settings, file, indent=4)
 
 
 @logger.catch
-def getThemesPath():
+def getThemesPath() -> Path:
     """Get the themes path"""
     return base_theme_path
 
 
-themesPath = getThemesPath()
+themesPath: Path = getThemesPath()
 
 """Settings"""
 
 
 @logger.catch
-def load_settings():
+def load_settings() -> Dict[str, Any]:
     """Load the settings from the settings.json file"""
     try:
         with open(settingsPath, "r") as file:
@@ -63,7 +64,7 @@ def load_settings():
 
 
 @logger.catch
-def update_settings(new_settings):
+def update_settings(new_settings: Dict[str, Any]) -> bool:
     """Overwrite the settings file with the new settings"""
     try:
         with open(settingsPath, "w") as file:
@@ -89,12 +90,12 @@ def load_themes():
 
 
 @logger.catch
-def load_current_theme():
+def load_current_theme() -> Dict[str, Any]:
     """Load the current theme"""
-    settings = load_settings()
+    settings: Dict[str, Any] = load_settings()
     try:
-        theme_module = settings["theme"].get("moduleName")
-        theme_name = settings["theme"].get("fileName")
+        theme_module: str = settings["theme"].get("moduleName")
+        theme_name: str = settings["theme"].get("fileName")
         with open(
             themesPath.parent / theme_module / theme_name,
             "r",
@@ -106,10 +107,10 @@ def load_current_theme():
 
 
 @logger.catch
-def addRecentProjectCreationPath(projectCreationPath):
+def addRecentProjectCreationPath(projectCreationPath: str) -> None:
     """Add a recent project creation path to the settings file"""
-    settings = load_settings()
-    recentCreationPaths = settings.get("recentProjectCreationPaths", [])
+    settings: Dict[str, Any] = load_settings()
+    recentCreationPaths: List[str] = settings.get("recentProjectCreationPaths", [])
     if projectCreationPath not in recentCreationPaths:
         recentCreationPaths.insert(0, projectCreationPath)
     if len(recentCreationPaths) > 10:  # Keep only the 10 most recent
@@ -119,10 +120,10 @@ def addRecentProjectCreationPath(projectCreationPath):
 
 
 @logger.catch
-def addRecentProjectPath(projectPath):
+def addRecentProjectPath(projectPath: str) -> None:
     """Add a recent project path to the settings file"""
-    settings = load_settings()
-    recentProjectPaths = settings.get("recentProjectPaths", [])
+    settings: Dict[str, Any] = load_settings()
+    recentProjectPaths: List[str] = settings.get("recentProjectPaths", [])
     if projectPath not in recentProjectPaths:
         recentProjectPaths.insert(0, projectPath)
     if len(recentProjectPaths) > 10:
@@ -132,12 +133,12 @@ def addRecentProjectPath(projectPath):
 
 
 @logger.catch
-def getRecentProjectCreationPaths():
+def getRecentProjectCreationPaths() -> List[str]:
     """Get the recent project creation paths"""
     return load_settings().get("recentProjectCreationPaths", [])
 
 
 @logger.catch
-def getRecentProjectPaths():
+def getRecentProjectPaths() -> List[str]:
     """Get the recent project paths"""
     return load_settings().get("recentProjectPaths", [])

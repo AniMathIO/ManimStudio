@@ -1,17 +1,15 @@
 import sys
 import json
 from pathlib import Path
+from typing import Optional, Dict, List, Any
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
     QDialog,
 )
-from PySide6.QtCore import Signal
-from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QPixmap, QResizeEvent
 from PySide6.QtWidgets import QSizePolicy
-
 
 # Add the parent directory of 'src' to sys.path
 current_dir = Path(__file__).resolve().parent
@@ -19,24 +17,23 @@ parent_dir = current_dir.parent.parent  # Adjust according to your project struc
 sys.path.append(str(parent_dir))
 
 
-from settings import (
+# UI imports
+from src.ui.settings_ui import Ui_Form  # noqa: E402
+from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor  # noqa: E402
+from src.ui.form_ui import Ui_Main  # noqa: E402
+
+# Core imports
+from src.core.project_creation_dialog import ProjectCreationDialog  # noqa: E402
+from src.core.project_opening_dialog import ProjectOpeningDialog  # noqa: E402
+from src.core.settings import (  # noqa: E402
     load_settings,
     load_themes,
     load_current_theme,
     update_settings,
 )
 
-# UI imports
-from src.ui.settings_ui import Ui_Form
-from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor
-from src.ui.form_ui import Ui_Main
-
-# Core imports
-from src.core.project_creation_dialog import ProjectCreationDialog
-from src.core.project_opening_dialog import ProjectOpeningDialog
-
-# Logger
-from src.utils.logger_utility import logger
+# Utils imports
+from src.utils.logger_utility import logger  # noqa: E402
 
 
 class Main(QWidget):
@@ -46,49 +43,53 @@ class Main(QWidget):
     videoEditorOpened = Signal(str)
 
     @logger.catch
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         """Initializer"""
         super().__init__(parent)
         self.customStyleSheet = ""
-        self.settings = load_settings()
-        self.themes = load_themes()
-        self.current_theme = load_current_theme()
+        self.settings: Dict = load_settings()
+        self.themes: Dict = load_themes()
+        self.current_theme: Dict = load_current_theme()
         logger.info("Main window initialized")
         self.load_ui()
 
     @logger.catch
-    def resizeEvent(self, event):
+    def resizeEvent(self, event: QResizeEvent) -> None:
         """Resize event for the main window"""
         super().resizeEvent(event)
         self.update_image()
 
     @logger.catch
-    def update_image(self):
+    def update_image(self) -> None:
         """Update the image based on the theme and resize event."""
 
         if (
             "latte" in self.current_theme["name"].lower()
             or "light" in self.current_theme["name"].lower()
         ):
-            image_path = "docs/_static/ManimStudioLogoLight.png"
+            image_path: str = "docs/_static/ManimStudioLogoLight.png"
         else:
-            image_path = "docs/_static/ManimStudioLogoDark.png"
+            image_path: str = "docs/_static/ManimStudioLogoDark.png"
 
-        pixmap = QPixmap(image_path)
+        pixmap: QPixmap = QPixmap(image_path)
         if not pixmap.isNull():
-            scaledPixmap = pixmap.scaled(
-                self.ui.label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            scaledPixmap: QPixmap = pixmap.scaled(
+                self.ui.label.size(),
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
             )
             self.ui.label.setPixmap(scaledPixmap)
 
-        self.ui.label.setAlignment(Qt.AlignCenter)
+        self.ui.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     @logger.catch
-    def apply_stylesheet(self):
+    def apply_stylesheet(self) -> None:
         """Apply the stylesheet to the main window and update the image based on the theme"""
 
         # Set the custom stylesheet based on the current theme
-        self.customStyleSheet = f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
+        self.customStyleSheet: str = (
+            f"background-color: {self.current_theme['background']}; color: {self.current_theme['font']}; border-color: {self.current_theme['primary']}; font-size: {self.settings['fontSize']}px; font-family: {self.settings['fontFamily']}; "
+        )
         self.setStyleSheet(self.customStyleSheet)
 
         # Update the image
@@ -98,13 +99,16 @@ class Main(QWidget):
         logger.info("Stylesheet applied")
 
     @logger.catch
-    def load_ui(self):
+    def load_ui(self) -> None:
         """Load the UI from the .ui file"""
 
-        self.ui = Ui_Main()
+        self.ui: Ui_Main = Ui_Main()
         self.ui.setupUi(self)
 
-        self.ui.label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        self.ui.label.setSizePolicy(
+            QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        )
+
         # Apply the theme
         self.apply_stylesheet()
 
@@ -115,10 +119,10 @@ class Main(QWidget):
         logger.info("UI loaded")
 
     @logger.catch
-    def open_settings_dialog(self):
+    def open_settings_dialog(self) -> None:
         """Open the settings dialog"""
-        self.settingsDialog = QDialog()
-        self.uiSettings = Ui_Form()
+        self.settingsDialog: QDialog = QDialog()
+        self.uiSettings: Ui_Form = Ui_Form()
         self.uiSettings.setupUi(self.settingsDialog)
 
         # Change window title
@@ -154,25 +158,27 @@ class Main(QWidget):
         self.settingsDialog.exec()
 
     @logger.catch
-    def update_settings_from_dialog(self):
+    def update_settings_from_dialog(self) -> None:
         """Update the settings from the dialog, and update the UI"""
 
         # Get recentProjects array from the current settings
-        recentProjectPaths = self.settings.get("recentProjectPaths", [])
+        recentProjectPaths: List[str] = self.settings.get("recentProjectPaths", [])
 
         # Get recentProjectCreationPaths array from the current settings
-        recentProjectCreationPaths = self.settings.get("recentProjectCreationPaths", [])
+        recentProjectCreationPaths: List[str] = self.settings.get(
+            "recentProjectCreationPaths", []
+        )
 
         # Get the current values from the dialog
-        fontSize = self.uiSettings.fontSizeSpinBox.value()
-        fontFamily = self.uiSettings.fontComboBox.currentText()
+        fontSize: int = self.uiSettings.fontSizeSpinBox.value()
+        fontFamily: str = self.uiSettings.fontComboBox.currentText()
 
         # Extract full theme data from the selected item in the combobox
-        theme_data_json = self.uiSettings.themeComboBox.currentData()
-        selected_theme = json.loads(theme_data_json)
+        theme_data_json: str = self.uiSettings.themeComboBox.currentData()
+        selected_theme: Dict = json.loads(theme_data_json)
 
         # Create a new settings object
-        new_settings = {
+        new_settings: Dict = {
             "fontSize": fontSize,
             "fontFamily": fontFamily,
             "theme": selected_theme,
@@ -190,10 +196,10 @@ class Main(QWidget):
             self.apply_stylesheet()
 
     @logger.catch
-    def showProjectCreationDialog(self):
+    def showProjectCreationDialog(self) -> None:
         """Show the project creation dialog"""
         try:
-            dialog = ProjectCreationDialog(self)
+            dialog: ProjectCreationDialog = ProjectCreationDialog(self)
             dialog.projectCreated.connect(
                 self.openVideoEditor
             )  # Connect to the new method
@@ -210,10 +216,10 @@ class Main(QWidget):
             logger.error(f"Error showing project creation dialog: {e}")
 
     @logger.catch
-    def showProjectOpenDialog(self):
+    def showProjectOpenDialog(self) -> None:
         """Show the project open dialog"""
         try:
-            dialog = ProjectOpeningDialog(self)
+            dialog: ProjectOpeningDialog = ProjectOpeningDialog(self)
             dialog.projectSelected.connect(self.openVideoEditor)
             self.videoEditorOpened.connect(
                 dialog.close
@@ -226,11 +232,11 @@ class Main(QWidget):
             logger.error(f"Error showing project open dialog: {e}")
 
     @logger.catch
-    def openVideoEditor(self, projectFilePath):
+    def openVideoEditor(self, projectFilePath: str) -> None:
         """Open the video editor with the project file"""
         try:
-            self.videoEditor = QDialog()
-            self.uiVideoEditor = Ui_VideoEditor()
+            self.videoEditor: QDialog = QDialog()
+            self.uiVideoEditor: Ui_VideoEditor = Ui_VideoEditor()
             self.uiVideoEditor.setupUi(self.videoEditor)
             # Apply the theme
             self.videoEditor.setStyleSheet(self.customStyleSheet)
