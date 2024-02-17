@@ -2,5 +2,6 @@
     "conventionalCommits.scopes": [
         "videoeditor",
         "ci/cd"
-    ]
+    ],
+    "python.analysis.typeCheckingMode": "basic"
 }

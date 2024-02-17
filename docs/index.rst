@@ -15,7 +15,7 @@ Welcome to ManimStudio's documentation!
    src/core/project_creation_dialog
    src/core/project_opening_dialog
    src/utils/logger_utility
-   src/ui/form_ui
+   src/ui/welcome_ui
    src/ui/settings_ui
    src/ui/videoeditor_ui
    src/ui/project_creation_dialog_ui
