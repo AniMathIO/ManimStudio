@@ -219,6 +219,12 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="settings.apply_stylesheet">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">apply_stylesheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ui</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_theme</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/settings.html#apply_stylesheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.apply_stylesheet" title="Link to this definition">#</a></dt>
+<dd><p>Apply the stylesheet to the main window and update the image based on the theme</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="settings.get_recent_project_creation_paths">
 <span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">get_recent_project_creation_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/settings.html#get_recent_project_creation_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.get_recent_project_creation_paths" title="Link to this definition">#</a></dt>
 <dd><p>Get the recent project creation paths</p>
@@ -260,6 +266,18 @@
 <dd><p>Load the themes from the themes.json file</p>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="settings.load_ui">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">load_ui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ui</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_theme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">themes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/settings.html#load_ui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.load_ui" title="Link to this definition">#</a></dt>
+<dd><p>Load the UI from the .ui file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="settings.open_settings_dialog">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">open_settings_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">themes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_theme</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/settings.html#open_settings_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.open_settings_dialog" title="Link to this definition">#</a></dt>
+<dd><p>Open the settings dialog</p>
+</dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="settings.themes_path">
 <span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">themes_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/runner/work/ManimStudio/ManimStudio/src/themes/themes.json')</span></em><a class="headerlink" href="#settings.themes_path" title="Link to this definition">#</a></dt>
@@ -267,9 +285,21 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="settings.update_image">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">update_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ui</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_theme</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/settings.html#update_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.update_image" title="Link to this definition">#</a></dt>
+<dd><p>Update the image based on the theme and resize event.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="settings.update_settings">
 <span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">update_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/settings.html#update_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.update_settings" title="Link to this definition">#</a></dt>
 <dd><p>Overwrite the settings file with the new settings</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="settings.update_settings_from_dialog">
+<span class="sig-prename descclassname"><span class="pre">settings.</span></span><span class="sig-name descname"><span class="pre">update_settings_from_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uiSettings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">themes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_theme</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/settings.html#update_settings_from_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#settings.update_settings_from_dialog" title="Link to this definition">#</a></dt>
+<dd><p>Update the settings from the dialog, and update the UI</p>
 </dd></dl>
 
 </section>
@@ -332,6 +362,7 @@
 <li><a class="reference internal" href="#">settings module</a><ul>
 <li><a class="reference internal" href="#settings.add_recent_project_creation_path"><code class="docutils literal notranslate"><span class="pre">add_recent_project_creation_path()</span></code></a></li>
 <li><a class="reference internal" href="#settings.add_recent_project_path"><code class="docutils literal notranslate"><span class="pre">add_recent_project_path()</span></code></a></li>
+<li><a class="reference internal" href="#settings.apply_stylesheet"><code class="docutils literal notranslate"><span class="pre">apply_stylesheet()</span></code></a></li>
 <li><a class="reference internal" href="#settings.get_recent_project_creation_paths"><code class="docutils literal notranslate"><span class="pre">get_recent_project_creation_paths()</span></code></a></li>
 <li><a class="reference internal" href="#settings.get_recent_project_paths"><code class="docutils literal notranslate"><span class="pre">get_recent_project_paths()</span></code></a></li>
 <li><a class="reference internal" href="#settings.get_settings_path"><code class="docutils literal notranslate"><span class="pre">get_settings_path()</span></code></a></li>
@@ -339,8 +370,12 @@
 <li><a class="reference internal" href="#settings.load_current_theme"><code class="docutils literal notranslate"><span class="pre">load_current_theme()</span></code></a></li>
 <li><a class="reference internal" href="#settings.load_settings"><code class="docutils literal notranslate"><span class="pre">load_settings()</span></code></a></li>
 <li><a class="reference internal" href="#settings.load_themes"><code class="docutils literal notranslate"><span class="pre">load_themes()</span></code></a></li>
+<li><a class="reference internal" href="#settings.load_ui"><code class="docutils literal notranslate"><span class="pre">load_ui()</span></code></a></li>
+<li><a class="reference internal" href="#settings.open_settings_dialog"><code class="docutils literal notranslate"><span class="pre">open_settings_dialog()</span></code></a></li>
 <li><a class="reference internal" href="#settings.themes_path"><code class="docutils literal notranslate"><span class="pre">themes_path</span></code></a></li>
+<li><a class="reference internal" href="#settings.update_image"><code class="docutils literal notranslate"><span class="pre">update_image()</span></code></a></li>
 <li><a class="reference internal" href="#settings.update_settings"><code class="docutils literal notranslate"><span class="pre">update_settings()</span></code></a></li>
+<li><a class="reference internal" href="#settings.update_settings_from_dialog"><code class="docutils literal notranslate"><span class="pre">update_settings_from_dialog()</span></code></a></li>
 </ul>
 </li>
 </ul>
