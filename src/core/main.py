@@ -2,7 +2,7 @@ from datetime import datetime
 import sys
 from pathlib import Path
 from typing import Optional, Dict
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QHeaderView
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QHeaderView
 from PySide6.QtCore import Signal
 from PySide6.QtGui import (
     QResizeEvent,
@@ -19,7 +19,6 @@ sys.path.append(str(parent_dir))
 
 # UI imports
 from src.ui.welcome_ui import Ui_MainWindow  # noqa: E402
-from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor  # noqa: E402
 
 
 # Core imports
@@ -33,6 +32,7 @@ from src.core.settings import (  # noqa: E402
     load_ui,
     update_image,
 )
+from src.core.videoeditor import VideoEditorWindow  # noqa: E402
 
 # Utils imports
 from src.utils.logger_utility import logger  # noqa: E402
@@ -165,12 +165,7 @@ class Main(QMainWindow):
     def open_video_editor(self, project_file_path: str) -> None:
         """Open the video editor with the project file"""
         try:
-            self.videoEditor: QDialog = QDialog()
-            self.uiVideoEditor: Ui_VideoEditor = Ui_VideoEditor()
-            self.uiVideoEditor.setupUi(self.videoEditor)
-
-            # Apply the theme
-            self.videoEditor.setStyleSheet(self.customStyleSheet)
+            self.videoEditor = VideoEditorWindow(self)
 
             # Change window title as current project name with file path
             self.videoEditor.setWindowTitle(f"Manim Studio - {project_file_path}")
@@ -180,7 +175,7 @@ class Main(QMainWindow):
 
             self.close()
 
-            self.videoEditor.exec()
+            self.videoEditor.show()
         except Exception as e:
             logger.error(f"Error opening video editor: {e}")
         pass

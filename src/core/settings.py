@@ -13,8 +13,6 @@ from src.ui.settings_ui import Ui_Form  # noqa: E402
 # Utils imports
 from src.utils.logger_utility import logger
 
-# Core imports
-
 
 # Global base settings and theme path
 base_settings_path: Path = Path(os.getcwd()) / ".config" / "settings.json"
@@ -189,7 +187,7 @@ def update_image(ui, current_theme) -> None:
     else:
         image_path: str = "docs/_static/ManimStudioLogoDark.png"
     pixmap: QPixmap = QPixmap(image_path)
-    if not pixmap.isNull():
+    if not pixmap.isNull() and not pixmap.size().isEmpty():
         scaledPixmap: QPixmap = pixmap.scaled(
             ui.label.size(),
             Qt.AspectRatioMode.KeepAspectRatio,
@@ -205,16 +203,23 @@ def apply_stylesheet(main_window, ui, settings, current_theme) -> None:
 
     # Set the custom stylesheet based on the current theme
     customStyleSheet: str = f"background-color: {current_theme['background']}; color: {current_theme['font']}; border-color: {current_theme['primary']}; font-size: {settings['fontSize']}px; font-family: {settings['fontFamily']}; "
+    main_window.customStyleSheet = customStyleSheet
     main_window.setStyleSheet(customStyleSheet)
+    if hasattr(main_window, "styleSheetUpdated"):
+        main_window.styleSheetUpdated.emit(customStyleSheet)
 
     customMenubarStylesheet = str(
         f"background-color: {current_theme['primary']}; color: {current_theme['font']}; border-color: {current_theme['primary']}; font-size: {settings['fontSize']}px; font-family: {settings['fontFamily']}; "
     )
 
-    ui.menubar.setStyleSheet(customMenubarStylesheet)
+    if hasattr(ui, "menubar"):
+        ui.menubar.setStyleSheet(customMenubarStylesheet)
+    else:
+        main_window.menuBar().setStyleSheet(customMenubarStylesheet)
 
     # Update the image
-    update_image(ui, current_theme)
+    if hasattr(ui, "label"):
+        update_image(ui, current_theme)
 
     main_window.styleSheetUpdated.emit(customStyleSheet)
     logger.info("Stylesheet applied")
