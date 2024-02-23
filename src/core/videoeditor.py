@@ -13,6 +13,7 @@ from src.core.settings import (
     load_current_theme,
     apply_stylesheet,
 )
+from src.core.timeline import Timeline
 
 # Utils imports
 from src.utils.logger_utility import logger
@@ -34,6 +35,11 @@ class VideoEditorWindow(QMainWindow):
         self.setCentralWidget(
             self.central_widget
         )  # Set the central widget of QMainWindow
+
+        self.timeline_widget = Timeline(
+            self.ui.timelineGraphicsView, self.central_widget
+        )
+        self.ui.gridLayout.addWidget(self.timeline_widget)
 
         self.customStyleSheet = ""
 

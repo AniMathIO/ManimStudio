@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QLabel, QLayout,
-    QListWidget, QListWidgetItem, QPushButton, QSizePolicy,
-    QSlider, QWidget)
+from PySide6.QtWidgets import (QApplication, QGraphicsView, QGridLayout, QLabel,
+    QLayout, QListWidget, QListWidgetItem, QPushButton,
+    QSizePolicy, QSlider, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -106,6 +106,17 @@ class Ui_Form(object):
         self.timelineLabel.setObjectName(u"timelineLabel")
 
         self.gridLayout.addWidget(self.timelineLabel, 2, 0, 1, 1)
+
+        self.timelineGraphicsView = QGraphicsView(Form)
+        self.timelineGraphicsView.setObjectName(u"timelineGraphicsView")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.timelineGraphicsView.sizePolicy().hasHeightForWidth())
+        self.timelineGraphicsView.setSizePolicy(sizePolicy2)
+        self.timelineGraphicsView.setMinimumSize(QSize(0, 200))
+
+        self.gridLayout.addWidget(self.timelineGraphicsView, 3, 1, 2, 3)
 
 
         self.gridLayout_3.addLayout(self.gridLayout, 0, 0, 1, 1)
