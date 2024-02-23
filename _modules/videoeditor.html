@@ -219,6 +219,7 @@
     <span class="n">load_current_theme</span><span class="p">,</span>
     <span class="n">apply_stylesheet</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">src.core.timeline</span> <span class="kn">import</span> <span class="n">Timeline</span>
 
 <span class="c1"># Utils imports</span>
 <span class="kn">from</span> <span class="nn">src.utils.logger_utility</span> <span class="kn">import</span> <span class="n">logger</span>
@@ -242,6 +243,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span>
         <span class="p">)</span>  <span class="c1"># Set the central widget of QMainWindow</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span> <span class="o">=</span> <span class="n">Timeline</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">timelineGraphicsView</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
