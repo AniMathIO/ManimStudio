@@ -163,6 +163,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../src/core/settings.html">settings module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/core/project_creation_dialog.html">project_creation_dialog module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/core/project_opening_dialog.html">project_opening_dialog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/core/videoeditor.html">videoeditor module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/utils/logger_utility.html">logger_utility module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/welcome_ui.html">welcome_ui module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../src/ui/settings_ui.html">settings_ui module</a></li>
@@ -207,7 +208,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QDialog</span><span class="p">,</span> <span class="n">QHeaderView</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QHeaderView</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">QResizeEvent</span><span class="p">,</span>
@@ -224,7 +225,6 @@
 
 <span class="c1"># UI imports</span>
 <span class="kn">from</span> <span class="nn">src.ui.welcome_ui</span> <span class="kn">import</span> <span class="n">Ui_MainWindow</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span> <span class="nn">src.ui.videoeditor_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_VideoEditor</span>  <span class="c1"># noqa: E402</span>
 
 
 <span class="c1"># Core imports</span>
@@ -238,6 +238,7 @@
     <span class="n">load_ui</span><span class="p">,</span>
     <span class="n">update_image</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">src.core.videoeditor</span> <span class="kn">import</span> <span class="n">VideoEditorWindow</span>  <span class="c1"># noqa: E402</span>
 
 <span class="c1"># Utils imports</span>
 <span class="kn">from</span> <span class="nn">src.utils.logger_utility</span> <span class="kn">import</span> <span class="n">logger</span>  <span class="c1"># noqa: E402</span>
@@ -392,12 +393,7 @@
     <span class="k">def</span> <span class="nf">open_video_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the video editor with the project file&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="p">:</span> <span class="n">QDialog</span> <span class="o">=</span> <span class="n">QDialog</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">uiVideoEditor</span><span class="p">:</span> <span class="n">Ui_VideoEditor</span> <span class="o">=</span> <span class="n">Ui_VideoEditor</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">uiVideoEditor</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="p">)</span>
-
-            <span class="c1"># Apply the theme</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span> <span class="o">=</span> <span class="n">VideoEditorWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
             <span class="c1"># Change window title as current project name with file path</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manim Studio - </span><span class="si">{</span><span class="n">project_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -407,7 +403,7 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoEditor</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error opening video editor: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">pass</span></div>

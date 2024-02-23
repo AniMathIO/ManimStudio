@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
     <link rel="shortcut icon" href="../_static/ManimStudioLogoLight.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>project_opening_dialog - Manim Studio 0.1 documentation</title>
+        <title>videoeditor - Manim Studio 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -203,80 +203,74 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for project_opening_dialog</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QDialog</span><span class="p">,</span> <span class="n">QFileDialog</span><span class="p">,</span> <span class="n">QWidget</span>
+          <h1>Source code for videoeditor</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QAction</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QMouseEvent</span>
-
 
 <span class="c1"># UI imports</span>
-<span class="kn">from</span> <span class="nn">src.ui.project_opening_dialog_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_ProjectOpeningDialog</span>
+<span class="kn">from</span> <span class="nn">src.ui.videoeditor_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_VideoEditor</span>
 
 <span class="c1"># Core imports</span>
-<span class="kn">from</span> <span class="nn">src.core.settings</span> <span class="kn">import</span> <span class="n">get_recent_project_paths</span><span class="p">,</span> <span class="n">add_recent_project_path</span>
+<span class="kn">from</span> <span class="nn">src.core.settings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">open_settings_dialog</span><span class="p">,</span>
+    <span class="n">load_settings</span><span class="p">,</span>
+    <span class="n">load_themes</span><span class="p">,</span>
+    <span class="n">load_current_theme</span><span class="p">,</span>
+    <span class="n">apply_stylesheet</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># Utils imports</span>
 <span class="kn">from</span> <span class="nn">src.utils.logger_utility</span> <span class="kn">import</span> <span class="n">logger</span>
 
-<span class="c1"># Add the parent directory of &#39;src&#39; to sys.path</span>
-<span class="n">current_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
-<span class="n">parent_dir</span> <span class="o">=</span> <span class="n">current_dir</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>  <span class="c1"># Adjust according to your project structure</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">parent_dir</span><span class="p">))</span>
 
+<div class="viewcode-block" id="VideoEditorWindow">
+<a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">VideoEditorWindow</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main window for the video editor application.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ProjectOpeningDialog">
-<a class="viewcode-back" href="../src/core/project_opening_dialog.html#project_opening_dialog.ProjectOpeningDialog">[docs]</a>
-<span class="k">class</span> <span class="nc">ProjectOpeningDialog</span><span class="p">(</span><span class="n">QDialog</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dialog for opening an existing project&quot;&quot;&quot;</span>
-
-    <span class="n">projectSelected</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">styleSheetUpdated</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QWidget</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="p">:</span> <span class="n">Ui_ProjectOpeningDialog</span> <span class="o">=</span> <span class="n">Ui_ProjectOpeningDialog</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loadRecentProjects</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">openProjectPushButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">openProject</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">projectSelectComboBox</span><span class="o">.</span><span class="n">mouseDoubleClickEvent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browseForProject</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span> <span class="o">=</span> <span class="n">QWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_VideoEditor</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span>
+        <span class="p">)</span>  <span class="c1"># Set the central widget of QMainWindow</span>
 
-<div class="viewcode-block" id="ProjectOpeningDialog.loadRecentProjects">
-<a class="viewcode-back" href="../src/core/project_opening_dialog.html#project_opening_dialog.ProjectOpeningDialog.loadRecentProjects">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">load_settings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">themes</span> <span class="o">=</span> <span class="n">load_themes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="n">load_current_theme</span><span class="p">()</span>
+
+        <span class="n">apply_stylesheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_menubar</span><span class="p">()</span>
+
+<div class="viewcode-block" id="VideoEditorWindow.create_menubar">
+<a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow.create_menubar">[docs]</a>
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-    <span class="k">def</span> <span class="nf">loadRecentProjects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the recent projects into the combo box&quot;&quot;&quot;</span>
-        <span class="n">recentProjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">get_recent_project_paths</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">recentProjects</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">projectSelectComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">])</span></div>
+    <span class="k">def</span> <span class="nf">create_menubar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the menubar for the main window.&quot;&quot;&quot;</span>
+
+        <span class="n">settings_action</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="s2">&quot;Settings&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">settings_action</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_settings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">settings_action</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ProjectOpeningDialog.browseForProject">
-<a class="viewcode-back" href="../src/core/project_opening_dialog.html#project_opening_dialog.ProjectOpeningDialog.browseForProject">[docs]</a>
+<div class="viewcode-block" id="VideoEditorWindow.open_settings">
+<a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow.open_settings">[docs]</a>
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-    <span class="k">def</span> <span class="nf">browseForProject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QMouseEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Browse for a project&quot;&quot;&quot;</span>
-        <span class="n">projectPath</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="o">.</span><span class="n">getOpenFileName</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Select Project&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Manim Studio Projects (*.mstp)&quot;</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">projectPath</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">projectSelected</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
-            <span class="n">add_recent_project_path</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span></div>
+    <span class="k">def</span> <span class="nf">open_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the settings dialog.&quot;&quot;&quot;</span>
 
-
-<div class="viewcode-block" id="ProjectOpeningDialog.openProject">
-<a class="viewcode-back" href="../src/core/project_opening_dialog.html#project_opening_dialog.ProjectOpeningDialog.openProject">[docs]</a>
-    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-    <span class="k">def</span> <span class="nf">openProject</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the selected project&quot;&quot;&quot;</span>
-        <span class="n">selectedProject</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">projectSelectComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">projectSelected</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">selectedProject</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span></div>
+        <span class="n">open_settings_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">themes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
