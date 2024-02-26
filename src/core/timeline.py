@@ -6,6 +6,10 @@ from PySide6.QtWidgets import (
     QGraphicsItem,
     QStyleOptionGraphicsItem,
     QGraphicsSceneMouseEvent,
+    QPushButton,
+    QGraphicsRectItem,
+    QGraphicsSceneHoverEvent,
+    QGraphicsTextItem,
 )
 from PySide6.QtGui import (
     QMouseEvent,
@@ -240,52 +244,44 @@ class Indicator(QGraphicsItem):
         return QGraphicsItem.itemChange(self, change, value)
 
 
-class Track(QGraphicsItem):
+class Track(QGraphicsRectItem):
     color: QColor
-    outline_color: QColor
-    selected_color: QColor
-    selected_outline_color: QColor
-    pen_width: int
+    outlineColor: QColor
+    selectedColor: QColor
+    selectedOutlineColor: QColor
+    penWidth: int
     rounded: int
-    has_shadow: bool
-    threshold_shadow: float
+    hasShadow: bool
+    thresholdShadow: float
     brush: QBrush
     pen: QPen
     length: int
     height: int
     pressed: bool = False
-    old_pos: QPointF
-    old_mouse_pos: QPointF
-    my_scene: Optional[QGraphicsScene] = None
+    oldPos: QPointF
+    oldMousePos: QPointF
 
     @logger.catch
     def __init__(
         self,
-        my_scene: Optional[QGraphicsScene] = None,
-        length=5,
-        color=QColor("black"),
+        length=100,
+        height=30,
+        color=QColor("cyan"),
         parent=None,
     ):
-        super().__init__(parent)
-        self.rounded = 5
-        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsMovable)
-        self.color = color
-        self.outline_color = self.color.lighter(130)
+        super().__init__(0, 0, length, height)
+        self.setAcceptHoverEvents(True)
+        self.addButton = QPushButton("Add")
+        self.addButton.hide()
 
-        # self.selected_color = QColor(255, 30, 180)
-        # self.selected_color_outline = self.selected_color.lighter(130)
-        # self.rounded = 3
-        # self.hasShadow = True
-        # self.treshold_shadow = 0.0
-
-        self.brush = QBrush(self.color)
-        self.pen_width = 2
-        self.pen = QPen(self.outline_color, self.pen_width)
-        self.pen.setCapStyle(Qt.PenCapStyle.RoundCap)
         self.length = length
-        self.height = 30
-        self.old_pos = self.scenePos()
-        self.my_scene = my_scene
+        self.height = height
+        self.pen = QPen()
+        self.brush = QBrush()
+        # self.pen.setColor(QColor("black"))
+        # self.pen.setWidth(2)
+        # self.pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+        # self.pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
 
     @logger.catch
     def boundingRect(self):
@@ -297,81 +293,104 @@ class Track(QGraphicsItem):
     ):
         painter.setPen(self.pen)
         painter.setBrush(self.brush)
-        painter.drawRoundedRect(self.boundingRect(), self.rounded, self.rounded)
-        painter.setBrush(self.outline_color)
-        font: QFont = self.scene().font()
-        font_metrics: QFontMetrics = QFontMetrics(font)
-        text: str = "tReplaySong1"
-        height_font: int = font_metrics.boundingRect(text).height()
-        painter.drawText(0, height_font, text)
+
+        font = painter.font()
+        fontMetrics = QFontMetrics(font)
+        text = "tReplaySong1"
+        heightFont = fontMetrics.boundingRect(text).height()
+        painter.drawRect(self.boundingRect())
 
     @logger.catch
     def mousePressEvent(self, event: QGraphicsSceneMouseEvent):
         logger.info("Mouse pressed")
         self.pressed = True
-        self.old_mouse_pos = event.scenePos()
-        self.old_pos = self.scenePos()
+        self.oldMousePos = event.scenePos()
+        self.oldPos = self.scenePos()
 
     @logger.catch
     def mouseMoveEvent(self, event: QGraphicsSceneMouseEvent):
         logger.info("Mouse moved")
 
         if self.pressed:
-            new_mouse_pos: QPointF = event.scenePos()
-            logger.info(f"New pos: {new_mouse_pos}")
-            y_diff: float = new_mouse_pos.y() - self.old_mouse_pos.y()
-            logger.info(f"Y diff: {abs(y_diff)}")
-            height_diff: int = 15
+            newPos = event.scenePos()
+            logger.info(f"New pos: {newPos}")
+            yDiff = newPos.y() - self.oldPos.y()
+            logger.info(f"Y diff: {abs(yDiff)}")
+            heightDiff = 15
 
-            if abs(y_diff) > height_diff:
-                height_diff *= 2
-                height_diff += 5
-                d: int = int(y_diff % height_diff)  # noqa: F841
-                new_mouse_pos.setY(
-                    self.old_mouse_pos.y() + int(y_diff / height_diff) * height_diff
-                )
-                self.setY(new_mouse_pos.y())
+            if abs(yDiff) > heightDiff:
+                heightDiff *= 2
+                heightDiff += 5
+                d = int(yDiff % heightDiff)  # noqa: F841
+                newPos.setY(self.oldPos.y() + int(yDiff / heightDiff) * heightDiff)
+                self.setY(newPos.y())
             else:
-                self.setY(self.old_mouse_pos.y())
+                self.setY(self.oldPos.y())
 
-            dx: float = (new_mouse_pos - self.old_mouse_pos).x()
-            self.setX(self.old_pos.x() + dx)
+            dx: float = (newPos - self.oldMousePos).x()
+            self.setX(self.oldPos.x() + dx)
 
     @logger.catch
     def mouseReleaseEvent(self, event: QGraphicsSceneMouseEvent):
         logger.info("Mouse released")
         self.pressed = False
-
-        # if the track's position is out of bounds, reset it to the old position
-        # TODO: change this so it's not out of bound from parent scene
-        if self.x() < 0:
-            self.setX(0)
-        if self.y() < 0:
-            self.setY(30)
-        if self.x() + self.length > self.scene().width():
-            self.setX(self.scene().width() - self.length)
-        if self.y() + self.height > self.scene().height():
-            self.setY(self.scene().height() - self.height)
-
-        self.old_mouse_pos = event.scenePos()
-        self.old_pos = self.scenePos()
+        self.oldMousePos = event.scenePos()
+        self.oldPos = self.scenePos()
 
     @logger.catch
     def mouseDoubleClickEvent(self, event: QGraphicsSceneMouseEvent):
         logger.info("Mouse double clicked")
 
+    def hoverEnterEvent(self, event: QGraphicsSceneHoverEvent):
+        self.addButton.show()
+        logger.info("Mouse entered")
 
-class TrackContainer(QWidget):
+    def hovreLeaveEvent(self, event: QGraphicsSceneHoverEvent):
+        self.addButton.hide()
+        logger.info("Mouse left")
+
+
+class TrackContainer(QGraphicsRectItem):
+    def __init__(self, title, y_position):
+        super().__init__(0, y_position, 800, 100)
+        self.setBrush(QBrush(QColor(200, 200, 200, 100)))
+        self.title = title
+
+        titleItem = QGraphicsTextItem(title, self)
+        titleItem.setPos(5, -20)
+
+        self.titleItem = titleItem
+
+        self.addButton = QGraphicsRectItem(750, 35, 40, 30, self)
+        self.addButton.setBrush(QBrush(Qt.GlobalColor.green))
+        self.addButton.setToolTip("Click to add a new track")
+
+    def mousePressEvent(self, event):
+        if self.addButton.contains(event.pos()):
+            logger.info(f"Adding new track to {self.title()}")
+            self.addNewTrack()
+
+    def addNewTrack(self):
+        logger.info(f"Adding new track to {self.titleItem.toPlainText()}")
+
+
+class CustomGraphicsScene(QGraphicsScene):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = Ui_TrackContainer()
-        self.ui.setupUi(self)
+        self.initTrackContainers()
 
-    def setTrackName(self, name: str):
-        self.ui.TrackName.setText(name)
+    def initTrackContainers(self):
+        self.videoTrackContainer = TrackContainer("Video Tracks", 50)
+        self.addItem(self.videoTrackContainer)
 
-    def setTrackColor(self, color: QColor):
-        self.ui.TrackFrame.setStyleSheet(f"background-color: {color.name()};")
+        self.audioTrackContainer = TrackContainer(
+            "Audio Tracks", 200
+        )  # Adjust spacing as needed
+        self.addItem(self.audioTrackContainer)
+
+    def addTrack(self, type, length):
+        # Placeholder for track adding logic
+        print(f"Adding {type} track of length {length}")
 
 
 class Timeline(QWidget):
@@ -382,15 +401,16 @@ class Timeline(QWidget):
     view: QGraphicsView
 
     @logger.catch
-    def __init__(self, _view: QGraphicsView, _parent=None):
-        super().__init__(_parent)
-        self.view = _view
+    def __init__(self, view: QGraphicsView, parent: Optional[QWidget] = None):
+        super().__init__(parent)
+        self.view = view
         if not self.view.scene():
             self.view.setScene(
                 QGraphicsScene(self.view)
             )  # Initialize the scene if it's not already set
         self.scene = self.view.scene()
         self.setMouseTracking(True)
+        self.setupScene()
 
         # set a minimum and maximum width and height for the scene
         min_width: int = 0
@@ -414,9 +434,38 @@ class Timeline(QWidget):
         self.drawSeparators(self.scene)
 
         # add tracks
-        track: Track = Track(self.scene, 200, QColor("black"))
+        track = Track()
         self.scene.addItem(track)
-        track.setPos(QPointF(min_width, min_height + 30))
+        track.setPos(0, 30)
+
+    def setupScene(self):
+        if not self.view.scene():
+            self.view.setScene(QGraphicsScene(self))
+        self.scene = self.view.scene()
+        self.scene.setSceneRect(0, 0, 1000, 600)  # Example dimensions
+
+        self.initTrackContainers()
+        self.initTimelineSegments()
+        self.initCurrentFrameIndicator()
+
+    def initTrackContainers(self):
+        # Setup track containers for video and audio within the scene
+        self.videoTrackContainer = TrackContainer("Video Tracks", 50)
+        self.scene.addItem(self.videoTrackContainer)
+
+        self.audioTrackContainer = TrackContainer("Audio Tracks", 200)
+        self.scene.addItem(self.audioTrackContainer)
+
+    def initTimelineSegments(self):
+        x_offset = 100
+        for i in range(10):
+            item = self.scene.addText(f"{i}")
+            item.setPos(i * x_offset, 0)
+
+    def initCurrentFrameIndicator(self):
+        indicator = Indicator(600)  # Pass the height as needed
+        self.scene.addItem(indicator)
+        indicator.setZValue(101)
 
     @logger.catch
     def addItem(self, pos: QPointF, rect: QRect, pen: QPen, brush: QBrush):
@@ -425,7 +474,8 @@ class Timeline(QWidget):
 
     def drawSeparators(self, scene: QGraphicsScene):
         painter = QPainter(self.view.viewport())
-        pen = QPen(Qt.GlobalColor.red, 1, Qt.PenStyle.SolidLine)
+        pen = QPen()
+        pen.setColor(Qt.GlobalColor.red)
         painter.setPen(pen)
 
         track_height = 30  # Height of each track, adjust as necessary
@@ -434,3 +484,12 @@ class Timeline(QWidget):
         for i in range(1, num_tracks):
             y = i * track_height
             painter.drawLine(0, y, self.width(), y)
+
+    def initSeparators(self):
+        track_height = 100  # Adjust based on your layout
+        num_tracks = 2  # For video and audio
+        pen = QPen(Qt.GlobalColor.red, 1, Qt.PenStyle.SolidLine)
+        for i in range(1, num_tracks):
+            y = i * track_height
+            line = self.scene.addLine(0, y, self.scene.width(), y, pen)
+            line.setZValue(100)  # Ensure it's drawn above other items

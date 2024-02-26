@@ -16,7 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QSizePolicy, QWidget)
+    QSizePolicy, QVBoxLayout, QWidget)
 
 class Ui_TrackContainer(object):
     def setupUi(self, TrackContainer):
@@ -43,6 +43,11 @@ class Ui_TrackContainer(object):
 
         self.TrackHorizontalLayout.addWidget(self.TrackName)
 
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+
+        self.TrackHorizontalLayout.addLayout(self.verticalLayout)
+
         self.NameSeparator = QFrame(TrackContainer)
         self.NameSeparator.setObjectName(u"NameSeparator")
         self.NameSeparator.setStyleSheet(u"")
@@ -50,13 +55,6 @@ class Ui_TrackContainer(object):
         self.NameSeparator.setFrameShape(QFrame.VLine)
 
         self.TrackHorizontalLayout.addWidget(self.NameSeparator)
-
-        self.TrackFrame = QFrame(TrackContainer)
-        self.TrackFrame.setObjectName(u"TrackFrame")
-        self.TrackFrame.setFrameShape(QFrame.StyledPanel)
-        self.TrackFrame.setFrameShadow(QFrame.Raised)
-
-        self.TrackHorizontalLayout.addWidget(self.TrackFrame)
 
 
         self.horizontalLayout_2.addLayout(self.TrackHorizontalLayout)
