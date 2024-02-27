@@ -35,7 +35,7 @@ class Ui_Track(object):
         self.TrackWrapper.setObjectName(u"TrackWrapper")
         self.TrackLabel = QLabel(Track)
         self.TrackLabel.setObjectName(u"TrackLabel")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Minimum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.TrackLabel.sizePolicy().hasHeightForWidth())
