@@ -244,10 +244,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span>
         <span class="p">)</span>  <span class="c1"># Set the central widget of QMainWindow</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span> <span class="o">=</span> <span class="n">Timeline</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">timelineGraphicsView</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span><span class="p">)</span>
+        <span class="c1"># Instantiate Timeline widget and add it to the QVBoxLayout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span> <span class="o">=</span> <span class="n">Timeline</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">timelineVerticalLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span>
+        <span class="p">)</span>  <span class="c1"># Use the QVBoxLayout for timeline</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
