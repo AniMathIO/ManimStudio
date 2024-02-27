@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QGraphicsView,
     QGraphicsRectItem,
     QGraphicsProxyWidget,
+    QSizePolicy,
     QMenu,
 )
 from PySide6.QtCore import Qt
@@ -31,6 +32,7 @@ class Track(QWidget):  # Ensure Track inherits from QWidget
 
         # Set the track label to the name
         self.ui.TrackLabel.setText(self.name)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 
 
 class Timeline(QWidget):
@@ -110,12 +112,19 @@ class Timeline(QWidget):
         if track_type == track_types.video:
             name = f"Video {len(self.video_tracks) + 1}"
             track = Track(name=name, track_type=track_type, parent=self)
+            track.setSizePolicy(
+                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+            )
 
             self.videoLayout.addWidget(track)
             self.video_tracks.append(track)
         elif track_type == track_types.audio:
             name = f"Audio {len(self.audio_tracks) + 1}"
             track = Track(name=name, track_type=track_type, parent=self)
+
+            track.setSizePolicy(
+                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+            )
             self.audioLayout.addWidget(track)
             self.audio_tracks.append(track)
 
