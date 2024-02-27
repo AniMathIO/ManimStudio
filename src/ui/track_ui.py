@@ -16,57 +16,57 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QSizePolicy, QVBoxLayout, QWidget)
+    QSizePolicy, QWidget)
 
-class Ui_TrackContainer(object):
-    def setupUi(self, TrackContainer):
-        if not TrackContainer.objectName():
-            TrackContainer.setObjectName(u"TrackContainer")
-        TrackContainer.resize(939, 84)
+class Ui_Track(object):
+    def setupUi(self, Track):
+        if not Track.objectName():
+            Track.setObjectName(u"Track")
+        Track.resize(939, 84)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(TrackContainer.sizePolicy().hasHeightForWidth())
-        TrackContainer.setSizePolicy(sizePolicy)
-        TrackContainer.setMinimumSize(QSize(10, 50))
-        self.horizontalLayout_2 = QHBoxLayout(TrackContainer)
+        sizePolicy.setHeightForWidth(Track.sizePolicy().hasHeightForWidth())
+        Track.setSizePolicy(sizePolicy)
+        Track.setMinimumSize(QSize(10, 50))
+        self.horizontalLayout_2 = QHBoxLayout(Track)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.TrackHorizontalLayout = QHBoxLayout()
-        self.TrackHorizontalLayout.setObjectName(u"TrackHorizontalLayout")
-        self.TrackName = QLabel(TrackContainer)
-        self.TrackName.setObjectName(u"TrackName")
+        self.TrackWrapper = QHBoxLayout()
+        self.TrackWrapper.setObjectName(u"TrackWrapper")
+        self.TrackLabel = QLabel(Track)
+        self.TrackLabel.setObjectName(u"TrackLabel")
         sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.TrackName.sizePolicy().hasHeightForWidth())
-        self.TrackName.setSizePolicy(sizePolicy1)
+        sizePolicy1.setHeightForWidth(self.TrackLabel.sizePolicy().hasHeightForWidth())
+        self.TrackLabel.setSizePolicy(sizePolicy1)
 
-        self.TrackHorizontalLayout.addWidget(self.TrackName)
+        self.TrackWrapper.addWidget(self.TrackLabel)
 
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
-
-        self.TrackHorizontalLayout.addLayout(self.verticalLayout)
-
-        self.NameSeparator = QFrame(TrackContainer)
+        self.NameSeparator = QFrame(Track)
         self.NameSeparator.setObjectName(u"NameSeparator")
         self.NameSeparator.setStyleSheet(u"")
         self.NameSeparator.setFrameShadow(QFrame.Plain)
         self.NameSeparator.setFrameShape(QFrame.VLine)
 
-        self.TrackHorizontalLayout.addWidget(self.NameSeparator)
+        self.TrackWrapper.addWidget(self.NameSeparator)
+
+        self.TrackElemntContainer = QHBoxLayout()
+        self.TrackElemntContainer.setObjectName(u"TrackElemntContainer")
+
+        self.TrackWrapper.addLayout(self.TrackElemntContainer)
 
 
-        self.horizontalLayout_2.addLayout(self.TrackHorizontalLayout)
+        self.horizontalLayout_2.addLayout(self.TrackWrapper)
 
 
-        self.retranslateUi(TrackContainer)
+        self.retranslateUi(Track)
 
-        QMetaObject.connectSlotsByName(TrackContainer)
+        QMetaObject.connectSlotsByName(Track)
     # setupUi
 
-    def retranslateUi(self, TrackContainer):
-        TrackContainer.setWindowTitle(QCoreApplication.translate("TrackContainer", u"Timeline", None))
-        self.TrackName.setText(QCoreApplication.translate("TrackContainer", u"TextLabel", None))
+    def retranslateUi(self, Track):
+        Track.setWindowTitle(QCoreApplication.translate("Track", u"Timeline", None))
+        self.TrackLabel.setText(QCoreApplication.translate("Track", u"TextLabel", None))
     # retranslateUi
 

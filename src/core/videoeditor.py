@@ -36,10 +36,11 @@ class VideoEditorWindow(QMainWindow):
             self.central_widget
         )  # Set the central widget of QMainWindow
 
-        self.timeline_widget = Timeline(
-            self.ui.timelineGraphicsView, self.central_widget
-        )
-        self.ui.gridLayout.addWidget(self.timeline_widget)
+        # Instantiate Timeline widget and add it to the QVBoxLayout
+        self.timeline_widget = Timeline(parent=self.central_widget)
+        self.ui.timelineVerticalLayout.addWidget(
+            self.timeline_widget
+        )  # Use the QVBoxLayout for timeline
 
         self.customStyleSheet = ""
 

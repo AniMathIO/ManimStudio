@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TrackContainer</class>
- <widget class="QWidget" name="TrackContainer">
+ <class>Track</class>
+ <widget class="QWidget" name="Track">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,9 +27,9 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="TrackHorizontalLayout">
+    <layout class="QHBoxLayout" name="TrackWrapper">
      <item>
-      <widget class="QLabel" name="TrackName">
+      <widget class="QLabel" name="TrackLabel">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -40,9 +40,6 @@
         <string>TextLabel</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout"/>
      </item>
      <item>
       <widget class="Line" name="NameSeparator">
@@ -56,6 +53,9 @@
         <enum>Qt::Vertical</enum>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="TrackElemntContainer"/>
      </item>
     </layout>
    </item>
