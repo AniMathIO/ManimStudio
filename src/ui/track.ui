@@ -55,7 +55,11 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="TrackElemntContainer"/>
+      <layout class="QHBoxLayout" name="TrackElementContainer">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMaximumSize</enum>
+       </property>
+      </layout>
      </item>
     </layout>
    </item>

@@ -7,10 +7,10 @@ from PySide6.QtWidgets import (
     QGraphicsView,
     QGraphicsRectItem,
     QGraphicsProxyWidget,
+    QMenu,
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPen
-from PySide6.QtGui import QPainter
+from PySide6.QtGui import QPen, QPainter, QAction
 
 from src.ui.track_ui import Ui_Track
 
@@ -49,63 +49,82 @@ class Timeline(QWidget):
 
         self.buttonsLayout = QVBoxLayout()
 
-        # add buttons to the layout
-        self.layout.addLayout(self.buttonsLayout)
+        # Separate layouts for video and audio
+        self.videoLayout = QVBoxLayout()
+        self.audioLayout = QVBoxLayout()
 
-        self.initializeUI()
+        self.initializeVideoUI()
+        self.initializeAudioUI()
 
-    def initializeUI(self):
-        # Buttons for adding tracks
-        self.add_video_track_button = QPushButton("Add Video Track", self)
-        self.add_video_track_button.clicked.connect(
-            lambda: self.addTrack(track_types.video)
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.showContextMenu)
+
+    def showContextMenu(self, position):
+        current_background_color = self.palette().color(self.backgroundRole())
+
+        darker_color = current_background_color.darker(120)
+
+        self.setStyleSheet(
+            f"""
+        QMenu::item:selected {{
+        background-color: {darker_color.name()};
+        }}
+        """
         )
 
-        self.add_audio_track_button = QPushButton("Add Audio Track", self)
-        self.add_audio_track_button.clicked.connect(
-            lambda: self.addTrack(track_types.audio)
-        )
+        contextMenu = QMenu(self)
+        addVideoTrackAction = contextMenu.addAction("Add Video Track")
+        addVideoTrackAction.triggered.connect(lambda: self.addTrack(track_types.video))
 
-        # Buttons for removing track
-        self.remove_video_track_button = QPushButton("Remove Video Track", self)
-        self.remove_video_track_button.clicked.connect(
+        addAudioTrackAction = contextMenu.addAction("Add Audio Track")
+        addAudioTrackAction.triggered.connect(lambda: self.addTrack(track_types.audio))
+
+        addVideoTrackAction = contextMenu.addAction("Remove Video Track")
+        addVideoTrackAction.triggered.connect(
             lambda: self.removeTrack(track_types.video)
         )
 
-        self.remove_audio_track_button = QPushButton("Remove Audio Track", self)
-        self.remove_audio_track_button.clicked.connect(
+        addAudioTrackAction = contextMenu.addAction("Remove Audio Track")
+        addAudioTrackAction.triggered.connect(
             lambda: self.removeTrack(track_types.audio)
         )
 
-        # Add buttons to the horizontal layout
-        self.buttonsLayout.addWidget(self.add_video_track_button)
-        self.buttonsLayout.addWidget(self.add_audio_track_button)
-        self.buttonsLayout.addWidget(self.remove_video_track_button)
-        self.buttonsLayout.addWidget(self.remove_audio_track_button)
+        contextMenu.exec(self.mapToGlobal(position))
 
-        # Initialize with default tracks
+    def initializeVideoUI(self):
+        # Initial video track
         self.addTrack(track_types.video)
+
+        # Add the video layout to the main layout
+        self.layout.addLayout(self.videoLayout)
+
+    def initializeAudioUI(self):
+        # Initial audio track
         self.addTrack(track_types.audio)
+
+        # Add the audio layout to the main layout
+        self.layout.addLayout(self.audioLayout)
 
     def addTrack(self, track_type):
         name = ""
         if track_type == track_types.video:
             name = f"Video {len(self.video_tracks) + 1}"
             track = Track(name=name, track_type=track_type, parent=self)
-            self.layout.insertWidget(len(self.video_tracks), track)
+
+            self.videoLayout.addWidget(track)
             self.video_tracks.append(track)
         elif track_type == track_types.audio:
             name = f"Audio {len(self.audio_tracks) + 1}"
             track = Track(name=name, track_type=track_type, parent=self)
-            self.layout.addWidget(track)
+            self.audioLayout.addWidget(track)
             self.audio_tracks.append(track)
 
     def removeTrack(self, track_type):
         if track_type == track_types.video and len(self.video_tracks) > 1:
             track = self.video_tracks.pop()
-            self.layout.removeWidget(track)
+            self.videoLayout.removeWidget(track)
             track.deleteLater()
         elif track_type == track_types.audio and len(self.audio_tracks) > 1:
             track = self.audio_tracks.pop()
-            self.layout.removeWidget(track)
+            self.audioLayout.removeWidget(track)
             track.deleteLater()

@@ -16,7 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QSizePolicy, QWidget)
+    QLayout, QSizePolicy, QWidget)
 
 class Ui_Track(object):
     def setupUi(self, Track):
@@ -51,10 +51,11 @@ class Ui_Track(object):
 
         self.TrackWrapper.addWidget(self.NameSeparator)
 
-        self.TrackElemntContainer = QHBoxLayout()
-        self.TrackElemntContainer.setObjectName(u"TrackElemntContainer")
+        self.TrackElementContainer = QHBoxLayout()
+        self.TrackElementContainer.setObjectName(u"TrackElementContainer")
+        self.TrackElementContainer.setSizeConstraint(QLayout.SetMaximumSize)
 
-        self.TrackWrapper.addLayout(self.TrackElemntContainer)
+        self.TrackWrapper.addLayout(self.TrackElementContainer)
 
 
         self.horizontalLayout_2.addLayout(self.TrackWrapper)
