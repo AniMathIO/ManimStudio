@@ -267,6 +267,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">create_menubar</span><span class="p">()</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">videoPreviewSlider</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span><span class="o">.</span><span class="n">updateIndicatorPosition</span><span class="p">(</span>
+                <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">videoPreviewSlider</span><span class="o">.</span><span class="n">maximum</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
 <div class="viewcode-block" id="VideoEditorWindow.create_menubar">
 <a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow.create_menubar">[docs]</a>
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
