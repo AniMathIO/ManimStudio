@@ -67,7 +67,7 @@ class Ui_Form(object):
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setSpacing(6)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.gridLayout_2.setSizeConstraint(QLayout.SetMinimumSize)
+        self.gridLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.forwardToStartBtn = QPushButton(Form)
         self.forwardToStartBtn.setObjectName(u"forwardToStartBtn")
 

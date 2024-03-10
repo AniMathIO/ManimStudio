@@ -62,7 +62,7 @@
      <item row="1" column="2" colspan="2">
       <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0,0,0">
        <property name="sizeConstraint">
-        <enum>QLayout::SetMinimumSize</enum>
+        <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="spacing">
         <number>6</number>

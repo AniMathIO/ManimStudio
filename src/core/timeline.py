@@ -86,10 +86,12 @@ class Timeline(QWidget):
     def updateIndicatorLineHeight(self):
         # Calculate the new height based on the tracks
         trackHeight = self.calculateTracksHeight()
-        trackLabelWidth = self.calculateTrackLabelWidth()
+        nameSeparatorEndX = self.calculateNameSeparatorEndX()
         if self.indicatorLine:
             # Set the new line starting after the track labels
-            self.indicatorLine.setLine(trackLabelWidth, 0, trackLabelWidth, trackHeight)
+            self.indicatorLine.setLine(
+                nameSeparatorEndX, 0, nameSeparatorEndX, trackHeight
+            )
 
     def updateIndicatorView(self):
         self.view.setGeometry(0, 0, self.width(), self.height())
@@ -98,7 +100,7 @@ class Timeline(QWidget):
 
     def calculateTracksHeight(self):
         # Calculate combined height based on track count
-        return 100 * (len(self.video_tracks) + len(self.audio_tracks))
+        return 230 * (len(self.video_tracks) + len(self.audio_tracks))
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -117,16 +119,16 @@ class Timeline(QWidget):
         self.initializeVideoUI()
         self.initializeAudioUI()
 
-    def calculateTrackLabelWidth(self):
-        # Implement the actual calculation of the track label width here
-        # For example, you might iterate over all tracks and find the maximum width
-        maxLabelWidth = 0
+    def calculateNameSeparatorEndX(self):
+        # Implement the actual calculation of the NameSeparator's end position here
+        # For example, you might iterate over all tracks and find the maximum end position
+        maxSeparatorEndX = 0
         for track in self.video_tracks + self.audio_tracks:
-            labelWidth = (
-                track.ui.TrackLabel.width()
-            )  # Assuming TrackLabel is the QLabel for the track name
-            maxLabelWidth = max(maxLabelWidth, labelWidth)
-        return maxLabelWidth
+            separatorEndX = (
+                track.ui.NameSeparator.geometry().right()
+            )  # Assuming NameSeparator is the object name
+            maxSeparatorEndX = max(maxSeparatorEndX, separatorEndX)
+        return maxSeparatorEndX
 
     def showContextMenu(self, position):
         current_background_color = self.palette().color(self.backgroundRole())
