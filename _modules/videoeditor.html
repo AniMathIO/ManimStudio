@@ -253,8 +253,12 @@
 
         <span class="c1"># Instantiate Timeline widget and add it to the QVBoxLayout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span> <span class="o">=</span> <span class="n">Timeline</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span>
+            <span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">,</span>  <span class="c1"># Allow horizontal expansion</span>
+            <span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">Preferred</span><span class="p">,</span>  <span class="c1"># Default vertical policy</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">timelineVerticalLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span><span class="p">,</span> <span class="n">alignment</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignLeft</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span>
         <span class="p">)</span>  <span class="c1"># Use the QVBoxLayout for timeline</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
