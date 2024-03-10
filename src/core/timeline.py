@@ -91,6 +91,11 @@ class Timeline(QWidget):
             # Set the new line starting after the track labels
             self.indicatorLine.setLine(trackLabelWidth, 0, trackLabelWidth, trackHeight)
 
+    def updateIndicatorView(self):
+        self.view.setGeometry(0, 0, self.width(), self.height())
+        self.view.raise_()
+        self.updateIndicatorLineHeight()
+
     def calculateTracksHeight(self):
         # Calculate combined height based on track count
         return 100 * (len(self.video_tracks) + len(self.audio_tracks))
@@ -99,7 +104,7 @@ class Timeline(QWidget):
         super().resizeEvent(event)
         self.view.setGeometry(0, 0, self.width(), self.height())
         self.view.setSceneRect(QRectF(0, 0, self.width(), self.height()))
-        self.updateIndicatorLineHeight()
+        self.updateIndicatorView()
 
     def updateIndicatorPosition(self, sliderValue, sliderMaximum):
         proportion = sliderValue / sliderMaximum
@@ -189,7 +194,7 @@ class Timeline(QWidget):
             )
             self.audioLayout.addWidget(track)
             self.audio_tracks.append(track)
-        self.updateIndicatorLineHeight()
+        self.updateIndicatorView()
 
     def removeTrack(self, track_type):
         if track_type == track_types.video and len(self.video_tracks) > 1:
@@ -200,4 +205,4 @@ class Timeline(QWidget):
             track = self.audio_tracks.pop()
             self.audioLayout.removeWidget(track)
             track.deleteLater()
-        self.updateIndicatorLineHeight()
+        self.updateIndicatorView()
