@@ -42,9 +42,13 @@ class Timeline(QWidget):
     layout: QVBoxLayout
     video_track_counter = 1
     audio_track_counter = 1
+    indicatorLine: QGraphicsLineItem
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setupUI()
+
+    def setupUI(self):
         self.layout = QVBoxLayout(self)
         self.layout.setSpacing(10)
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -54,17 +58,21 @@ class Timeline(QWidget):
         self.video_tracks = []
         self.audio_tracks = []
 
+        self.scene = QGraphicsScene()
+        self.view = QGraphicsView(self.scene, self)
+        self.configureIndicatorGraphicsView()
+
+        self.indicatorLine = QGraphicsLineItem(0, 0, 0, 100)
+        self.indicatorLine.setPen(QPen(QColor(255, 0, 0), 2))
+        self.scene.addItem(self.indicatorLine)
+
         # Initialize layouts for tracks
         self.initializeTracksUI()
 
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self.showContextMenu)
 
-        self.setupIndicator()
-
-    def setupIndicator(self):
-        self.scene = QGraphicsScene()
-        self.view = QGraphicsView(self.scene, self)
+    def configureIndicatorGraphicsView(self):
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.view.setFrameShape(QFrame.Shape.NoFrame)
@@ -72,21 +80,21 @@ class Timeline(QWidget):
         self.view.setStyleSheet("background: transparent;")
         self.view.setGeometry(0, 0, self.width(), self.height())
 
-        # Indicator line
-        self.indicatorLine = QGraphicsLineItem(0, 0, 0, self.calculateTracksHeight())
-        self.indicatorLine.setPen(QPen(QColor(255, 0, 0), 2))
-        self.scene.addItem(self.indicatorLine)
+    def updateIndicatorLineHeight(self):
+        # Calculate the new height based on the tracks
+        trackHeight = self.calculateTracksHeight()
+        if self.indicatorLine:
+            self.indicatorLine.setLine(0, 0, 0, trackHeight)
 
     def calculateTracksHeight(self):
         # Calculate combined height based on track count
-        numTracks = len(self.video_tracks) + len(self.audio_tracks)
-        return numTracks * 100  # Example height per track
+        return 100 * (len(self.video_tracks) + len(self.audio_tracks))
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
         self.view.setGeometry(0, 0, self.width(), self.height())
         self.view.setSceneRect(QRectF(0, 0, self.width(), self.height()))
-        self.indicatorLine.setLine(0, 0, 0, self.calculateTracksHeight())
+        self.updateIndicatorLineHeight()
 
     def updateIndicatorPosition(self, sliderValue, sliderMaximum):
         proportion = sliderValue / sliderMaximum
@@ -165,6 +173,7 @@ class Timeline(QWidget):
             )
             self.audioLayout.addWidget(track)
             self.audio_tracks.append(track)
+        self.updateIndicatorLineHeight()
 
     def removeTrack(self, track_type):
         if track_type == track_types.video and len(self.video_tracks) > 1:
@@ -175,3 +184,4 @@ class Timeline(QWidget):
             track = self.audio_tracks.pop()
             self.audioLayout.removeWidget(track)
             track.deleteLater()
+        self.updateIndicatorLineHeight()
