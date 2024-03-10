@@ -54,16 +54,16 @@ class Ui_Track(object):
         self.TrackElementContainer = QHBoxLayout()
         self.TrackElementContainer.setObjectName(u"TrackElementContainer")
         self.TrackElementContainer.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.graphicsView = QGraphicsView(Track)
-        self.graphicsView.setObjectName(u"graphicsView")
+        self.trackGraphicsView = QGraphicsView(Track)
+        self.trackGraphicsView.setObjectName(u"trackGraphicsView")
         sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.graphicsView.sizePolicy().hasHeightForWidth())
-        self.graphicsView.setSizePolicy(sizePolicy2)
-        self.graphicsView.setMinimumSize(QSize(0, 10))
+        sizePolicy2.setHeightForWidth(self.trackGraphicsView.sizePolicy().hasHeightForWidth())
+        self.trackGraphicsView.setSizePolicy(sizePolicy2)
+        self.trackGraphicsView.setMinimumSize(QSize(0, 10))
 
-        self.TrackElementContainer.addWidget(self.graphicsView)
+        self.TrackElementContainer.addWidget(self.trackGraphicsView)
 
 
         self.TrackWrapper.addLayout(self.TrackElementContainer)
