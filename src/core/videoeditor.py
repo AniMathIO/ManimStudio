@@ -45,8 +45,12 @@ class VideoEditorWindow(QMainWindow):
 
         # Instantiate Timeline widget and add it to the QVBoxLayout
         self.timeline_widget = Timeline(parent=self.central_widget)
+        self.timeline_widget.setSizePolicy(
+            QSizePolicy.Policy.Expanding,  # Allow horizontal expansion
+            QSizePolicy.Policy.Preferred,  # Default vertical policy
+        )
         self.ui.timelineVerticalLayout.addWidget(
-            self.timeline_widget, alignment=Qt.AlignmentFlag.AlignLeft
+            self.timeline_widget
         )  # Use the QVBoxLayout for timeline
 
         self.customStyleSheet = ""

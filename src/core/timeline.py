@@ -47,6 +47,8 @@ class Timeline(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUI()
+        self.sliderValue = 0
+        self.sliderMaximum = 1
 
     def setupUI(self):
         self.layout = QVBoxLayout(self)
@@ -107,10 +109,13 @@ class Timeline(QWidget):
         self.view.setGeometry(0, 0, self.width(), self.height())
         self.view.setSceneRect(QRectF(0, 0, self.width(), self.height()))
         self.updateIndicatorView()
+        self.updateIndicatorPosition(self.sliderValue, self.sliderMaximum)
 
     def updateIndicatorPosition(self, sliderValue, sliderMaximum):
+        self.sliderValue = sliderValue
+        self.sliderMaximum = sliderMaximum
         proportion = sliderValue / sliderMaximum
-        xPos = proportion * self.width()
+        xPos = proportion * (self.width() - self.indicatorLine.line().p2().x())
         self.indicatorLine.setPos(xPos, 0)
 
     def initializeTracksUI(self):
