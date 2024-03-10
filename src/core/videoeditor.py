@@ -59,6 +59,12 @@ class VideoEditorWindow(QMainWindow):
 
         self.create_menubar()
 
+        self.ui.videoPreviewSlider.valueChanged.connect(
+            lambda value: self.timeline_widget.updateIndicatorPosition(
+                value, self.ui.videoPreviewSlider.maximum()
+            )
+        )
+
     @logger.catch
     def create_menubar(self):
         """Create the menubar for the main window."""
