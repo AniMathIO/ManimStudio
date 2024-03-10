@@ -23,7 +23,7 @@ class Ui_TimelineContainer(object):
             TimelineContainer.setObjectName(u"TimelineContainer")
         TimelineContainer.resize(921, 364)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(TimelineContainer.sizePolicy().hasHeightForWidth())
         TimelineContainer.setSizePolicy(sizePolicy)

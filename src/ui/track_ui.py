@@ -23,8 +23,8 @@ class Ui_Track(object):
         if not Track.objectName():
             Track.setObjectName(u"Track")
         Track.resize(939, 84)
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(100)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Track.sizePolicy().hasHeightForWidth())
         Track.setSizePolicy(sizePolicy)

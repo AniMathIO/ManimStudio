@@ -55,6 +55,11 @@ class Ui_Form(object):
 
         self.timelineSlider = QSlider(Form)
         self.timelineSlider.setObjectName(u"timelineSlider")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(1)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.timelineSlider.sizePolicy().hasHeightForWidth())
+        self.timelineSlider.setSizePolicy(sizePolicy2)
         self.timelineSlider.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.timelineSlider, 2, 1, 1, 3)

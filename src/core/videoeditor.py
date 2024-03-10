@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QMainWindow, QWidget
+from PySide6.QtWidgets import QMainWindow, QWidget, QSizePolicy
 from PySide6.QtGui import QAction
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Qt
 
 # UI imports
 from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor
@@ -36,10 +36,17 @@ class VideoEditorWindow(QMainWindow):
             self.central_widget
         )  # Set the central widget of QMainWindow
 
+        # Set resize policy
+        self.central_widget.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+        )
+
+        self.ui.timelineVerticalLayout.setContentsMargins(0, 0, 0, 0)
+
         # Instantiate Timeline widget and add it to the QVBoxLayout
         self.timeline_widget = Timeline(parent=self.central_widget)
         self.ui.timelineVerticalLayout.addWidget(
-            self.timeline_widget
+            self.timeline_widget, alignment=Qt.AlignmentFlag.AlignLeft
         )  # Use the QVBoxLayout for timeline
 
         self.customStyleSheet = ""
