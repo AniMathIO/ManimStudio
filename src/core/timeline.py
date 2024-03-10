@@ -54,73 +54,50 @@ class Timeline(QWidget):
         self.video_tracks = []
         self.audio_tracks = []
 
-        self.buttonsLayout = QVBoxLayout()
-
-        # Separate layouts for video and audio
-        self.videoLayout = QVBoxLayout()
-        self.audioLayout = QVBoxLayout()
-
-        self.initializeVideoUI()
-        self.initializeAudioUI()
+        # Initialize layouts for tracks
+        self.initializeTracksUI()
 
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self.showContextMenu)
 
-        self.scene = QGraphicsScene(self)
-        self.view = QGraphicsView(self.scene)
+        self.setupIndicator()
+
+    def setupIndicator(self):
+        self.scene = QGraphicsScene()
+        self.view = QGraphicsView(self.scene, self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.view.setFrameShape(QFrame.Shape.NoFrame)
         self.view.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.view.setStyleSheet("background: transparent; border: none")
+        self.view.setStyleSheet("background: transparent;")
+        self.view.setGeometry(0, 0, self.width(), self.height())
 
-        # Make the QGraphicsView overlay the existing layout
-        self.stack = QStackedWidget(self)
-        self.stack.addWidget(self.view)
-        self.layout.addWidget(self.stack)
-
-        self.view.setSceneRect(QRectF(0, 0, self.view.width(), self.view.height()))
-
-        # Default timeline length in seconds (5 minutes)
-        self.defaultTimelineLength = 5 * 60
-        # Draw the indicator line
-        self.indicatorLine = QGraphicsLineItem(0, 0, 0, 1000)  # Temporary height
-        self.indicatorLine.setPen(QPen(QColor(255, 0, 0), 2))  # Red line
-        self.indicatorLine.setZValue(
-            1
-        )  # Ensure it's above other items which have a default Z-value of 0
-
+        # Indicator line
+        self.indicatorLine = QGraphicsLineItem(0, 0, 0, self.calculateTracksHeight())
+        self.indicatorLine.setPen(QPen(QColor(255, 0, 0), 2))
         self.scene.addItem(self.indicatorLine)
+
+    def calculateTracksHeight(self):
+        # Calculate combined height based on track count
+        numTracks = len(self.video_tracks) + len(self.audio_tracks)
+        return numTracks * 100  # Example height per track
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        # Update the scene rect to match the new size
-        self.view.setSceneRect(0, 0, self.width(), self.height())
-        # Adjust the indicator height to match the Timeline height
-        if self.indicatorLine:
-            line = self.indicatorLine.line()
-            self.indicatorLine.setLine(line.x1(), line.y1(), line.x2(), self.height())
-
-    def updateIndicatorLineHeight(self):
-        # Assuming self.height() gives the desired height of the indicator
-        self.indicatorLine.setLine(0, 0, 0, self.height())
+        self.view.setGeometry(0, 0, self.width(), self.height())
+        self.view.setSceneRect(QRectF(0, 0, self.width(), self.height()))
+        self.indicatorLine.setLine(0, 0, 0, self.calculateTracksHeight())
 
     def updateIndicatorPosition(self, sliderValue, sliderMaximum):
-        # Map sliderValue to x-coordinate in the scene
-        xPos = self.mapSliderValueToXPosition(sliderValue, sliderMaximum)
+        proportion = sliderValue / sliderMaximum
+        xPos = proportion * self.width()
         self.indicatorLine.setPos(xPos, 0)
 
-    def mapSliderValueToXPosition(self, sliderValue, sliderMaximum):
-        # Use the width of the QGraphicsView as the scaling reference
-        timelineWidth = self.view.width()
-
-        # Calculate the proportion of the slider value to its maximum
-        proportion = sliderValue / sliderMaximum
-
-        # Apply this proportion to the timeline's width to get the x-position
-        xPos = proportion * timelineWidth
-
-        return xPos
+    def initializeTracksUI(self):
+        self.videoLayout = QVBoxLayout()
+        self.audioLayout = QVBoxLayout()
+        self.initializeVideoUI()
+        self.initializeAudioUI()
 
     def showContextMenu(self, position):
         current_background_color = self.palette().color(self.backgroundRole())
