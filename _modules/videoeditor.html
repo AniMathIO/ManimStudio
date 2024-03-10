@@ -204,9 +204,9 @@
         </div>
         <article role="main">
           <h1>Source code for videoeditor</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span>
+<span></span><span class="kn">from</span> <span class="nn">PySide6.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QSizePolicy</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QAction</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Qt</span>
 
 <span class="c1"># UI imports</span>
 <span class="kn">from</span> <span class="nn">src.ui.videoeditor_ui</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_VideoEditor</span>
@@ -244,10 +244,17 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span>
         <span class="p">)</span>  <span class="c1"># Set the central widget of QMainWindow</span>
 
+        <span class="c1"># Set resize policy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span>
+            <span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">,</span> <span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">Preferred</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">timelineVerticalLayout</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
         <span class="c1"># Instantiate Timeline widget and add it to the QVBoxLayout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span> <span class="o">=</span> <span class="n">Timeline</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">central_widget</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">timelineVerticalLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timeline_widget</span><span class="p">,</span> <span class="n">alignment</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignLeft</span>
         <span class="p">)</span>  <span class="c1"># Use the QVBoxLayout for timeline</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">customStyleSheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
