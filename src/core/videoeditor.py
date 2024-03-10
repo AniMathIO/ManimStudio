@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QSizePolicy
+from PySide6.QtWidgets import QMainWindow, QWidget, QSizePolicy, QApplication
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Signal, Qt
 
@@ -28,7 +28,7 @@ class VideoEditorWindow(QMainWindow):
     def __init__(self, parent=None):
         """Initializer"""
         super().__init__(parent)
-
+        self.isSettingsDialogOpen = False
         self.central_widget = QWidget(self)
         self.ui = Ui_VideoEditor()
         self.ui.setupUi(self.central_widget)
@@ -80,5 +80,23 @@ class VideoEditorWindow(QMainWindow):
     @logger.catch
     def open_settings(self):
         """Open the settings dialog."""
-
+        self.isSettingsDialogOpen = True
+        logger.info("Opening settings dialog.")
         open_settings_dialog(self, self.settings, self.themes, self.current_theme)
+        logger.info("Settings dialog closed.")
+        QApplication.processEvents()
+        self.isSettingsDialogOpen = False
+
+    @logger.catch
+    def closeEvent(self, event):
+        logger.info(
+            f"Close event triggered with isSettingsDialogOpen={self.isSettingsDialogOpen}"
+        )
+        if self.isSettingsDialogOpen:
+            logger.info("Ignoring close event due to settings dialog being open.")
+            event.ignore()
+        else:
+            logger.info("Proceeding with application quit.")
+            app_instance = QApplication.instance()
+            if app_instance:
+                app_instance.quit()
