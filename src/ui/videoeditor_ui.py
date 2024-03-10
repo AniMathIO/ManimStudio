@@ -104,6 +104,7 @@ class Ui_Form(object):
 
         self.timelineVerticalLayout = QVBoxLayout()
         self.timelineVerticalLayout.setObjectName(u"timelineVerticalLayout")
+        self.timelineVerticalLayout.setSizeConstraint(QLayout.SetMaximumSize)
 
         self.gridLayout.addLayout(self.timelineVerticalLayout, 3, 0, 1, 4)
 

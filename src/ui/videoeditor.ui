@@ -112,7 +112,11 @@
       </layout>
      </item>
      <item row="3" column="0" colspan="4">
-      <layout class="QVBoxLayout" name="timelineVerticalLayout" stretch=""/>
+      <layout class="QVBoxLayout" name="timelineVerticalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMaximumSize</enum>
+       </property>
+      </layout>
      </item>
     </layout>
    </item>

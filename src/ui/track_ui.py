@@ -15,8 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QLayout, QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGraphicsView, QHBoxLayout,
+    QLabel, QLayout, QSizePolicy, QWidget)
 
 class Ui_Track(object):
     def setupUi(self, Track):
@@ -53,7 +53,18 @@ class Ui_Track(object):
 
         self.TrackElementContainer = QHBoxLayout()
         self.TrackElementContainer.setObjectName(u"TrackElementContainer")
-        self.TrackElementContainer.setSizeConstraint(QLayout.SetMaximumSize)
+        self.TrackElementContainer.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.graphicsView = QGraphicsView(Track)
+        self.graphicsView.setObjectName(u"graphicsView")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.graphicsView.sizePolicy().hasHeightForWidth())
+        self.graphicsView.setSizePolicy(sizePolicy2)
+        self.graphicsView.setMinimumSize(QSize(0, 10))
+
+        self.TrackElementContainer.addWidget(self.graphicsView)
+
 
         self.TrackWrapper.addLayout(self.TrackElementContainer)
 

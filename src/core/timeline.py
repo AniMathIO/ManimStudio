@@ -64,10 +64,13 @@ class Timeline(QWidget):
 
         self.indicatorLine = QGraphicsLineItem(0, 0, 0, 100)
         self.indicatorLine.setPen(QPen(QColor(255, 0, 0), 2))
+        self.indicatorLine.setZValue(1)
         self.scene.addItem(self.indicatorLine)
 
         # Initialize layouts for tracks
         self.initializeTracksUI()
+
+        self.view.raise_()
 
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self.showContextMenu)
@@ -83,8 +86,10 @@ class Timeline(QWidget):
     def updateIndicatorLineHeight(self):
         # Calculate the new height based on the tracks
         trackHeight = self.calculateTracksHeight()
+        trackLabelWidth = self.calculateTrackLabelWidth()
         if self.indicatorLine:
-            self.indicatorLine.setLine(0, 0, 0, trackHeight)
+            # Set the new line starting after the track labels
+            self.indicatorLine.setLine(trackLabelWidth, 0, trackLabelWidth, trackHeight)
 
     def calculateTracksHeight(self):
         # Calculate combined height based on track count
@@ -106,6 +111,17 @@ class Timeline(QWidget):
         self.audioLayout = QVBoxLayout()
         self.initializeVideoUI()
         self.initializeAudioUI()
+
+    def calculateTrackLabelWidth(self):
+        # Implement the actual calculation of the track label width here
+        # For example, you might iterate over all tracks and find the maximum width
+        maxLabelWidth = 0
+        for track in self.video_tracks + self.audio_tracks:
+            labelWidth = (
+                track.ui.TrackLabel.width()
+            )  # Assuming TrackLabel is the QLabel for the track name
+            maxLabelWidth = max(maxLabelWidth, labelWidth)
+        return maxLabelWidth
 
     def showContextMenu(self, position):
         current_background_color = self.palette().color(self.backgroundRole())
