@@ -1,6 +1,14 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QSizePolicy, QApplication
-from PySide6.QtGui import QAction
+from PySide6.QtWidgets import (
+    QMainWindow,
+    QWidget,
+    QSizePolicy,
+    QApplication,
+    QFileDialog,
+    QListWidgetItem,
+)
+from PySide6.QtGui import QAction, QDropEvent
 from PySide6.QtCore import Signal, Qt
+import os
 
 # UI imports
 from src.ui.videoeditor_ui import Ui_Form as Ui_VideoEditor
@@ -14,6 +22,7 @@ from src.core.settings import (
     apply_stylesheet,
 )
 from src.core.timeline import Timeline
+from src.core.renderer import create_low_quality_version
 
 # Utils imports
 from src.utils.logger_utility import logger
@@ -68,6 +77,34 @@ class VideoEditorWindow(QMainWindow):
                 value, self.ui.videoPreviewSlider.maximum()
             )
         )
+
+    @logger.catch
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    @logger.catch
+    def dropEvent(self, event: QDropEvent):
+        event.setDropAction(Qt.DropAction.CopyAction)
+        event.accept()
+
+        urls = event.mimeData().urls()
+        for url in urls:
+            file_path = url.toLocalFile()
+            if os.path.isfile(file_path):
+                self.handle_dropped_file(file_path)
+
+    @logger.catch
+    def handle_dropped_file(self, file_path):
+        low_quality_path = create_low_quality_version(
+            file_path, os.path.dirname(os.path.abspath(__file__))
+        )
+        if low_quality_path:
+            item = QListWidgetItem(os.path.basename(file_path))
+            item.setData(Qt.ItemDataRole.UserRole, low_quality_path)
+            self.ui.libraryWidget.addItem(item)
 
     @logger.catch
     def create_menubar(self):

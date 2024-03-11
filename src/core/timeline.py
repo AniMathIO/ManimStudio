@@ -12,9 +12,10 @@ from PySide6.QtWidgets import (
     QStackedWidget,
     QGraphicsLineItem,
     QFrame,
+    QGraphicsPixmapItem,
 )
 from PySide6.QtCore import Qt, QRectF
-from PySide6.QtGui import QPen, QPainter, QAction, QColor
+from PySide6.QtGui import QPen, QPainter, QAction, QColor, QPixmap
 from PySide6.QtSvgWidgets import QSvgWidget
 from src.ui.track_ui import Ui_Track
 
@@ -36,6 +37,33 @@ class Track(QWidget):  # Ensure Track inherits from QWidget
         # Set the track label to the name
         self.ui.TrackLabel.setText(self.name)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        self.setAcceptDrops(True)
+
+        self.graphicsView = self.ui.trackGraphicsView
+        self.graphicsScene = QGraphicsScene(self)
+        self.graphicsView.setScene(self.graphicsScene)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.DropAction.CopyAction)
+            event.accept()
+            file_path = event.mimeData().urls()[0].toLocalFile()
+            pixmap = QPixmap(file_path)
+            pixmap_item = QGraphicsRectItem(
+                QRectF(0, 0, pixmap.width(), pixmap.height())
+            )
+            pixmap_item = QGraphicsPixmapItem(pixmap)
+            drop_position = self.graphicsView.mapFromScene(event.pos())
+            pixmap_item.setPos(drop_position)
+            self.graphicsScene.addItem(pixmap_item)
+        else:
+            event.ignore()
 
 
 class Timeline(QWidget):
@@ -49,6 +77,31 @@ class Timeline(QWidget):
         self.setupUI()
         self.sliderValue = 0
         self.sliderMaximum = 1
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.DropAction.CopyAction)
+            event.accept()
+            for url in event.mimeData().urls():
+                file_path = url.toLocalFile()
+                self.handle_dropped_file(file_path, event.pos())
+        else:
+            event.ignore()
+
+    def handle_dropped_file(self, file_path, scene_position):
+        pixmap = QPixmap(file_path)
+        pixmap_item = QGraphicsPixmapItem(pixmap)
+        pixmap_item.setPixmap(pixmap)
+        drop_position = self.view.mapFromScene(scene_position)
+        pixmap_item.setPos(drop_position)
+        self.scene.addItem(pixmap_item)
 
     def setupUI(self):
         self.layout = QVBoxLayout(self)
