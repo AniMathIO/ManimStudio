@@ -262,9 +262,15 @@ def open_settings_dialog(main_window, settings, themes, current_theme) -> None:
 
     # Change window title
     settingsDialog.setWindowTitle("Settings")
+    settingsDialog.setModal(True)
+
+    # Ensure that the dialog is deleted when it is closed
+    settingsDialog.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
 
     # Inherit the theme from the main window
     settingsDialog.setStyleSheet(main_window.customStyleSheet)
+
+    # Connect the styleSheetUpdated signal to the settingsDialog's setStyleSheet method
     main_window.styleSheetUpdated.connect(settingsDialog.setStyleSheet)
 
     # Load settings and themes to the dialog
@@ -288,7 +294,8 @@ def open_settings_dialog(main_window, settings, themes, current_theme) -> None:
             main_window, uiSettings, settings, themes, current_theme
         )
     )
-    settingsDialog.exec()
+    settingsDialog.exec_()
+    logger.info("Settings dialog closed.")
 
 
 @logger.catch

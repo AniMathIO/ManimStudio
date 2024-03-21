@@ -177,7 +177,7 @@ class Main(QMainWindow):
 
             self.videoEditor.show()
         except Exception as e:
-            logger.error(f"Error opening video editor: {e}")
+            logger.error(f"Error opening video editor: {e}cd")
         pass
 
 
