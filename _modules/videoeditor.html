@@ -211,9 +211,10 @@
     <span class="n">QApplication</span><span class="p">,</span>
     <span class="n">QFileDialog</span><span class="p">,</span>
     <span class="n">QListWidgetItem</span><span class="p">,</span>
+    <span class="n">QAbstractItemView</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QAction</span><span class="p">,</span> <span class="n">QDropEvent</span>
-<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Qt</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QMimeData</span><span class="p">,</span> <span class="n">QUrl</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="c1"># UI imports</span>
@@ -286,6 +287,25 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">libraryWidget</span><span class="o">.</span><span class="n">setDragEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">libraryWidget</span><span class="o">.</span><span class="n">setDragDropMode</span><span class="p">(</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">DragDropMode</span><span class="o">.</span><span class="n">DragOnly</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">libraryWidget</span><span class="o">.</span><span class="n">model</span><span class="p">()</span><span class="o">.</span><span class="n">rowsInserted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateItemMimeData</span><span class="p">)</span>
+
+<div class="viewcode-block" id="VideoEditorWindow.updateItemMimeData">
+<a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow.updateItemMimeData">[docs]</a>
+    <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
+    <span class="k">def</span> <span class="nf">updateItemMimeData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">libraryWidget</span><span class="o">.</span><span class="n">model</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">libraryWidget</span><span class="o">.</span><span class="n">itemFromIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">ItemDataRole</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="n">mimeData</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">ItemDataRole</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">mimeData</span><span class="p">:</span>
+                <span class="n">mimeData</span> <span class="o">=</span> <span class="n">QMimeData</span><span class="p">()</span>
+                <span class="n">mimeData</span><span class="o">.</span><span class="n">setUrls</span><span class="p">([</span><span class="n">QUrl</span><span class="o">.</span><span class="n">fromLocalFile</span><span class="p">(</span><span class="n">file_path</span><span class="p">)])</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">ItemDataRole</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mimeData</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="VideoEditorWindow.dragEnterEvent">
 <a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow.dragEnterEvent">[docs]</a>
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
@@ -299,15 +319,17 @@
 <div class="viewcode-block" id="VideoEditorWindow.dropEvent">
 <a class="viewcode-back" href="../src/core/videoeditor.html#videoeditor.VideoEditorWindow.dropEvent">[docs]</a>
     <span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-    <span class="k">def</span> <span class="nf">dropEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QDropEvent</span><span class="p">):</span>
-        <span class="n">event</span><span class="o">.</span><span class="n">setDropAction</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">DropAction</span><span class="o">.</span><span class="n">CopyAction</span><span class="p">)</span>
-        <span class="n">event</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
-
-        <span class="n">urls</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">urls</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
-            <span class="n">file_path</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toLocalFile</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">handle_dropped_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">dropEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">hasUrls</span><span class="p">():</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">setDropAction</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">DropAction</span><span class="o">.</span><span class="n">CopyAction</span><span class="p">)</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+            <span class="n">urls</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">urls</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toLocalFile</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">handle_dropped_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">ignore</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="VideoEditorWindow.handle_dropped_file">
