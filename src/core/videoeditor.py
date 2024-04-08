@@ -5,9 +5,10 @@ from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
     QListWidgetItem,
+    QAbstractItemView,
 )
 from PySide6.QtGui import QAction, QDropEvent
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtCore import Signal, Qt, QMimeData, QUrl
 import os
 
 # UI imports
@@ -78,6 +79,22 @@ class VideoEditorWindow(QMainWindow):
             )
         )
 
+        self.ui.libraryWidget.setDragEnabled(True)
+        self.ui.libraryWidget.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
+        self.ui.libraryWidget.model().rowsInserted.connect(self.updateItemMimeData)
+
+    @logger.catch
+    def updateItemMimeData(self, parent, first, last):
+        for row in range(first, last + 1):
+            index = self.ui.libraryWidget.model().index(row, 0, parent)
+            item = self.ui.libraryWidget.itemFromIndex(index)
+            file_path = item.data(Qt.ItemDataRole.UserRole)
+            mimeData = item.data(Qt.ItemDataRole.UserRole + 1)
+            if not mimeData:
+                mimeData = QMimeData()
+                mimeData.setUrls([QUrl.fromLocalFile(file_path)])
+                item.setData(Qt.ItemDataRole.UserRole + 1, mimeData)
+
     @logger.catch
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -86,15 +103,17 @@ class VideoEditorWindow(QMainWindow):
             event.ignore()
 
     @logger.catch
-    def dropEvent(self, event: QDropEvent):
-        event.setDropAction(Qt.DropAction.CopyAction)
-        event.accept()
-
-        urls = event.mimeData().urls()
-        for url in urls:
-            file_path = url.toLocalFile()
-            if os.path.isfile(file_path):
-                self.handle_dropped_file(file_path)
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.DropAction.CopyAction)
+            event.accept()
+            urls = event.mimeData().urls()
+            for url in urls:
+                file_path = url.toLocalFile()
+                if os.path.isfile(file_path):
+                    self.handle_dropped_file(file_path)
+        else:
+            event.ignore()
 
     @logger.catch
     def handle_dropped_file(self, file_path):
