@@ -13,12 +13,14 @@ from PySide6.QtWidgets import (
     QGraphicsLineItem,
     QFrame,
     QGraphicsPixmapItem,
+    QGraphicsItem,
 )
 from PySide6.QtCore import Qt, QRectF
 from PySide6.QtGui import QPen, QPainter, QAction, QColor, QPixmap
 from PySide6.QtSvgWidgets import QSvgWidget
 from src.ui.track_ui import Ui_Track
 from src.utils.logger_utility import logger
+import os
 
 
 class track_types:
@@ -69,6 +71,64 @@ class Track(QWidget):  # Ensure Track inherits from QWidget
             event.ignore()
 
 
+class ResizableRectItem(QGraphicsRectItem):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setFlags(
+            QGraphicsItem.GraphicsItemFlag.ItemIsMovable
+            | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
+            | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
+        )
+        self.setAcceptHoverEvents(True)
+        self.setAcceptedMouseButtons(Qt.MouseButton.LeftButton)
+        self.resizing = False
+
+    def hoverMoveEvent(self, event):
+        if self.isSelected() and event.pos().x() > self.rect().right() - 10:
+            self.setCursor(Qt.CursorShape.SizeHorCursor)
+        else:
+            self.setCursor(Qt.CursorShape.ArrowCursor)
+        super().hoverMoveEvent(event)
+
+    def mousePressEvent(self, event):
+        if event.pos().x() > self.rect().right() - 10:
+            self.resizing = True
+        else:
+            super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        if self.resizing:
+            new_width = event.pos().x() - self.rect().left()
+            self.setRect(
+                QRectF(
+                    self.rect().left(),
+                    self.rect().top(),
+                    new_width,
+                    self.rect().height(),
+                )
+            )
+        else:
+            super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        self.resizing = False
+        super().mouseReleaseEvent(event)
+
+    def itemChange(self, change, value):
+        if change == QGraphicsItem.GraphicsItemChange.ItemPositionChange:
+            new_pos = value.toPointF()
+            scene_rect = self.scene().sceneRect()
+            if not scene_rect.contains(new_pos):
+                new_pos.setX(max(new_pos.x(), scene_rect.left()))
+                new_pos.setX(min(new_pos.x(), scene_rect.right() - self.rect().width()))
+                new_pos.setY(max(new_pos.y(), scene_rect.top()))
+                new_pos.setY(
+                    min(new_pos.y(), scene_rect.bottom() - self.rect().height())
+                )
+                return new_pos
+        return super().itemChange(change, value)
+
+
 class Timeline(QWidget):
     layout: QVBoxLayout
     video_track_counter = 1
@@ -110,6 +170,77 @@ class Timeline(QWidget):
         if track:
             track.graphicsScene.addItem(pixmap_item)
             pixmap_item.setPos(track.graphicsView.mapFromScene(drop_position))
+
+    def addMediaToTimeline(self, file_path):
+        logger.info(f"Adding media to timeline: {file_path}")
+        track = self.find_available_track(file_path)
+        logger.info(f"Found track: {track}")
+        if track:
+            pixmap = QPixmap(file_path)
+            if pixmap.isNull():
+                logger.warning(f"Failed to load pixmap from file: {file_path}")
+                return
+
+            # Create a ResizableRectItem with the desired size
+            rect_item = ResizableRectItem(0, 0, 100, track.graphicsView.height() - 10)
+
+            # Set the brush and pen for the rectangle
+            rect_item.setBrush(Qt.BrushStyle.NoBrush)
+            pen = QPen(Qt.GlobalColor.black, 2)
+            pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
+            rect_item.setPen(pen)
+
+            # Create a QGraphicsPixmapItem with the preview image
+            pixmap_item = QGraphicsPixmapItem(
+                pixmap.scaled(
+                    rect_item.boundingRect().size().toSize(),
+                    Qt.AspectRatioMode.KeepAspectRatio,
+                    Qt.TransformationMode.SmoothTransformation,
+                )
+            )
+            pixmap_item.setParentItem(rect_item)
+            pixmap_item.setPos(
+                (rect_item.boundingRect().width() - pixmap_item.boundingRect().width())
+                / 2,
+                (
+                    rect_item.boundingRect().height()
+                    - pixmap_item.boundingRect().height()
+                )
+                / 2,
+            )
+
+            # Align the rect_item to the left of the track
+            scene_rect = track.graphicsScene.sceneRect()
+            if not track.graphicsScene.items():
+                rect_item.setPos(scene_rect.left(), rect_item.pos().y())
+            else:
+                last_item = track.graphicsScene.items()[-1]
+                rect_item.setPos(
+                    last_item.pos().x() + last_item.rect().width(), rect_item.pos().y()
+                )
+
+            track.graphicsScene.addItem(rect_item)
+
+    def find_available_track(self, file_path):
+        # Determine the track type based on the file extension or other criteria
+        _, file_extension = os.path.splitext(file_path)
+        file_extension = file_extension.lower()
+
+        if file_extension in [
+            ".png",
+            ".jpg",
+            ".mp4",
+            ".mov",
+            ".avi",
+            ".mkv",
+        ]:  # Video files
+            if self.video_tracks:
+                return self.video_tracks[0]  # Add to the first video track
+        elif file_extension in [".mp3", ".wav", ".flac"]:  # Audio files
+            if self.audio_tracks:
+                return self.audio_tracks[0]  # Add to the first audio track
+
+        return None
 
     @logger.catch
     def find_track_at_position(self, position):

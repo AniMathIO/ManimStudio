@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QListWidgetItem,
     QAbstractItemView,
+    QMenu,
 )
 from PySide6.QtGui import QAction, QDropEvent
 from PySide6.QtCore import Signal, Qt, QMimeData, QUrl
@@ -82,6 +83,27 @@ class VideoEditorWindow(QMainWindow):
         self.ui.libraryWidget.setDragEnabled(True)
         self.ui.libraryWidget.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
         self.ui.libraryWidget.model().rowsInserted.connect(self.updateItemMimeData)
+
+        self.ui.libraryWidget.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu
+        )
+        self.ui.libraryWidget.customContextMenuRequested.connect(
+            self.showListWidgetContextMenu
+        )
+
+    @logger.catch
+    def showListWidgetContextMenu(self, position):
+        item = self.ui.libraryWidget.itemAt(position)
+        if item:
+            contextMenu = QMenu(self)
+            addToTimelineAction = contextMenu.addAction("Add to Timeline")
+            addToTimelineAction.triggered.connect(lambda: self.addItemToTimeline(item))
+            contextMenu.exec(self.ui.libraryWidget.mapToGlobal(position))
+
+    @logger.catch
+    def addItemToTimeline(self, item):
+        file_path = item.data(Qt.ItemDataRole.UserRole)
+        self.timeline_widget.addMediaToTimeline(file_path)
 
     @logger.catch
     def updateItemMimeData(self, parent, first, last):
