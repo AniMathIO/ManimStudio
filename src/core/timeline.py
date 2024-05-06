@@ -16,11 +16,13 @@ from PySide6.QtWidgets import (
     QGraphicsItem,
 )
 from PySide6.QtCore import Qt, QRectF
-from PySide6.QtGui import QPen, QPainter, QAction, QColor, QPixmap
+from PySide6.QtGui import QPen, QPainter, QAction, QColor, QPixmap, QImage
 from PySide6.QtSvgWidgets import QSvgWidget
 from src.ui.track_ui import Ui_Track
 from src.utils.logger_utility import logger
 import os
+from pydub import AudioSegment
+import numpy as np
 
 
 class track_types:
@@ -116,7 +118,7 @@ class ResizableRectItem(QGraphicsRectItem):
 
     def itemChange(self, change, value):
         if change == QGraphicsItem.GraphicsItemChange.ItemPositionChange:
-            new_pos = value.toPointF()
+            new_pos = value
             scene_rect = self.scene().sceneRect()
             if not scene_rect.contains(new_pos):
                 new_pos.setX(max(new_pos.x(), scene_rect.left()))
@@ -173,13 +175,43 @@ class Timeline(QWidget):
 
     def addMediaToTimeline(self, file_path):
         logger.info(f"Adding media to timeline: {file_path}")
+
         track = self.find_available_track(file_path)
         logger.info(f"Found track: {track}")
         if track:
-            pixmap = QPixmap(file_path)
-            if pixmap.isNull():
-                logger.warning(f"Failed to load pixmap from file: {file_path}")
-                return
+            if file_path.lower().endswith((".mp3", ".wav", ".flac")):  # Audio file
+                audio = AudioSegment.from_file(file_path)
+                samples = audio.get_array_of_samples()
+                samples = np.array(samples)
+                samples = samples.reshape((-1, audio.channels))
+                waveform_data = np.mean(samples, axis=1)
+
+                # Normalize waveform data
+                max_amplitude = np.max(np.abs(waveform_data))
+                normalized_data = waveform_data / max_amplitude
+
+                # Create QImage for the waveform
+                width = 100
+                height = track.graphicsView.height() - 10
+                image = QImage(width, height, QImage.Format.Format_ARGB32)
+                image.fill(Qt.GlobalColor.transparent)
+
+                painter = QPainter(image)
+                painter.setPen(Qt.GlobalColor.black)
+                for x in range(width):
+                    sample_index = int((x / width) * len(normalized_data))
+                    sample = normalized_data[sample_index]
+                    painter.drawLine(
+                        x, (1 - sample) * height / 2, x, (1 + sample) * height / 2
+                    )
+                painter.end()
+
+                pixmap = QPixmap.fromImage(image)
+            else:  # Image or video file
+                pixmap = QPixmap(file_path)
+                if pixmap.isNull():
+                    logger.warning(f"Failed to load pixmap from file: {file_path}")
+                    return
 
             # Create a ResizableRectItem with the desired size
             rect_item = ResizableRectItem(0, 0, 100, track.graphicsView.height() - 10)
@@ -190,7 +222,7 @@ class Timeline(QWidget):
             pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
             rect_item.setPen(pen)
 
-            # Create a QGraphicsPixmapItem with the preview image
+            # Create a QGraphicsPixmapItem with the preview image or waveform
             pixmap_item = QGraphicsPixmapItem(
                 pixmap.scaled(
                     rect_item.boundingRect().size().toSize(),
