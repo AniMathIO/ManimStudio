@@ -23,6 +23,8 @@
 <hr>
 ManimStudio is a video editor application for editing Python ManimCE video projects.
 
+# NOTE: This repository will be archived soon, because we refactored our brand, name and project goals as well as our technologies.
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
