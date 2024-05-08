@@ -567,15 +567,9 @@
 
     <span class="c1"># Change window title</span>
     <span class="n">settingsDialog</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Settings&quot;</span><span class="p">)</span>
-    <span class="n">settingsDialog</span><span class="o">.</span><span class="n">setModal</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="c1"># Ensure that the dialog is deleted when it is closed</span>
-    <span class="n">settingsDialog</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">WidgetAttribute</span><span class="o">.</span><span class="n">WA_DeleteOnClose</span><span class="p">)</span>
 
     <span class="c1"># Inherit the theme from the main window</span>
     <span class="n">settingsDialog</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="n">main_window</span><span class="o">.</span><span class="n">customStyleSheet</span><span class="p">)</span>
-
-    <span class="c1"># Connect the styleSheetUpdated signal to the settingsDialog&#39;s setStyleSheet method</span>
     <span class="n">main_window</span><span class="o">.</span><span class="n">styleSheetUpdated</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">settingsDialog</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">)</span>
 
     <span class="c1"># Load settings and themes to the dialog</span>
@@ -599,8 +593,7 @@
             <span class="n">main_window</span><span class="p">,</span> <span class="n">uiSettings</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">themes</span><span class="p">,</span> <span class="n">current_theme</span>
         <span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">settingsDialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Settings dialog closed.&quot;</span><span class="p">)</span></div>
+    <span class="n">settingsDialog</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span></div>
 
 
 
